@@ -1,31 +1,43 @@
-step = 0
-WHILE computations != 0
+WHILE sum(proc.TIME) != 0
+
   // add arriving processes
-  FOR ALL processes
-    IF process.arriving == step
-      ADD process TO queue[process.level]
+  FOR process IN procList
+    IF process.time == step
+      queue = queueList[process.level]
+      queue.add(process)
   END FOR
 
   // pick non-empty queue with highest priority
-  FOR ALL queues
-    IF queue.numberOfProcesses != 0
-      currentQueue = queue
+  FOR i FROM 0 TO (queueList.size - 1)
+    IF queueList[i].first() != null
+      queue = queueList[i]
+      break;
   ENDFOR
 
-  // schedule approaching process
-  currentProcess = currentQueue.processes[0]
-  // currentProcess.compTime - 1
-  run(currentProcess)
+  // idle if every queue is empty
+  IF queue == null
+    CONTINUE
 
-  // reschedule currentProcess if compTime left
-  IF queue.useRoundRobin
-    shift(currentQueue)
-    IF currenProcess.compTime != 0
-      currentQueue.processes[numberOfProcesses] = currentProcess
-    ELSE
-      currentQueue.numberOfProcesses - 1
+  run(queue.first())
+
+  IF queue.first().work == 0
+    queue.removeFirst();
   ELSE
-    IF currenProcess.compTime == 0
-      shift(currentQueue)
-      currentQueue.numberOdProcesses - 1
-  step + 1
+    if(queue.useRoundRobin)
+      temp = queue.first()
+      queue.removeFirst()
+      queue.add(temp)
+
+INFO:
+step - the current step of processing.
+procList - is a List containing all Processes
+queueList - is a List where Level x Queue is in queueList[x]
+
+process.time - the number of steps until this process arrives at scheduler
+process.work - the number of execution steps that this process needs
+
+queue.first() - the process in this queue that will be executed next
+queue.removeFirst() - removes (and returns) the first process from queue
+queue.add(...) - adds a process at the end of the queue
+queue.useRoundRobin - a boolean value that is true if this queue uses
+Round-Robin-Scheduling. First-Come-First-Serve Otherwise.
