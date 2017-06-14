@@ -1,4 +1,4 @@
-WHILE sum(proc.TIME) != 0
+WHILE sum(proc.work) != 0
   // add arriving processes
   FOR process IN procList
     IF process.time == step
@@ -35,7 +35,7 @@ queue.add(...) - adds a process at the end of the queue
 queue.useRoundRobin - a boolean value that is true if this queue uses
 Round-Robin-Scheduling. First-Come-First-Serve Otherwise.
 
-addCodeLine "WHILE sum(proc.TIME) != 0" to "source"
+addCodeLine "WHILE sum(proc.work) != 0" to "source"
 addCodeLine "  // add arriving processes" to "source"
 addCodeLine "  FOR process IN procList" to "source"
 addCodeLine "    IF process.time == step" to "source"
