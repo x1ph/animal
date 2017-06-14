@@ -1,0 +1,31 @@
+step = 0
+WHILE computations != 0
+  // add arriving processes
+  FOR ALL processes
+    IF process.arriving == step
+      ADD process TO queue[process.level]
+  END FOR
+
+  // pick non-empty queue with highest priority
+  FOR ALL queues
+    IF queue.numberOfProcesses != 0
+      currentQueue = queue
+  ENDFOR
+
+  // schedule approaching process
+  currentProcess = currentQueue.processes[0]
+  // currentProcess.compTime - 1
+  run(currentProcess)
+
+  // reschedule currentProcess if compTime left
+  IF queue.useRoundRobin
+    shift(currentQueue)
+    IF currenProcess.compTime != 0
+      currentQueue.processes[numberOfProcesses] = currentProcess
+    ELSE
+      currentQueue.numberOfProcesses - 1
+  ELSE
+    IF currenProcess.compTime == 0
+      shift(currentQueue)
+      currentQueue.numberOdProcesses - 1
+  step + 1

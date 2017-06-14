@@ -1,37 +1,27 @@
 
 public class MultiLevelQueue {
-	
+
 	private Process[] processes;
 	private Queue[] queues;
-	
+
 	public MultiLevelQueue(Queue[] queues, Process[] processes) {
 		this.processes = processes;
 		this.queues = queues;
 	}
 
 	public static void main(String args[]) {
-		Process[] myProcesses = new Process[12];
-		myProcesses[0] = new Process("A", 0, 10, 0);
-		myProcesses[1] = new Process("B", 0, 5, 1);
-		myProcesses[2] = new Process("C", 1, 3, 3);
-		myProcesses[3] = new Process("D", 1, 6, 9);
-		myProcesses[4] = new Process("E", 2, 10, 0);
-		myProcesses[5] = new Process("F", 2, 5, 1);
-		myProcesses[6] = new Process("G", 2, 3, 3);
-		myProcesses[7] = new Process("H", 2, 6, 9);
-		myProcesses[8] = new Process("I", 2, 10, 0);
-		myProcesses[9] = new Process("J", 2, 5, 1);
-		myProcesses[10] = new Process("K", 2, 3, 3);
-		myProcesses[11] = new Process("L", 2, 6, 9);
-		Queue[] myQueues = new Queue[3];
+		Process[] myProcesses = new Process[3];
+		myProcesses[0] = new Process("A", 1, 3, 0);
+		myProcesses[1] = new Process("B", 0, 1, 1);
+		myProcesses[2] = new Process("C", 1, 1, 2);
+		Queue[] myQueues = new Queue[2];
 		myQueues[0] = new Queue(5, 0, false);
 		myQueues[1] = new Queue(5, 1, true);
-		myQueues[2] = new Queue(5, 2, true);
-		
+
 		MultiLevelQueue mlq = new MultiLevelQueue(myQueues, myProcesses);
 		mlq.schedule();
 	}
-	
+
 	public void schedule() {
 		int step = 0;
 		while(hasComputationsLeft(processes)) {
@@ -39,7 +29,7 @@ public class MultiLevelQueue {
 			// get arriving process
 			System.out.println("Suche ankommende Prozesse");
 			for(Process p: processes) {
-				
+
 				if(p.arrival == step) {
 					Queue current = queues[p.level];
 					if(current.numberOfProcesses == current.size) {
@@ -52,11 +42,11 @@ public class MultiLevelQueue {
 					}
 				}
 			}
-			
+
 			// compute Process of queue with highest priority
 			Queue current = null;
 			for(int i = 0; i < queues.length; i++) {
-				
+
 				if(queues[i].numberOfProcesses > 0) {
 					System.out.println("Level " + i + " Queue ist nicht leer");
 					current = queues[i];
@@ -118,10 +108,10 @@ public class MultiLevelQueue {
 			}
 			step++;
 			if(step == 100) break;
-			
+
 		}
 	}
-	
+
 	public boolean hasComputationsLeft(Process[] processes) {
 		for(int i = 0; i < processes.length; i++) {
 			if(processes[i].computingTime > 0) {
