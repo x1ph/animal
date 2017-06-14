@@ -6,19 +6,19 @@ WHILE sum(proc.work) != 0
       queue.add(process)
   // pick non-empty queue with highest priority
   FOR i FROM 0 TO (queueList.size - 1)
-    IF queueList[i].first() != null
+    IF queueList[i].current() != null
       queue = queueList[i]
       break;
   // idle if every queue is empty
   IF queue == null
     CONTINUE
-  run(queue.first())
-  IF queue.first().work == 0
-    queue.removeFirst();
+  run(queue.current())
+  IF queue.current().work == 0
+    queue.removeCurrent();
   ELSE
     if(queue.useRoundRobin)
-      temp = queue.first()
-      queue.removeFirst()
+      temp = queue.current()
+      queue.removeCurrent()
       queue.add(temp)
 
 INFO:
@@ -29,8 +29,8 @@ queueList - is a List where Level x Queue is in queueList[x]
 process.time - the number of steps until this process arrives at scheduler
 process.work - the number of execution steps that this process needs
 
-queue.first() - the process in this queue that will be executed next
-queue.removeFirst() - removes (and returns) the first process from queue
+queue.current() - the process in this queue that will be executed next
+queue.removeCurrent() - removes (and returns) the current process from queue
 queue.add(...) - adds a process at the end of the queue
 queue.useRoundRobin - a boolean value that is true if this queue uses
 Round-Robin-Scheduling. First-Come-First-Serve Otherwise.
@@ -41,16 +41,16 @@ addCodeLine "    IF process.time == step" to "source"
 addCodeLine "      queue = queueList[process.level]" to "source"
 addCodeLine "      queue.add(process)" to "source"
 addCodeLine "  FOR i FROM 0 TO (queueList.size - 1)" to "source"
-addCodeLine "    IF queueList[i].first() != null" to "source"
+addCodeLine "    IF queueList[i].current() != null" to "source"
 addCodeLine "      queue = queueList[i]" to "source"
 addCodeLine "      BREAK" to "source"
 addCodeLine "  IF queue == null" to "source"
 addCodeLine "    CONTINUE" to "source"
-addCodeLine "  run(queue.first())" to "source"
-addCodeLine "  IF queue.first().work == 0" to "source"
-addCodeLine "    queue.removeFirst();" to "source"
+addCodeLine "  run(queue.current())" to "source"
+addCodeLine "  IF queue.current().work == 0" to "source"
+addCodeLine "    queue.removeCurrent();" to "source"
 addCodeLine "  ELSE" to "source"
 addCodeLine "    if(queue.useRoundRobin)" to "source"
-addCodeLine "      temp = queue.first()" to "source"
-addCodeLine "      queue.removeFirst()" to "source"
+addCodeLine "      temp = queue.current()" to "source"
+addCodeLine "      queue.removeCurrent()" to "source"
 addCodeLine "      queue.add(temp)" to "source"
