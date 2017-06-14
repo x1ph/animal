@@ -9,12 +9,12 @@ rectangle ”hRect” offset(-5,-5) from "header" NW offset (5,5) from "header" SE d
 {
 codeGroup "listSource" at (10,80) color black highlightColor red 
 addCodeLine "1. Generate first list element" to "listSource"
-addCodeLine "2. Set link of first list element to null" to "listSource"
+addCodeLine "	2. Set link of first list element to null" to "listSource"
 addCodeLine "3. Generate new list element" to "listSource"
-addCodeLine "4. Clear link of second list element" to "listSource"
+addCodeLine "	4. Clear link of second list element" to "listSource"
 addCodeLine "5. Link first with second list element" to "listSource"
-addCodeLine "6. Generate new list element" to "listSource"
-addCodeLine "7. Link new with second element" to "listSource"
+addCodeLine "\t6. Generate new list element" to "listSource"
+addCodeLine "    7. Link new with second element" to "listSource"
 addCodeLine "1. Generate first list element" to "listSource"
 addCodeLine "2. Set link of first list element to null" to "listSource"
 addCodeLine "3. Generate new list element" to "listSource"
@@ -22,61 +22,114 @@ addCodeLine "4. Clear link of second list element" to "listSource"
 addCodeLine "5. Link first with second list element" to "listSource"
 addCodeLine "6. Generate new list element" to "listSource"
 addCodeLine "7. Link new with second element" to "listSource"
-}
 
-{
 highlightCode on "listSource" line 0
+
 grid "proc" (300, 100) lines 4 columns 4 fillColor white style table
-setGridValue "proc[0][0]" "ID" refresh
-setGridValue "proc[0][1]" "Queue" refresh
-setGridValue "proc[0][2]" "WORK" refresh
-setGridValue "proc[0][3]" "TIME" refresh
+setGridValue "proc[0][0]" "ID" 
+setGridValue "proc[0][1]" "Queue" 
+setGridValue "proc[0][2]" "WORK" 
+setGridValue "proc[0][3]" "TIME" 
 
-setGridValue "proc[1][0]" "A" refresh
-setGridValue "proc[1][1]" "1" refresh
-setGridValue "proc[1][2]" "3" refresh
-setGridValue "proc[1][3]" "0" refresh
+setGridValue "proc[1][0]" "A" 
+setGridValue "proc[1][1]" "1" 
+setGridValue "proc[1][2]" "3" 
+setGridValue "proc[1][3]" "0" 
 
-setGridValue "proc[2][0]" "B" refresh
-setGridValue "proc[2][1]" "0" refresh
-setGridValue "proc[2][2]" "1" refresh
-setGridValue "proc[2][3]" "1" refresh
+setGridValue "proc[2][0]" "B" 
+setGridValue "proc[2][1]" "0" 
+setGridValue "proc[2][2]" "1" 
+setGridValue "proc[2][3]" "1" 
 
-setGridValue "proc[3][0]" "C" refresh
-setGridValue "proc[3][1]" "1" refresh
-setGridValue "proc[3][2]" "1" refresh
+setGridValue "proc[3][0]" "C" 
+setGridValue "proc[3][1]" "1" 
+setGridValue "proc[3][2]" "1" 
 setGridValue "proc[3][3]" "2" refresh
 
 array "arr1" (300, 250) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "" "" 
 array "arr2" (300, 300) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "" "" 
 }
-
 {
-highlightCode on "listSource" line 0
-grid "proc" (300, 100) lines 4 columns 4 fillColor white style table
-setGridValue "proc[0][0]" "ID" refresh
-setGridValue "proc[0][1]" "Queue" refresh
-setGridValue "proc[0][2]" "WORK" refresh
-setGridValue "proc[0][3]" "TIME" refresh
+highlightGridCell "proc[1][0]" after 20 ticks
+highlightGridCell "proc[1][1]" after 20 ticks
+highlightGridCell "proc[1][2]" after 20 ticks
+highlightGridCell "proc[1][3]" after 20 ticks
 
-setGridValue "proc[1][0]" "A" refresh
-setGridValue "proc[1][1]" "1" refresh
-setGridValue "proc[1][2]" "3" refresh
-setGridValue "proc[1][3]" "0" refresh
+arrayPut "A" on "arr2" position 1
+highlightArrayCell on "arr2" position 1
+}
+{
+unhighlightGridCell "proc[1][0]" after 20 ticks
+unhighlightGridCell "proc[1][1]" after 20 ticks
+unhighlightGridCell "proc[1][2]" after 20 ticks
+unhighlightGridCell "proc[1][3]" after 20 ticks
+unhighlightArrayCell on "arr2" position 1
 
-setGridValue "proc[2][0]" "B" refresh
-setGridValue "proc[2][1]" "0" refresh
-setGridValue "proc[2][2]" "1" refresh
-setGridValue "proc[2][3]" "1" refresh
+highlightGridCell "proc[2][0]" after 20 ticks
+highlightGridCell "proc[2][1]" after 20 ticks
+highlightGridCell "proc[2][2]" after 20 ticks
+highlightGridCell "proc[2][3]" after 20 ticks
+highlightArrayCell on "arr1" position 1
 
-setGridValue "proc[3][0]" "C" refresh
-setGridValue "proc[3][1]" "1" refresh
-setGridValue "proc[3][2]" "1" refresh
-setGridValue "proc[3][3]" "2" refresh
+setGridValue "proc[1][2]" "2" refresh
+arrayPut "B" on "arr1" position 1
+}
+{
+unhighlightGridCell "proc[2][0]" after 20 ticks
+unhighlightGridCell "proc[2][1]" after 20 ticks
+unhighlightGridCell "proc[2][2]" after 20 ticks
+unhighlightGridCell "proc[2][3]" after 20 ticks
+unhighlightArrayCell on "arr1" position 1
 
+highlightGridCell "proc[1][0]" after 20 ticks
+highlightGridCell "proc[1][1]" after 20 ticks
+highlightGridCell "proc[1][2]" after 20 ticks
+highlightGridCell "proc[1][3]" after 20 ticks
+highlightArrayCell on "arr2" position 1
 
-array "arr1" (300, 250) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "" "" 
-array "arr2" (300, 300) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "A" "" 
+setGridValue "proc[2][2]" "0" refresh
+arrayPut "C" on "arr2" position 0
+arrayPut "" on "arr1" position 1
+}
+{
+unhighlightGridCell "proc[1][0]" after 20 ticks
+unhighlightGridCell "proc[1][1]" after 20 ticks
+unhighlightGridCell "proc[1][2]" after 20 ticks
+unhighlightGridCell "proc[1][3]" after 20 ticks
+
+highlightGridCell "proc[3][0]" after 20 ticks
+highlightGridCell "proc[3][1]" after 20 ticks
+highlightGridCell "proc[3][2]" after 20 ticks
+highlightGridCell "proc[3][3]" after 20 ticks
+
+setGridValue "proc[1][2]" "1" refresh
+arrayPut "C" on "arr2" position 1
+arrayPut "A" on "arr2" position 0
+}
+{
+unhighlightGridCell "proc[3][0]" after 20 ticks
+unhighlightGridCell "proc[3][1]" after 20 ticks
+unhighlightGridCell "proc[3][2]" after 20 ticks
+unhighlightGridCell "proc[3][3]" after 20 ticks
+
+highlightGridCell "proc[1][0]" after 20 ticks
+highlightGridCell "proc[1][1]" after 20 ticks
+highlightGridCell "proc[1][2]" after 20 ticks
+highlightGridCell "proc[1][3]" after 20 ticks
+
+setGridValue "proc[3][2]" "0" refresh
+arrayPut "" on "arr2" position 0
+arrayPut "A" on "arr2" position 1
+}
+{
+unhighlightGridCell "proc[1][0]" after 20 ticks
+unhighlightGridCell "proc[1][1]" after 20 ticks
+unhighlightGridCell "proc[1][2]" after 20 ticks
+unhighlightGridCell "proc[1][3]" after 20 ticks
+unhighlightArrayCell on "arr2" position 1
+
+setGridValue "proc[1][2]" "0" refresh
+arrayPut "" on "arr2" position 1
 }
 
 
