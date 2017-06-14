@@ -1,14 +1,20 @@
 %Animal 1.4
-title "Test Animation for AlgoViz"
-author "<404@not.found>"
+title "Multilevel Queue"
+author "Andre Challier, Christian Richter"
 
 {
-text "header" "This is a header" at (20,30) depth 1 font SansSerife size 24 bold
+text "header" "This is an animation of Multilevel Queue" at (20,30) depth 1 font SansSerif size 20 bold
 rectangle ”hRect” offset(-5,-5) from "header" NW offset (5,5) from "header" SE depth 2 fillColor white
-echo bounds: "header"
 }
 {
-codeGroup "listSource" at (10,200) color black highlightColor red 
+codeGroup "listSource" at (10,80) color black highlightColor red 
+addCodeLine "1. Generate first list element" to "listSource"
+addCodeLine "2. Set link of first list element to null" to "listSource"
+addCodeLine "3. Generate new list element" to "listSource"
+addCodeLine "4. Clear link of second list element" to "listSource"
+addCodeLine "5. Link first with second list element" to "listSource"
+addCodeLine "6. Generate new list element" to "listSource"
+addCodeLine "7. Link new with second element" to "listSource"
 addCodeLine "1. Generate first list element" to "listSource"
 addCodeLine "2. Set link of first list element to null" to "listSource"
 addCodeLine "3. Generate new list element" to "listSource"
@@ -19,6 +25,7 @@ addCodeLine "7. Link new with second element" to "listSource"
 }
 {
 highlightCode on "listSource" line 0
-listelement "firstListElem" (100,80) pointers 1 after 20 ticks
+array "arr" (300, 100) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "A" "B" 
+array "arr" (300, 160) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "C" "" 
 }
 Return
