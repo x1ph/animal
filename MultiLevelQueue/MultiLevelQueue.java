@@ -10,9 +10,10 @@ public class MultiLevelQueue {
 	}
 
 	public static void main(String args[]) {
-		Process[] myProcesses = new Process[2];
-		myProcesses[0] = new Process("A", 0, 1, 0);
-		myProcesses[1] = new Process("B", 1, 1, 0);
+		Process[] myProcesses = new Process[3];
+		myProcesses[0] = new Process("A", 1, 3, 0);
+		myProcesses[1] = new Process("B", 0, 1, 1);
+		myProcesses[2] = new Process("C", 1, 1, 2);
 		Queue[] myQueues = new Queue[2];
 		myQueues[0] = new Queue(5, 0, false);
 		myQueues[1] = new Queue(5, 1, true);
