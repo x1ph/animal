@@ -40,45 +40,41 @@ public class MultiLevelQueueGenerator {
     lang.setStepMode(true);
   }
 
-  private static final String DESCRIPTION     = "QuickSort wählt ein Element aus der zu sortierenden Liste aus "
-      + "(Pivotelement) und zerlegt die Liste in zwei Teillisten, eine untere, "
-      + "die alle Elemente kleiner und eine obere, die alle Elemente gleich oder "
-      + "größer dem Pivotelement enthält.\nDazu wird zunächst ein Element von unten "
-      + "gesucht, das größer als (oder gleichgroß wie) das Pivotelement und damit "
-      + "für die untere Liste zu groß ist. Entsprechend wird von oben ein kleineres "
-      + "Element als das Pivotelement gesucht. Die beiden Elemente werden dann "
-      + "vertauscht und landen damit in der jeweils richtigen Liste.\nDer Vorgang "
-      + "wird fortgesetzt, bis sich die untere und obere Suche treffen. Damit sind "
-      + "die oben erwähnten Teillisten in einem einzigen Durchlauf entstanden. "
-      + "Suche und Vertauschung können in-place durchgeführt werden."
-      + "\n\nDie noch unsortierten Teillisten werden über denselben Algorithmus "
-      + "in noch kleinere Teillisten zerlegt (z. B. mittels Rekursion) und, sobald "
-      + "nur noch Listen mit je einem Element vorhanden sind, wieder zusammengesetzt. "
-      + "Die Sortierung ist damit abgeschlossen.";
+  private static final String DESCRIPTION     = "A Multi Level Queue for scheduling uses a predefined number of levels to"
+  + "schedule processes. Processes get assigned to a particular level at insert."
+  + "The processes in queues of higher level will then be executed first, lower level"
+  + "queues will be executed when all higher level queues are empty. Each queue is"
+  + "free to use its own scheduling, thus adding greater flexibility then merely"
+  + "having multiple levels in a queue."
 
-  private static final String SOURCE_CODE     = "public void quickSort(int[] array, int l, int r)"              // 0
-      + "\n{"                                                                                                   // 1
-      + "\n  int i, j, pivot;"                                                                                  // 2
-      + "\n  if (r>l)"                                                                                          // 3
-      + "\n  {"                                                                                                 // 4
-      + "\n    pivot = array[r];"                                                                               // 5
-      + "\n    for (i = l; j = r - 1; i < j; )"                                                                 // 6
-      + "\n    {"                                                                                               // 7
-      + "\n      while (array[i] <= pivot && j > i)"                                                            // 8
-      + "\n        i++;"                                                                                        // 9
-      + "\n      while (pivot < array[j] && j > i)"                                                             // 10
-      + "\n        j--;"                                                                                        // 11
-      + "\n      if (i < j)"                                                                                    // 12
-      + "\n        swap(array, i, j);"                                                                          // 13
-      + "\n    }"                                                                                               // 14
-      + "\n    if (pivot < array[i])"                                                                           // 15
-      + "\n      swap(array, i, r);"                                                                            // 16
-      + "\n    else"                                                                                            // 17
-      + "\n      i=r;"                                                                                          // 18
-      + "\n    quickSort(array, l, i - 1);"                                                                     // 19
-      + "\n    quickSort(array, i + 1, r);"                                                                     // 20
-      + "\n  }"                                                                                                 // 21
-      + "\n}";                                                                                                  // 22
+  + "\n\nIn this scenario each process has a tima of arrival (process.time), and a number"
+  + "of execution timeslides (process.work). The algorithm loops until all processes"
+  + "are done. To schedule the processes the algorithm first adds all arriving"
+  + "processes to the queues, then picks the non-empty queue with the highest level"
+  + "and executes the upcoming process."
+
+  + "\n\nThe first queue in this example uses First-Come-First-Serve-Scheduling while the"
+  + "second queue uses Round-Robin-Scheduling."  ;
+
+  private static final String SOURCE_CODE     = "WHILE sum(proc.work) != 0" to "source"
+          + "\n   FOR process IN procList"
+          + "\n     IF process.time == step"
+          + "\n       queue = queueList[process.level]"
+          + "\n       queue.add(process)"
+          + "\n   FOR i FROM 0 TO (queueList.size - 1)"
+          + "\n     IF queueList[i].current() != null"
+          + "\n       queue = queueList[i]"
+          + "\n       BREAK"
+          + "\n   IF queue == null"
+          + "\n     CONTINUE"
+          + "\n   run(queue.current())"
+          + "\n   IF queue.current().work == 0"
+          + "\n     queue.removeCurrent();"
+          + "\n   ELSE"
+          + "\n     if(queue.useRoundRobin)"
+          + "\n       temp = queue.current()"
+          + "\n       queue.removeCurrent()"
+          + "\n       queue.add(temp)";
 
   /**
    * default duration for swap processes
