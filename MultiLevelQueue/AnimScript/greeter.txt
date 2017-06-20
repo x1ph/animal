@@ -1,0 +1,15 @@
+A Multi Level Queue for scheduling uses a predefined number of levels to
+schedule processes. Processes get assigned to a particular level at insert.
+The processes in queues of higher level will then be executed first, lower level
+queues will be executed when all higher level queues are empty. Each queue is
+free to use its own scheduling, thus adding greater flexibility then merely
+having multiple levels in a queue.
+
+In this scenario each process has a tima of arrival (process.time), and a number
+of execution timeslides (process.work). The algorithm loops until all processes
+are done. To schedule the processes the algorithm first adds all arriving
+processes to the queues, then picks the non-empty queue with the highest level
+and executes the upcoming process.
+
+The first queue in this example uses First-Come-First-Serve-Scheduling while the
+second queue uses Round-Robin-Scheduling.
