@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.util.LinkedList;
+import java.util.List;
 
 import algoanim.exceptions.LineNotExistsException;
 import algoanim.primitives.ArrayMarker;
@@ -23,6 +25,17 @@ public class MultiLevelQueueGenerator {
    * The concrete language object used for creating output
    */
   private Language lang;
+  
+  /**
+   * The List of queues to schedule.
+   * 
+   * queues.get(0) is list with highest priority, queues.get(1) is the next highest and so on.
+   */
+  private List<Queue> queues;
+  /**
+   * The list of incoming processes that has to be scheduled.
+   */
+  private List<Process> inc_procs;
 
   /**
    * Default constructor
@@ -30,8 +43,12 @@ public class MultiLevelQueueGenerator {
    * @param l
    *          the conrete language object used for creating output
    */
-  public MultiLevelQueueGenerator(Language l) {
-    // Store the language object
+  public MultiLevelQueueGenerator(List<Queue> queues, List<Process> inc_procs, Language l) {
+    
+	this.queues = queues;
+	this.inc_procs = inc_procs;
+	  
+	// Store the language object
     lang = l;
     // This initializes the step mode. Each pair of subsequent steps has to
     // be divdided by a call of lang.nextStep();
@@ -79,316 +96,71 @@ public class MultiLevelQueueGenerator {
    */
   public final static Timing  defaultDuration = new TicksTiming(30);
 
-  /**
-   * Sort the int array passed in
-   *
-   * @param a
-   *          the array to be sorted
-   */
-  public void sort(int[] a) {
-    // Create Array: coordinates, data, name, display options,
-    // default properties
+  public void schedule() {
+		
+		int time = 0;
+		
+		while(!inc_procs.isEmpty() && sumOfWork() != 0) {
+			
+			// enqueue arriving processes
+			for(Process p : inc_procs) {
+				if(p.arrival == time) {
+					addToQueue(p.queue, p);
+				}
+			}
 
-    // first, set the visual properties (somewhat similar to CSS)
-    ArrayProperties arrayProps = new ArrayProperties();
-    arrayProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
-    arrayProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
-    arrayProps.set(AnimationPropertiesKeys.FILLED_PROPERTY, Boolean.TRUE);
-    arrayProps.set(AnimationPropertiesKeys.ELEMENTCOLOR_PROPERTY, Color.BLACK);
-    arrayProps.set(AnimationPropertiesKeys.ELEMHIGHLIGHT_PROPERTY, Color.RED);
-    arrayProps.set(AnimationPropertiesKeys.CELLHIGHLIGHT_PROPERTY, Color.YELLOW);
+			// schedule Process of queue with highest priority
+			Queue currentQueue = null;
+			for(int i = 0; i < queues.size(); i++) {
+				currentQueue = queues.get(i);
+				if(currentQueue.procs.size() > 0) {
+					break;
+				}
+				currentQueue = null;
+			}
+			if(currentQueue == null) {
+				// Zur zeit keine Arbeit in den Queues
+			}else {
+				Process currentProc = currentQueue.procs.get(0);
+				currentProc.computingTime--;
+				if(currentProc.computingTime == 0) {
+					currentQueue.procs.remove(0);
+				}else {
+					
+				}
+			}
+			time++;
+		}
+	}
+	
+	public void addToQueue(Queue q, Process p) {
+		q.procs.add(p);
+	}
+	
+	public void removeFromQueue(Process p) {
+		p.queue.procs.remove(0);
+	}
+	
+	public void reschedule(Process p) {
+		Queue q = p.queue;
+		if(q.useRoundRobin) {
+			q.procs.remove(0);
+			q.procs.add(p);
+		}else {
+			// Bei FCFS keine aktion nötig.
+		}
+	}
+	
 
-    // now, create the IntArray object, linked to the properties
-    IntArray ia = lang.newIntArray(new Coordinates(20, 100), a, "intArray",
-            null, arrayProps);
-
-    MatrixProperties matrixProps = new MatrixProperties();
-    matrixProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
-    matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
-    matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
-    matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
-    matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
-
-
-    // start a new step after the array was created
-    lang.nextStep();
-
-    // Create SourceCode: coordinates, name, display options,
-    // default properties
-
-    // first, set the visual properties for the source code
-    SourceCodeProperties scProps = new SourceCodeProperties();
-    scProps.set(AnimationPropertiesKeys.CONTEXTCOLOR_PROPERTY, Color.BLUE);
-    scProps.set(AnimationPropertiesKeys.FONT_PROPERTY,
-            new Font("Monospaced", Font.PLAIN, 12));
-
-    scProps.set(AnimationPropertiesKeys.HIGHLIGHTCOLOR_PROPERTY, Color.RED);
-    scProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
-
-    // now, create the source code entity
-    SourceCode sc = lang.newSourceCode(new Coordinates(40, 140), "sourceCode",
-            null, scProps);
-
-    // Add the lines to the SourceCode object.
-    // Line, name, indentation, display dealy
-    sc.addCodeLine("public void quickSort(int[] array, int l, int r)", null, 0,
-            null); // 0
-    sc.addCodeLine("{", null, 0, null);
-    sc.addCodeLine("int i, j, pivot;", null, 1, null);
-    sc.addCodeLine("if (r>l)", null, 1, null); // 3
-    sc.addCodeLine("{", null, 1, null); // 4
-    sc.addCodeLine("pivot = array[r];", null, 2, null); // 5
-    sc.addCodeLine("for (i = l; j = r - 1; i < j; )", null, 2, null); // 6
-    sc.addCodeLine("{", null, 2, null); // 7
-    sc.addCodeLine("while (array[i] <= pivot && j > i)", null, 3, null); // 8
-    sc.addCodeLine("i++;", null, 4, null); // 9
-    sc.addCodeLine("while (pivot < array[j] && j > i)", null, 3, null); // 10
-    sc.addCodeLine("j--;", null, 4, null); // 11
-    sc.addCodeLine("if (i < j)", null, 3, null); // 12
-    sc.addCodeLine("swap(array, i, j);", null, 4, null); // 13
-    sc.addCodeLine("}", null, 2, null); // 14
-    sc.addCodeLine("if (pivot < array[i])", null, 2, null); // 15
-    sc.addCodeLine("swap(array, i, r);", null, 3, null); // 16
-    sc.addCodeLine("else", null, 2, null); // 17
-    sc.addCodeLine("i=r;", null, 3, null); // 18
-    sc.addCodeLine(" quickSort(array, l, i - 1);", null, 2, null); // 19
-    sc.addCodeLine(" quickSort(array, i + 1, r);", null, 2, null); // 20
-    sc.addCodeLine(" }", null, 1, null); // 21
-    sc.addCodeLine("}", null, 0, null); // 22
-
-    lang.nextStep();
-    // Highlight all cells
-    ia.highlightCell(0, ia.getLength() - 1, null, null);
-    try {
-      // Start quicksort
-      quickSort(ia, sc, 0, (ia.getLength() - 1));
-    } catch (LineNotExistsException e) {
-      e.printStackTrace();
-    }
-    sc.hide();
-    ia.hide();
-    lang.nextStep();
-
-  }
-
-  /**
-   * counter for the number of pointers
-   *
-   */
-  private int pointerCounter = 0;
-
-  /**
-   * Quicksort: Sort elements using a pivot element between [l, r]
-   *
-   * @param array
-   *          the IntArray to be sorted
-   * @param codeSupport
-   *          the underlying code instance
-   * @param l
-   *          the lower border of the subarray to be sorted
-   * @param l
-   *          the upper border of the subarray to be sorted
-   */
-  private void quickSort(IntArray array, SourceCode codeSupport, int l, int r)
-          throws LineNotExistsException {
-    // Highlight first line
-    // Line, Column, use context colour?, display options, duration
-    codeSupport.highlight(0, 0, false);
-    lang.nextStep();
-
-    // Highlight next line
-    codeSupport.toggleHighlight(0, 0, false, 2, 0);
-
-    // Create two markers to point on i and j
-    pointerCounter++;
-    // Array, current index, name, display options, properties
-    ArrayMarkerProperties arrayIMProps = new ArrayMarkerProperties();
-    arrayIMProps.set(AnimationPropertiesKeys.LABEL_PROPERTY, "i");
-    arrayIMProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
-    ArrayMarker iMarker = lang.newArrayMarker(array, 0, "i" + pointerCounter,
-            null, arrayIMProps);
-    pointerCounter++;
-
-    ArrayMarkerProperties arrayJMProps = new ArrayMarkerProperties();
-    arrayJMProps.set(AnimationPropertiesKeys.LABEL_PROPERTY, "j");
-    arrayJMProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
-    ArrayMarker jMarker = lang.newArrayMarker(array, 0, "j" + pointerCounter,
-            null, arrayJMProps);
-
-    int i, j;
-
-    lang.nextStep();
-    // Highlight next line
-    codeSupport.toggleHighlight(2, 0, false, 3, 0);
-    // this statement is equivalent to
-    // codeSupport.unhighlight(2, 0, false);
-    // codeSupport.highlight(3, 0, false);
-
-    // Create a marker for the pivot element
-    int pivot;
-    pointerCounter++;
-    ArrayMarkerProperties arrayPMProps = new ArrayMarkerProperties();
-    arrayPMProps.set(AnimationPropertiesKeys.LABEL_PROPERTY, "pivot");
-    arrayPMProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLUE);
-
-    ArrayMarker pivotMarker = lang.newArrayMarker(array, 0,
-            "pivot" + pointerCounter, null, arrayPMProps);
-
-    lang.nextStep();
-    codeSupport.unhighlight(3, 0, false);
-    if (r > l) {
-      lang.nextStep();
-      // Highlight next line
-      codeSupport.highlight(5, 0, false);
-
-      // Receive the value of the pivot element
-      pivot = array.getData(r);
-      // Move marker to that position
-      pivotMarker.move(r, null, defaultDuration);
-
-      lang.nextStep();
-      codeSupport.unhighlight(5, 0, false);
-      for (i = l, j = r - 1; i < j;) {
-        // Highlight next line
-        codeSupport.highlight(6, 0, false);
-        // Move the two markers i,j to their proper positions
-        iMarker.move(i, null, defaultDuration);
-        jMarker.move(j, null, defaultDuration);
-
-        lang.nextStep();
-        // Highlight next line
-        codeSupport.toggleHighlight(6, 0, false, 8, 0);
-
-        while (array.getData(i) <= pivot && j > i) {
-          lang.nextStep();
-          i++;
-
-          // Highlight next line
-          codeSupport.toggleHighlight(8, 0, false, 9, 0);
-          // Move marker i to its next position
-          iMarker.move(i, null, defaultDuration);
-
-          lang.nextStep();
-          // Highlight next line
-          codeSupport.toggleHighlight(9, 0, false, 8, 0);
-        }
-
-        lang.nextStep();
-        // Highlight next line
-        codeSupport.toggleHighlight(8, 0, false, 10, 0);
-        while (pivot < array.getData(j) && j > i) {
-          lang.nextStep();
-
-          j--;
-          // Highlight next line
-          codeSupport.toggleHighlight(10, 0, false, 11, 0);
-
-          // Move marker j to its next position
-          jMarker.move(j, null, defaultDuration);
-
-          lang.nextStep();
-          // Highlight next line
-          codeSupport.toggleHighlight(11, 0, false, 10, 0);
-
-        }
-
-        lang.nextStep();
-        // Highlight next line
-        codeSupport.toggleHighlight(10, 0, false, 12, 0);
-
-        if (i < j) {
-          lang.nextStep();
-          // Highlight next line
-          codeSupport.toggleHighlight(12, 0, false, 13, 0);
-
-          // Swap the array elements at position i and j
-          array.swap(i, j, null, defaultDuration);
-        }
-        lang.nextStep();
-        // Highlight next line
-        codeSupport.toggleHighlight(13, 0, false, 12, 0);
-
-      } // end for...
-      // Highlight next line
-      codeSupport.toggleHighlight(6, 0, false, 13, 0);
-
-      lang.nextStep();
-      if (pivot < array.getData(i)) {
-        // Highlight next line
-        codeSupport.toggleHighlight(15, 0, false, 16, 0);
-
-        // Swap the array elements at position i and r
-        array.swap(i, r, null, defaultDuration);
-        // Set pivot marker to position i
-        pivotMarker.move(i, null, defaultDuration);
-
-        lang.nextStep();
-        codeSupport.unhighlight(16, 0, false);
-      } else {
-        i = r;
-        // Highlight next line
-        codeSupport.toggleHighlight(15, 0, false, 18, 0);
-        // Move marker i to position r
-        iMarker.move(r, null, defaultDuration);
-
-        lang.nextStep();
-        codeSupport.unhighlight(18, 0, false);
-      }
-      // Highlight the i'th array element
-      array.highlightElem(i, null, null);
-
-      lang.nextStep();
-      codeSupport.highlight(19, 0, false);
-
-      lang.nextStep();
-      codeSupport.unhighlight(19, 0, false);
-
-      // Unhighlight cells from i to r
-      // this part is not scheduled...
-      array.unhighlightCell(i, r, null, null);
-      // Apply quicksort to the left array part
-      iMarker.hide();
-      jMarker.hide();
-      pivotMarker.hide();
-      quickSort(array, codeSupport, l, i - 1);
-      iMarker.show();
-      jMarker.show();
-      pivotMarker.show();
-
-      // Left recursion finished.
-      lang.nextStep();
-      // Highlight cells l to r
-      array.highlightCell(l, r, null, null);
-      codeSupport.highlight(20, 0, false);
-
-      lang.nextStep();
-      codeSupport.unhighlight(20, 0, false);
-      // Unhighlight cells l to i
-      array.unhighlightCell(l, i, null, null);
-      // Apply quicksort to the right array part
-      iMarker.hide();
-      jMarker.hide();
-      pivotMarker.hide();
-      quickSort(array, codeSupport, i + 1, r);
-      iMarker.show();
-      jMarker.show();
-      pivotMarker.show();
-    }
-    lang.nextStep();
-    // Highlight next line
-    codeSupport.highlight(21, 0, false);
-    lang.nextStep();
-    // Highlight next line
-    codeSupport.highlight(22, 0, false);
-
-    lang.nextStep();
-    // Unhighlight cells from l to r
-    array.unhighlightCell(l, r, null, null);
-    lang.nextStep();
-    iMarker.hide();
-    jMarker.hide();
-    pivotMarker.hide();
-  }
+	public int sumOfWork() {
+		int sum = 0;
+		for(Queue q: queues) {
+			for(Process p : q.procs) {
+				sum += p.computingTime;
+			}
+		}
+		return sum;
+	}
 
   protected String getAlgorithmDescription() {
     return DESCRIPTION;
@@ -415,9 +187,26 @@ public class MultiLevelQueueGenerator {
     // this requires type, name, author, screen width, screen height
     Language l = Language.getLanguageInstance(AnimationType.ANIMALSCRIPT,
             "Multi Level Queue", "Andre Challier, Christian Richter", 640, 480);
-    MultiLevelQueueGenerator s = new MultiLevelQueueGenerator(l);
-    int[] a = { 7, 3, 2, 4, 1, 13, 52, 13, 5, 1 };
-    s.sort(a);
+    
+    LinkedList<Process> inc_procs = new LinkedList<Process>();
+	LinkedList<Queue> queues = new LinkedList<Queue>();
+	
+	Queue level0 = new Queue("Level 0", false);
+	Queue level1 = new Queue("Level 1", true);
+	
+	queues.add(level0);
+	queues.add(level1);
+	
+	Process proc1 = new Process("A", level1, 3, 0);
+	Process proc2 = new Process("B", level0, 1, 1);
+	Process proc3 = new Process("C", level1, 1, 2);
+	
+	inc_procs.add(proc1);
+	inc_procs.add(proc2);
+	inc_procs.add(proc3);
+    
+    MultiLevelQueueGenerator mlqg = new MultiLevelQueueGenerator(queues, inc_procs, l);
+    mlqg.schedule();
     System.out.println(l);
   }
 }
