@@ -4,7 +4,7 @@ author "Andre Challier, Christian Richter"
 
 {
 text "header" "This is an animation of Multilevel Queue" at (20,30) depth 1 font SansSerif size 20 bold
-rectangle �hRect� offset(-5,-5) from "header" NW offset (5,5) from "header" SE depth 2 fillColor white
+rectangle "hRect" offset(-5,-5) from "header" NW offset (5,5) from "header" SE depth 2 fillColor white
 }
 
 {
@@ -65,7 +65,7 @@ addCodeLine "    if(queue.useRoundRobin)" to "source"
 addCodeLine "      queue.add(queue.removeFirst())" to "source"
 
 
-grid "proc" (350, 100) lines 4 columns 4 fillColor white style table
+grid "proc" (400, 100) lines 4 columns 4 style table fillColor white borderColor black highlightFillColor yellow font SansSerif size 12
 setGridValue "proc[0][0]" "ID"
 setGridValue "proc[0][1]" "Queue"
 setGridValue "proc[0][2]" "WORK"
@@ -86,15 +86,15 @@ setGridValue "proc[3][1]" "1"
 setGridValue "proc[3][2]" "1"
 setGridValue "proc[3][3]" "2" refresh
 
-array "arr1" (350, 250) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "" ""
-array "arr2" (350, 335) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "" ""
+array "arr1" (400, 280) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "" ""
+array "arr2" (400, 400) color black elementColor black elemHighlight yellow cellHighlight yellow length 2 "" ""
 arrayPut " " on "arr1" position 0
 arrayPut " " on "arr1" position 1
 arrayPut " " on "arr2" position 0
 arrayPut " " on "arr2" position 1
-text "step" "Step: 0" (550, 100) size 15
-text "q1" "Level 0: FCFS" (350, 220) size 15
-text "q2" "Level 1: RR" (350, 310) size 15
+text "step" "Step: 0" (600, 100) size 15
+text "q1" "Level 0: FCFS" (400, 220) size 15
+text "q2" "Level 1: RR" (400, 340) size 15
 }
 {
 highlightCode on "source" line 0
@@ -176,8 +176,7 @@ highlightGridCell "proc[1][2]" after 20 ticks
 highlightGridCell "proc[2][2]" after 20 ticks
 highlightGridCell "proc[3][2]" after 20 ticks
 
-hide "step"
-text "step" "Step: 1" (550, 100) size 15
+setText of "step" to "Step: 1"
 }
 
 {
@@ -243,8 +242,7 @@ highlightGridCell "proc[1][2]" after 20 ticks
 highlightGridCell "proc[2][2]" after 20 ticks
 highlightGridCell "proc[3][2]" after 20 ticks
 
-hide "step"
-text "step" "Step: 2" (550, 100) size 15
+setText of "step" to "Step: 2"
 }
 
 {
@@ -332,8 +330,7 @@ highlightGridCell "proc[1][2]" after 20 ticks
 highlightGridCell "proc[2][2]" after 20 ticks
 highlightGridCell "proc[3][2]" after 20 ticks
 
-hide "step"
-text "step" "Step: 3" (550, 100) size 15
+setText of "step" to "Step: 3"
 }
 ###new
 
@@ -387,8 +384,7 @@ highlightGridCell "proc[1][2]" after 20 ticks
 highlightGridCell "proc[2][2]" after 20 ticks
 highlightGridCell "proc[3][2]" after 20 ticks
 
-hide "step"
-text "step" "Step: 4" (550, 100) size 15
+setText of "step" to "Step: 4"
 }
 
 {
@@ -438,8 +434,7 @@ highlightGridCell "proc[1][2]" after 20 ticks
 highlightGridCell "proc[2][2]" after 20 ticks
 highlightGridCell "proc[3][2]" after 20 ticks
 
-hide "step"
-text "step" "Step: 5" (550, 100) size 15
+setText of "step" to "Step: 5"
 }
 
 {
