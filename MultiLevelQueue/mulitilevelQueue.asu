@@ -442,7 +442,21 @@ hide "step"
 text "step" "Step: 5" (550, 100) size 15
 }
 
+{
+hide "step"
+hide "source"
+hide "arr2"
+hide "arr1"
+hide "proc"
+hide "q1"
+hide "q2"
 
+text "outro1" "" at (20, 90) size 14
+text "outro2" "" at (20, 110)
+text "outro3" "" at (20, 130)
+text "outro4" "" at (20, 150)
+
+}
 
 
 
