@@ -7,13 +7,11 @@ import algoanim.primitives.IntArray;
 import algoanim.primitives.SourceCode;
 import algoanim.primitives.generators.AnimationType;
 import algoanim.primitives.generators.Language;
-import algoanim.properties.AnimationPropertiesKeys;
-import algoanim.properties.ArrayMarkerProperties;
-import algoanim.properties.ArrayProperties;
-import algoanim.properties.SourceCodeProperties;
+import algoanim.properties.*;
 import algoanim.util.Coordinates;
 import algoanim.util.TicksTiming;
 import algoanim.util.Timing;
+import generators.maths.grid.GridProperty;
 
 /**
  * @author  Andre Challier <andre.challier@stud.tu-darmstadt.de>, Christian Richter <chrisrichter145@gmail.com>
@@ -98,12 +96,19 @@ public class MultiLevelQueueGenerator {
     arrayProps.set(AnimationPropertiesKeys.FILLED_PROPERTY, Boolean.TRUE);
     arrayProps.set(AnimationPropertiesKeys.ELEMENTCOLOR_PROPERTY, Color.BLACK);
     arrayProps.set(AnimationPropertiesKeys.ELEMHIGHLIGHT_PROPERTY, Color.RED);
-    arrayProps.set(AnimationPropertiesKeys.CELLHIGHLIGHT_PROPERTY,
-            Color.YELLOW);
+    arrayProps.set(AnimationPropertiesKeys.CELLHIGHLIGHT_PROPERTY, Color.YELLOW);
 
     // now, create the IntArray object, linked to the properties
     IntArray ia = lang.newIntArray(new Coordinates(20, 100), a, "intArray",
             null, arrayProps);
+
+    MatrixProperties matrixProps = new MatrixProperties();
+    matrixProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
+    matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
+    matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
+    matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
+    matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
+
 
     // start a new step after the array was created
     lang.nextStep();
@@ -409,8 +414,8 @@ public class MultiLevelQueueGenerator {
     // Create a new language object for generating animation code
     // this requires type, name, author, screen width, screen height
     Language l = Language.getLanguageInstance(AnimationType.ANIMALSCRIPT,
-            "Quicksort Example", "Guido Rößling", 640, 480);
-    APIExample s = new APIExample(l);
+            "Multi Level Queue", "Andre Challier, Christian Richter", 640, 480);
+    MultiLevelQueueGenerator s = new MultiLevelQueueGenerator(l);
     int[] a = { 7, 3, 2, 4, 1, 13, 52, 13, 5, 1 };
     s.sort(a);
     System.out.println(l);
