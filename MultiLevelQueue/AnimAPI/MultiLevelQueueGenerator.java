@@ -16,10 +16,10 @@ import algoanim.util.TicksTiming;
 import algoanim.util.Timing;
 
 /**
- * @author Dr. Guido R&ouml;&szlig;ling <roessling@acm.org>
- * @version 1.1 20140203
+ * @author  Andre Challier <andre.challier@stud.tu-darmstadt.de>, Christian Richter <chrisrichter145@gmail.com>
+ * @version 0.1
  */
-public class APIExample {
+public class MultiLevelQueueGenerator {
 
   /**
    * The concrete language object used for creating output
