@@ -1,4 +1,4 @@
-ï»¿import java.awt.Color;
+import java.awt.Color;
 import java.awt.Font;
 
 import algoanim.exceptions.LineNotExistsException;
@@ -28,11 +28,11 @@ public class MultiLevelQueueGenerator {
 
   /**
    * Default constructor
-   * 
+   *
    * @param l
    *          the conrete language object used for creating output
    */
-  public APIExample(Language l) {
+  public MultiLevelQueueGenerator(Language l) {
     // Store the language object
     lang = l;
     // This initializes the step mode. Each pair of subsequent steps has to
@@ -41,22 +41,22 @@ public class MultiLevelQueueGenerator {
   }
 
   private static final String DESCRIPTION     = "A Multi Level Queue for scheduling uses a predefined number of levels to"
-  + "schedule processes. Processes get assigned to a particular level at insert."
-  + "The processes in queues of higher level will then be executed first, lower level"
-  + "queues will be executed when all higher level queues are empty. Each queue is"
-  + "free to use its own scheduling, thus adding greater flexibility then merely"
-  + "having multiple levels in a queue."
+          + "schedule processes. Processes get assigned to a particular level at insert."
+          + "The processes in queues of higher level will then be executed first, lower level"
+          + "queues will be executed when all higher level queues are empty. Each queue is"
+          + "free to use its own scheduling, thus adding greater flexibility then merely"
+          + "having multiple levels in a queue."
 
-  + "\n\nIn this scenario each process has a tima of arrival (process.time), and a number"
-  + "of execution timeslides (process.work). The algorithm loops until all processes"
-  + "are done. To schedule the processes the algorithm first adds all arriving"
-  + "processes to the queues, then picks the non-empty queue with the highest level"
-  + "and executes the upcoming process."
+          + "\n\nIn this scenario each process has a tima of arrival (process.time), and a number"
+          + "of execution timeslides (process.work). The algorithm loops until all processes"
+          + "are done. To schedule the processes the algorithm first adds all arriving"
+          + "processes to the queues, then picks the non-empty queue with the highest level"
+          + "and executes the upcoming process."
 
-  + "\n\nThe first queue in this example uses First-Come-First-Serve-Scheduling while the"
-  + "second queue uses Round-Robin-Scheduling."  ;
+          + "\n\nThe first queue in this example uses First-Come-First-Serve-Scheduling while the"
+          + "second queue uses Round-Robin-Scheduling."  ;
 
-  private static final String SOURCE_CODE     = "WHILE sum(proc.work) != 0" to "source"
+  private static final String SOURCE_CODE     = "WHILE sum(proc.work) != 0"
           + "\n   FOR process IN procList"
           + "\n     IF process.time == step"
           + "\n       queue = queueList[process.level]"
@@ -83,7 +83,7 @@ public class MultiLevelQueueGenerator {
 
   /**
    * Sort the int array passed in
-   * 
+   *
    * @param a
    *          the array to be sorted
    */
@@ -99,11 +99,11 @@ public class MultiLevelQueueGenerator {
     arrayProps.set(AnimationPropertiesKeys.ELEMENTCOLOR_PROPERTY, Color.BLACK);
     arrayProps.set(AnimationPropertiesKeys.ELEMHIGHLIGHT_PROPERTY, Color.RED);
     arrayProps.set(AnimationPropertiesKeys.CELLHIGHLIGHT_PROPERTY,
-        Color.YELLOW);
+            Color.YELLOW);
 
     // now, create the IntArray object, linked to the properties
     IntArray ia = lang.newIntArray(new Coordinates(20, 100), a, "intArray",
-        null, arrayProps);
+            null, arrayProps);
 
     // start a new step after the array was created
     lang.nextStep();
@@ -115,19 +115,19 @@ public class MultiLevelQueueGenerator {
     SourceCodeProperties scProps = new SourceCodeProperties();
     scProps.set(AnimationPropertiesKeys.CONTEXTCOLOR_PROPERTY, Color.BLUE);
     scProps.set(AnimationPropertiesKeys.FONT_PROPERTY,
-        new Font("Monospaced", Font.PLAIN, 12));
+            new Font("Monospaced", Font.PLAIN, 12));
 
     scProps.set(AnimationPropertiesKeys.HIGHLIGHTCOLOR_PROPERTY, Color.RED);
     scProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
 
     // now, create the source code entity
     SourceCode sc = lang.newSourceCode(new Coordinates(40, 140), "sourceCode",
-        null, scProps);
+            null, scProps);
 
     // Add the lines to the SourceCode object.
     // Line, name, indentation, display dealy
     sc.addCodeLine("public void quickSort(int[] array, int l, int r)", null, 0,
-        null); // 0
+            null); // 0
     sc.addCodeLine("{", null, 0, null);
     sc.addCodeLine("int i, j, pivot;", null, 1, null);
     sc.addCodeLine("if (r>l)", null, 1, null); // 3
@@ -168,13 +168,13 @@ public class MultiLevelQueueGenerator {
 
   /**
    * counter for the number of pointers
-   * 
+   *
    */
   private int pointerCounter = 0;
 
   /**
    * Quicksort: Sort elements using a pivot element between [l, r]
-   * 
+   *
    * @param array
    *          the IntArray to be sorted
    * @param codeSupport
@@ -185,7 +185,7 @@ public class MultiLevelQueueGenerator {
    *          the upper border of the subarray to be sorted
    */
   private void quickSort(IntArray array, SourceCode codeSupport, int l, int r)
-      throws LineNotExistsException {
+          throws LineNotExistsException {
     // Highlight first line
     // Line, Column, use context colour?, display options, duration
     codeSupport.highlight(0, 0, false);
@@ -201,14 +201,14 @@ public class MultiLevelQueueGenerator {
     arrayIMProps.set(AnimationPropertiesKeys.LABEL_PROPERTY, "i");
     arrayIMProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
     ArrayMarker iMarker = lang.newArrayMarker(array, 0, "i" + pointerCounter,
-        null, arrayIMProps);
+            null, arrayIMProps);
     pointerCounter++;
 
     ArrayMarkerProperties arrayJMProps = new ArrayMarkerProperties();
     arrayJMProps.set(AnimationPropertiesKeys.LABEL_PROPERTY, "j");
     arrayJMProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
     ArrayMarker jMarker = lang.newArrayMarker(array, 0, "j" + pointerCounter,
-        null, arrayJMProps);
+            null, arrayJMProps);
 
     int i, j;
 
@@ -227,7 +227,7 @@ public class MultiLevelQueueGenerator {
     arrayPMProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLUE);
 
     ArrayMarker pivotMarker = lang.newArrayMarker(array, 0,
-        "pivot" + pointerCounter, null, arrayPMProps);
+            "pivot" + pointerCounter, null, arrayPMProps);
 
     lang.nextStep();
     codeSupport.unhighlight(3, 0, false);
@@ -409,7 +409,7 @@ public class MultiLevelQueueGenerator {
     // Create a new language object for generating animation code
     // this requires type, name, author, screen width, screen height
     Language l = Language.getLanguageInstance(AnimationType.ANIMALSCRIPT,
-        "Quicksort Example", "Guido RÃ¶ÃŸling", 640, 480);
+            "Quicksort Example", "Guido Rößling", 640, 480);
     APIExample s = new APIExample(l);
     int[] a = { 7, 3, 2, 4, 1, 13, 52, 13, 5, 1 };
     s.sort(a);
