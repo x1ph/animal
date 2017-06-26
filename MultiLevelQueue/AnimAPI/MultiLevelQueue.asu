@@ -1,0 +1,26 @@
+%Animal 2 640*480
+title "Multi Level Queue"
+author "Andre Challier, Christian Richter"
+{
+  codegroup "sourceCode" at (40, 140) color (0, 0, 0) highlightColor (255, 0, 0) contextColor (0, 0, 255) font Monospaced size 12 depth 1
+  addCodeLine "WHILE sum(proc.work) != 0" to "sourceCode"
+  addCodeLine "FOR process IN procList" to "sourceCode" indentation 1
+  addCodeLine "IF process.time == time" to "sourceCode" indentation 2
+  addCodeLine "queue = queueList[process.level]" to "sourceCode" indentation 3
+  addCodeLine "queue.add(process)" to "sourceCode" indentation 3
+  addCodeLine "FOR i FROM 0 TO (queueList.size - 1)" to "sourceCode"
+  addCodeLine "IF queueList[i].current() != null" to "sourceCode" indentation 1
+  addCodeLine "queue = queueList[i]" to "sourceCode" indentation 2
+  addCodeLine "BREAK" to "sourceCode" indentation 2
+  addCodeLine "IF queue == null" to "sourceCode"
+  addCodeLine "time++" to "sourceCode" indentation 1
+  addCodeLine "CONTINUE" to "sourceCode" indentation 1
+  addCodeLine "run(queue.current())" to "sourceCode"
+  addCodeLine "IF queue.current().work == 0" to "sourceCode"
+  addCodeLine "queue.removeCurrent();" to "sourceCode" indentation 1
+  addCodeLine "ELSE" to "sourceCode"
+  addCodeLine "if(queue.useRoundRobin)" to "sourceCode" indentation 1
+  addCodeLine "temp = queue.current()" to "sourceCode" indentation 2
+  addCodeLine "queue.removeCurrent()" to "sourceCode" indentation 2
+  addCodeLine "queue.add(temp)" to "sourceCode" indentation 2
+}
