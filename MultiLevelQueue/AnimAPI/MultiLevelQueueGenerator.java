@@ -10,12 +10,16 @@ import algoanim.exceptions.LineNotExistsException;
 import algoanim.primitives.ArrayMarker;
 import algoanim.primitives.IntArray;
 import algoanim.primitives.SourceCode;
+import algoanim.primitives.StringArray;
+import algoanim.primitives.StringMatrix;
 import algoanim.primitives.generators.AnimationType;
 import algoanim.primitives.generators.Language;
 import algoanim.properties.*;
 import algoanim.util.Coordinates;
 import algoanim.util.TicksTiming;
 import algoanim.util.Timing;
+import extras.lifecycle.common.AnimationStepBean;
+import generators.graphics.antialias.Grid;
 import generators.maths.grid.GridProperty;
 
 /**
@@ -95,6 +99,55 @@ public class MultiLevelQueueGenerator {
 	 * (see main())
 	 */
 	public void schedule() {
+		
+		// Create Data Array for Matrix Representation
+		String[][] procMatrix = new String[inc_procs.size() + 1][4];
+		procMatrix[0][0] = "ID";
+		procMatrix[0][1] = "QUEUE";
+		procMatrix[0][2] = "WORK";
+		procMatrix[0][3] = "TIME";
+		for (int i = 0; i < inc_procs.size(); i++) {
+			procMatrix[i + 1][0] = inc_procs.get(i).name;
+			procMatrix[i + 1][1] = inc_procs.get(i).queue.name;
+			procMatrix[i + 1][2] = Integer.toString(inc_procs.get(i).computingTime);
+			procMatrix[i + 1][3] = Integer.toString(inc_procs.get(i).arrival);
+		}
+
+	    // first, set the visual properties (somewhat similar to CSS)
+		MatrixProperties matrixProps = new MatrixProperties();
+		matrixProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
+		matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
+		matrixProps.set(AnimationPropertiesKeys.FILLED_PROPERTY, Boolean.TRUE);
+		matrixProps.set(AnimationPropertiesKeys.ELEMENTCOLOR_PROPERTY, Color.BLACK);
+		matrixProps.set(AnimationPropertiesKeys.ELEMHIGHLIGHT_PROPERTY, Color.RED);
+		matrixProps.set(AnimationPropertiesKeys.CELLHIGHLIGHT_PROPERTY,
+	        Color.YELLOW);
+		matrixProps.set(AnimationPropertiesKeys.GRID_STYLE_PROPERTY, "table");
+	    
+	    for(int i  = 0; i < procMatrix.length;i++) {
+	    	for(int j = 0; j < procMatrix[i].length; j++) {
+	    		System.out.print(procMatrix[i][j] + "\t");
+	    	}
+	    	System.out.println();
+	    }
+
+	    // now, create the IntArray object, linked to the properties
+	    StringMatrix sm = lang.newStringMatrix(new Coordinates(400, 10), procMatrix, "inc_proc", null, matrixProps);
+	    
+	    StringMatrix[] arrays = new StringMatrix[queues.size()];
+	    
+	    for(int i = 0; i < queues.size(); i++) {
+	    	String[][] queueStat = new String[1][inc_procs.size() + 1];
+	    	queueStat[0][0] = new String(queues.get(i).name);
+	    	for(int j = 1; j < inc_procs.size() + 1; j++) {
+	    		queueStat[0][j] = new String(" ");
+	    	}
+	    	arrays[i] = lang.newStringMatrix(new Coordinates(400, 200 + i*100), queueStat, "queue_" + i, null, matrixProps);
+	    }
+	    
+	    lang.nextStep();
+	    
+	    // start a new step after the array was created
 
 		
 		// first, set the visual properties for the source code
@@ -106,7 +159,7 @@ public class MultiLevelQueueGenerator {
 		scProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
 
 		// now, create the source code entity
-		SourceCode sc = lang.newSourceCode(new Coordinates(40, 140), "sourceCode", null, scProps);
+		SourceCode sc = lang.newSourceCode(new Coordinates(10, 10), "sourceCode", null, scProps);
 
 		sc.addCodeLine("WHILE sum(proc.work) != 0", null, 0, null);
 		sc.addCodeLine("FOR process IN procList", null, 1, null);
