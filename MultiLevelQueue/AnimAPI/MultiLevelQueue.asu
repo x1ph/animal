@@ -33,12 +33,12 @@ author "Andre Challier, Christian Richter"
   setGridValue "inc_proc[3][1]" "Level 1"
   setGridValue "inc_proc[3][2]" "1"
   setGridValue "inc_proc[3][3]" "2" refresh
-  grid "queue_0" (400, 200) lines 1 columns 4 style table  color (0, 0, 0) elementColor (0, 0, 0) fillColor (255, 255, 255) bordercolor (0, 0, 0) highlightTextColor (255, 0, 0) highlightFillColor (255, 255, 0) highlightBorderColor (255, 0, 0) font SansSerif size 12 align left depth 1
+  grid "queue_0" (400, 140) lines 1 columns 4 style table  color (0, 0, 0) elementColor (0, 0, 0) fillColor (255, 255, 255) bordercolor (0, 0, 0) highlightTextColor (255, 0, 0) highlightFillColor (255, 255, 0) highlightBorderColor (255, 0, 0) font SansSerif size 12 align left depth 1
   setGridValue "queue_0[0][0]" "Level 0"
   setGridValue "queue_0[0][1]" " "
   setGridValue "queue_0[0][2]" " "
   setGridValue "queue_0[0][3]" " " refresh
-  grid "queue_1" (400, 300) lines 1 columns 4 style table  color (0, 0, 0) elementColor (0, 0, 0) fillColor (255, 255, 255) bordercolor (0, 0, 0) highlightTextColor (255, 0, 0) highlightFillColor (255, 255, 0) highlightBorderColor (255, 0, 0) font SansSerif size 12 align left depth 1
+  grid "queue_1" (400, 190) lines 1 columns 4 style table  color (0, 0, 0) elementColor (0, 0, 0) fillColor (255, 255, 255) bordercolor (0, 0, 0) highlightTextColor (255, 0, 0) highlightFillColor (255, 255, 0) highlightBorderColor (255, 0, 0) font SansSerif size 12 align left depth 1
   setGridValue "queue_1[0][0]" "Level 1"
   setGridValue "queue_1[0][1]" " "
   setGridValue "queue_1[0][2]" " "
@@ -64,5 +64,11 @@ author "Andre Challier, Christian Richter"
   addCodeLine "temp = queue.current()" to "sourceCode" indentation 2
   addCodeLine "queue.removeCurrent()" to "sourceCode" indentation 2
   addCodeLine "queue.add(temp)" to "sourceCode" indentation 2
+<<<<<<< .mine
   hide "desc" "Text1" "Text2" "Text3" "Text4" "Text5" "Text6" "Text7" "Text8" "Text9" "Text10" "Text11" 
+
+=======
+  text "curr_time" "Current Time: 0" (600, 10) color (0, 0, 0) depth 1 font SansSerif size 12
+  setText of "curr_time" to "Current Time: 0"   within 30 ticks
+>>>>>>> .theirs
 }
