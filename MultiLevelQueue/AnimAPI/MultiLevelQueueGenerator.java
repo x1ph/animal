@@ -137,6 +137,7 @@ public class MultiLevelQueueGenerator {
         Text desc12 =lang.newText(new Coordinates(30,330), "second queue uses Round-Robin-Scheduling.", "desc", null );
 
         lang.nextStep();
+        lang.nextStep();
 
 		//hide intro Text
 		desc1.hide();
@@ -174,6 +175,7 @@ public class MultiLevelQueueGenerator {
 		matrixProps.set(AnimationPropertiesKeys.ELEMHIGHLIGHT_PROPERTY, Color.BLACK);
 		matrixProps.set(AnimationPropertiesKeys.CELLHIGHLIGHT_PROPERTY,
 	        Color.GREEN);
+		matrixProps.set(AnimationPropertiesKeys.GRID_HIGHLIGHT_BORDER_COLOR_PROPERTY, Color.BLACK);
 		matrixProps.set(AnimationPropertiesKeys.GRID_STYLE_PROPERTY, "table");
 
 	    // now, create the IntArray object, linked to the properties
@@ -195,11 +197,11 @@ public class MultiLevelQueueGenerator {
 		
 		// first, set the visual properties for the source code
 		SourceCodeProperties scProps = new SourceCodeProperties();
-		scProps.set(AnimationPropertiesKeys.CONTEXTCOLOR_PROPERTY, Color.BLUE);
+		scProps.set(AnimationPropertiesKeys.CONTEXTCOLOR_PROPERTY, Color.GRAY);
+		scProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.GRAY);
 		scProps.set(AnimationPropertiesKeys.FONT_PROPERTY, new Font("Monospaced", Font.PLAIN, 12));
 
-		scProps.set(AnimationPropertiesKeys.HIGHLIGHTCOLOR_PROPERTY, Color.RED);
-		scProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
+		scProps.set(AnimationPropertiesKeys.HIGHLIGHTCOLOR_PROPERTY, Color.BLUE);
 
 		// now, create the source code entity
 		SourceCode sc = lang.newSourceCode(new Coordinates(30, 70), "sourceCode", null, scProps);
@@ -209,21 +211,21 @@ public class MultiLevelQueueGenerator {
 		sc.addCodeLine("IF process.time == time", null, 2, null);				// line 2
 		sc.addCodeLine("queue = queueList[process.level]", null, 3, null);		// line 3
 		sc.addCodeLine("queue.add(process)", null, 3, null);					// line 4
-		sc.addCodeLine("FOR i FROM 0 TO (queueList.size - 1)", null, 0, null);	// line 5
-		sc.addCodeLine("IF queueList[i].current() != null", null, 1, null);		// line 6
-		sc.addCodeLine("queue = queueList[i]", null, 2, null);					// line 7
-		sc.addCodeLine("BREAK", null, 2, null);									// line 8
-		sc.addCodeLine("IF queue == null", null, 0, null);						// line 9
-		sc.addCodeLine("time++", null, 1, null);								// line 10
-		sc.addCodeLine("CONTINUE", null, 1, null);								// line 11
-		sc.addCodeLine("run(queue.current())", null, 0, null);					// line 12
-		sc.addCodeLine("IF queue.current().work == 0", null, 0, null);			// line 13
-		sc.addCodeLine("queue.removeCurrent();", null, 1, null);				// line 14
-		sc.addCodeLine("ELSE", null, 0, null);									// line 15
-		sc.addCodeLine("if(queue.useRoundRobin)", null, 1, null);				// line 16
-		sc.addCodeLine("temp = queue.current()", null, 2, null);				// line 17
-		sc.addCodeLine("queue.removeCurrent()", null, 2, null);					// line 18
-		sc.addCodeLine("queue.add(temp)", null, 2, null);						// line 19
+		sc.addCodeLine("FOR i FROM 0 TO (queueList.size - 1)", null, 1, null);	// line 5
+		sc.addCodeLine("IF queueList[i].current() != null", null, 2, null);		// line 6
+		sc.addCodeLine("queue = queueList[i]", null, 3, null);					// line 7
+		sc.addCodeLine("BREAK", null, 3, null);									// line 8
+		sc.addCodeLine("IF queue == null", null, 1, null);						// line 9
+		sc.addCodeLine("time++", null, 2, null);								// line 10
+		sc.addCodeLine("CONTINUE", null, 2, null);								// line 11
+		sc.addCodeLine("run(queue.current())", null, 1, null);					// line 12
+		sc.addCodeLine("IF queue.current().work == 0", null, 1, null);			// line 13
+		sc.addCodeLine("queue.removeCurrent();", null, 2, null);				// line 14
+		sc.addCodeLine("ELSE", null, 1, null);									// line 15
+		sc.addCodeLine("if(queue.useRoundRobin)", null, 2, null);				// line 16
+		sc.addCodeLine("temp = queue.current()", null, 3, null);				// line 17
+		sc.addCodeLine("queue.removeCurrent()", null, 3, null);					// line 18
+		sc.addCodeLine("queue.add(temp)", null, 3, null);						// line 19
 		
 		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: 0", "curr_time", null);
 		currentTime = 0;
@@ -234,21 +236,19 @@ public class MultiLevelQueueGenerator {
 		
 		lang.nextStep();
 		sc.highlight(0);
-		lang.nextStep();
-		while ((!inc_procs.isEmpty()) && (sumOfWork() != 0)) {
+		while (sumOfWork() != 0) {
 			highlightProcessCol(2);
 			lang.nextStep();
-			
 			unhighlightProcessCol(2);
+			
 			sc.highlight(1);
 			highlightProcessCol(0);
 			lang.nextStep();
-			// enqueue arriving processes
-			for (Process p : inc_procs) {
-				sm.highlightCell(inc_procs.indexOf(p) + 1, 3, null, null);
+			for(Process p : inc_procs) {
 				sc.highlight(2);
+				sm.highlightCell(inc_procs.indexOf(p)+1, 3, null, null);
 				lang.nextStep();
-				if (p.arrival == currentTime) {
+				if(p.arrival == currentTime) {
 					sc.highlight(3);
 					sc.highlight(4);
 					addToQueue(p.queue, p);
@@ -256,66 +256,99 @@ public class MultiLevelQueueGenerator {
 					sc.unhighlight(4);
 				}
 				sc.unhighlight(2);
-				sm.unhighlightCell(inc_procs.indexOf(p) + 1, 3, null, null);
+				sm.unhighlightCell(inc_procs.indexOf(p)+1, 3, null, null);
 			}
 			sc.unhighlight(1);
 			unhighlightProcessCol(0);
-
-			// schedule Process of queue with highest priority
-			Queue currentQueue = null;
+			
+			Queue queue = null;
+			
 			sc.highlight(5);
 			lang.nextStep();
-			for (int i = 0; i < queues.size(); i++) {
-				currentQueue = queues.get(i);
-				highlightQueue(currentQueue);
+			for(Queue q : queues) {
+				highlightQueue(q);
+				highlightQueueHead(q);
 				sc.highlight(6);
-				highlightQueueHead(currentQueue);
 				lang.nextStep();
-				if (currentQueue.procs.size() > 0) {
+				if(!q.procs.isEmpty()) {
 					sc.highlight(7);
 					sc.highlight(8);
+					unhighlightQueueHead(q);
 					lang.nextStep();
+					sc.unhighlight(6);
+					sc.unhighlight(7);
+					sc.unhighlight(8);
+					queue = q;
 					break;
 				}
-				unhighlightQueueHead(currentQueue);
-				unhighlightQueue(currentQueue);
-				currentQueue = null;
+				unhighlightQueueHead(q);
+				unhighlightQueue(q);
+				sc.unhighlight(6);
 			}
 			sc.unhighlight(5);
-			sc.unhighlight(6);
-			sc.unhighlight(7);
-			sc.unhighlight(8);
+			
 			sc.highlight(9);
 			lang.nextStep();
-			if (currentQueue == null) {
-				// Zur zeit keine Arbeit in den Queues
-				incCurrentTime();
+			if(queue == null) {
 				sc.highlight(10);
-				lang.nextStep();
-				sc.unhighlight(10);
 				sc.highlight(11);
+				incCurrentTime();
 				lang.nextStep();
+				sc.unhighlight(9);
+				sc.unhighlight(10);
 				sc.unhighlight(11);
-			} else {
-				Process currentProc = currentQueue.procs.get(0);
-				currentProc.computingTime--;
-				if (currentProc.computingTime == 0) {
-					currentQueue.procs.remove(0);
-				} else {
-
-				}
-				unhighlightQueue(currentQueue);
+				continue;
 			}
 			sc.unhighlight(9);
+			
+			sc.highlight(12);
+			sm.highlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
+			highlightQueueHead(queue);
+			queue.procs.getFirst().computingTime--;
+			sm.put(inc_procs.indexOf(
+					queue.procs.getFirst()) +1,
+					2,
+					Integer.toString(queue.procs.getFirst().computingTime),
+					null,
+					null);
+			lang.nextStep();
+			sc.unhighlight(12);
+			
+			sc.highlight(13);
+			lang.nextStep();
+			sm.unhighlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
+			if(queue.procs.getFirst().computingTime == 0) {
+				sc.highlight(14);
+				lang.nextStep();
+				removeFromQueue(queue.procs.getFirst());
+				unhighlightQueue(queue);
+				sc.unhighlight(14);
+			}else {
+				sc.highlight(15);
+				sc.highlight(16);
+				lang.nextStep();
+				if(queue.useRoundRobin) {
+					sc.highlight(17);
+					sc.highlight(18);
+					sc.highlight(19);
+					lang.nextStep();
+					reschedule(queue.procs.getFirst());
+					unhighlightQueue(queue);
+					sc.unhighlight(17);
+					sc.unhighlight(18);
+					sc.unhighlight(19);
+				}else {
+					unhighlightQueue(queue);
+					unhighlightQueueHead(queue);
+				}
+				sc.unhighlight(15);
+				sc.unhighlight(16);
+			}
+			incCurrentTime();
+			sc.unhighlight(13);
 		}
-		sc.highlight(0);
-		highlightProcessCol(2);
-	}
-	
-	private void highlightProcessCol(int col) {
-		for(int i = 0; i < sm.getNrRows(); i++) {
-			sm.highlightCell(i, col, null, null);
-		}
+		sc.unhighlight(0);
+		lang.nextStep();
 	}
 	
 	private void highlightQueue(Queue q) {
@@ -337,8 +370,14 @@ public class MultiLevelQueueGenerator {
 	}
 	
 	private void unhighlightProcessCol(int col) {
-		for(int i = 0; i < sm.getNrRows(); i++) {
+		for(int i = 1; i < sm.getNrRows(); i++) {
 			sm.unhighlightCell(i, col, null, null);
+		}
+	}
+	
+	private void highlightProcessCol(int col) {
+		for(int i = 1; i < sm.getNrRows(); i++) {
+			sm.highlightCell(i, col, null, null);
 		}
 	}
 	
@@ -367,17 +406,14 @@ public class MultiLevelQueueGenerator {
 		for(int i = currentQueue.getNrCols() - 1; i > 1; i--) {
 			currentQueue.put(0, i, currentQueue.getElement(0, i-1), null, null);
 		}
+		unhighlightQueueHead(p.queue);
+		lang.nextStep();
 
 	}
 
 	public void reschedule(Process p) {
-		Queue q = p.queue;
-		if (q.useRoundRobin) {
-			removeFromQueue(p);
-			addToQueue(q, p);
-		} else {
-			// Bei FCFS keine aktion n�tig.
-		}
+		removeFromQueue(p);
+		addToQueue(p.queue, p);
 	}
 
 	public int sumOfWork() {
@@ -419,17 +455,25 @@ public class MultiLevelQueueGenerator {
 
 		Queue level0 = new Queue("Level 0", false);
 		Queue level1 = new Queue("Level 1", true);
+		Queue level2 = new Queue("Level 2", true);
 
 		queues.add(level0);
 		queues.add(level1);
+		queues.add(level2);
 
-		Process proc1 = new Process("A", level1, 3, 0);
-		Process proc2 = new Process("B", level0, 1, 1);
-		Process proc3 = new Process("C", level1, 1, 2);
+		Process proc1 = new Process("A", level0, 5, 0);
+		Process proc2 = new Process("B", level1, 5, 0);
+		Process proc3 = new Process("C", level2, 5, 0);
+		Process proc4 = new Process("D", level0, 5, 0);
+		Process proc5 = new Process("E", level1, 5, 0);
+		Process proc6 = new Process("F", level2, 5, 0);
 
 		inc_procs.add(proc1);
 		inc_procs.add(proc2);
 		inc_procs.add(proc3);
+		inc_procs.add(proc4);
+		inc_procs.add(proc5);
+		inc_procs.add(proc6);
 
 		MultiLevelQueueGenerator mlqg = new MultiLevelQueueGenerator(queues, inc_procs, l);
 		mlqg.schedule();
