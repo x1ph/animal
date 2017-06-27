@@ -61,9 +61,17 @@ public class MultiLevelQueueGenerator {
 	StringMatrix[] arrays;
 	
 	/**
+	 * The Array holding all displayed queueNames
+	 */
+	Text[] queueNames;
+	
+	/**
 	 * The Matrix showing all incoming Processes
 	 */
 	StringMatrix sm;
+	
+	private static Font defaultFont =new Font(Font.SANS_SERIF, Font.PLAIN, 12);
+	private static Font highlightFont =new Font(Font.SANS_SERIF, Font.BOLD, 12);
 
 	/**
 	 * Default constructor
@@ -179,27 +187,34 @@ public class MultiLevelQueueGenerator {
 		matrixProps.set(AnimationPropertiesKeys.GRID_STYLE_PROPERTY, "table");
 
 	    // now, create the IntArray object, linked to the properties
-	    sm = lang.newStringMatrix(new Coordinates(400, 10), procMatrix, "inc_proc", null, matrixProps);
+	    sm = lang.newStringMatrix(new Coordinates(400, 100), procMatrix, "inc_proc", null, matrixProps);
 	    
 	    
 	    arrays = new StringMatrix[queues.size()];
-	   
+	    queueNames = new Text[queues.size()];
+	    TextProperties queueNameTextProp = new TextProperties();
+	    queueNameTextProp.set(AnimationPropertiesKeys.FONT_PROPERTY, defaultFont);
 	    
 	    for(int i = 0; i < queues.size(); i++) {
-	    	String[][] queueStat = new String[1][inc_procs.size() + 1];
-	    	queueStat[0][0] = new String(queues.get(i).name);
-	    	
-	    	for(int j = 1; j < inc_procs.size() + 1; j++) {
+	    	String[][] queueStat = new String[1][inc_procs.size()];
+	    	for(int j = 0; j < inc_procs.size(); j++) {
 	    		queueStat[0][j] = new String(" ");
 	    	}
-	    	arrays[i] = lang.newStringMatrix(new Coordinates(400, 50 + inc_procs.size() * 30 + i * 50), queueStat, "queue_" + i, null, matrixProps);
+	    	String queueName = queues.get(i).name;
+	    	if(queues.get(i).useRoundRobin) {
+	    		queueName = queueName + " (RoundRobin)";
+	    	}else {
+	    		queueName = queueName + " (FIFO)";
+	    	}
+	    	queueNames[i] = lang.newText(new Coordinates(400, 130 + inc_procs.size() * 30 + i*50), queueName, "queuetext_" + i, null, queueNameTextProp);
+	    	arrays[i] = lang.newStringMatrix(new Coordinates(400, 150 + inc_procs.size() * 30 + i * 50), queueStat, "queue_" + i, null, matrixProps);
 	    }
 		
 		// first, set the visual properties for the source code
 		SourceCodeProperties scProps = new SourceCodeProperties();
 		scProps.set(AnimationPropertiesKeys.CONTEXTCOLOR_PROPERTY, Color.GRAY);
 		scProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.GRAY);
-		scProps.set(AnimationPropertiesKeys.FONT_PROPERTY, new Font("Monospaced", Font.PLAIN, 12));
+		scProps.set(AnimationPropertiesKeys.FONT_PROPERTY, new Font(Font.MONOSPACED, Font.PLAIN, 12));
 
 		scProps.set(AnimationPropertiesKeys.HIGHLIGHTCOLOR_PROPERTY, Color.BLUE);
 
@@ -227,12 +242,9 @@ public class MultiLevelQueueGenerator {
 		sc.addCodeLine("queue.removeCurrent()", null, 3, null);					// line 18
 		sc.addCodeLine("queue.add(temp)", null, 3, null);						// line 19
 		
-		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: 0", "curr_time", null);
-		currentTime = 0;
-		
 		currentTime = 0;
 		TextProperties tp = new TextProperties();
-		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: " + currentTime, "curr_time", null, tp);
+		currentTimeText = lang.newText(new Coordinates(400, 70), "Current Time: " + currentTime, "curr_time", null, tp);
 		
 		lang.nextStep();
 		sc.highlight(0);
@@ -352,11 +364,11 @@ public class MultiLevelQueueGenerator {
 	}
 	
 	private void highlightQueue(Queue q) {
-		arrays[queues.indexOf(q)].highlightCell(0, 0, null, null);
+		queueNames[queues.indexOf(q)].setFont(highlightFont, null, null);
 	}
 	
 	private void unhighlightQueue(Queue q) {
-		arrays[queues.indexOf(q)].unhighlightCell(0, 0, null, null);
+		queueNames[queues.indexOf(q)].setFont(defaultFont, null, null);
 	}
 	
 	private void highlightQueueHead(Queue q) {
@@ -403,7 +415,7 @@ public class MultiLevelQueueGenerator {
 	public void removeFromQueue(Process p) {
 		p.queue.procs.remove(0);
 		StringMatrix currentQueue = arrays[queues.indexOf(p.queue)];
-		for(int i = currentQueue.getNrCols() - 1; i > 1; i--) {
+		for(int i = currentQueue.getNrCols() - 1; i > 0; i--) {
 			currentQueue.put(0, i, currentQueue.getElement(0, i-1), null, null);
 		}
 		unhighlightQueueHead(p.queue);
