@@ -56,15 +56,15 @@ public class MultiLevelQueueGenerator {
 	private Text currentTimeText;
 	
 	/**
+	 * The Array holding all displayed queues
+	 */
+	StringMatrix[] arrays;
+	
+	/**
 	 * The Matrix showing all incoming Processes
 	 */
 	StringMatrix sm;
 
-	/**
-	 * The Array of StringMatrices showing the queues.
-	 */
-	StringMatrix[] arrays;
-	
 	/**
 	 * Default constructor
 	 *
@@ -118,22 +118,23 @@ public class MultiLevelQueueGenerator {
 	 * (see main())
 	 */
 	public void schedule() {
-		Text desc1 =lang.newText(new Coordinates(30,30), "A Multi Level Queue for scheduling uses a predefined number of levels to", "desc", null );
-        Text desc2 =lang.newText(new Coordinates(30,50), "schedule processes. Processes get assigned to a particular level at insert.", "desc", null );
-        Text desc3 =lang.newText(new Coordinates(30,70), "The processes in queues of higher level will then be executed first, lower level", "desc", null );
-        Text desc4 =lang.newText(new Coordinates(30,90), "queues will be executed when all higher level queues are empty. Each queue is", "desc", null );
-        Text desc5 =lang.newText(new Coordinates(30,110), "free to use its own scheduling, thus adding greater flexibility then merely", "desc", null );
-        Text desc6 =lang.newText(new Coordinates(30,130), "having multiple levels in a queue.", "desc", null );
-
-        Text desc7 =lang.newText(new Coordinates(30,170), "In this scenario each process has a tima of arrival (process.time), and a number", "desc", null );
-        Text desc8 =lang.newText(new Coordinates(30,190), "of execution timeslides (process.work). The algorithm loops until all processes", "desc", null );
-        Text desc9 =lang.newText(new Coordinates(30,210), "are done. To schedule the processes the algorithm first adds all arriving", "desc", null );
-        Text desc10 =lang.newText(new Coordinates(30,230), "processes to the queues, then picks the non-empty queue with the highest level", "desc", null );
-
-        Text desc11 =lang.newText(new Coordinates(30,270), "The first queue in this example uses First-Come-First-Serve-Scheduling while the", "desc", null );
-        Text desc12 =lang.newText(new Coordinates(30,290), "second queue uses Round-Robin-Scheduling.", "desc", null );
+		Text title = lang.newText(new Coordinates(30,30), "Animation of Multilevel Queue", "desc", null);
 
 
+		Text desc1 =lang.newText(new Coordinates(30,70), "A Multi Level Queue for scheduling uses a predefined number of levels to", "desc", null );
+        Text desc2 =lang.newText(new Coordinates(30,90), "schedule processes. Processes get assigned to a particular level at insert.", "desc", null );
+        Text desc3 =lang.newText(new Coordinates(30,110), "The processes in queues of higher level will then be executed first, lower level", "desc", null );
+        Text desc4 =lang.newText(new Coordinates(30,130), "queues will be executed when all higher level queues are empty. Each queue is", "desc", null );
+        Text desc5 =lang.newText(new Coordinates(30,150), "free to use its own scheduling, thus adding greater flexibility then merely", "desc", null );
+        Text desc6 =lang.newText(new Coordinates(30,170), "having multiple levels in a queue.", "desc", null );
+
+        Text desc7 =lang.newText(new Coordinates(30,210), "In this scenario each process has a tima of arrival (process.time), and a number", "desc", null );
+        Text desc8 =lang.newText(new Coordinates(30,230), "of execution timeslides (process.work). The algorithm loops until all processes", "desc", null );
+        Text desc9 =lang.newText(new Coordinates(30,250), "are done. To schedule the processes the algorithm first adds all arriving", "desc", null );
+        Text desc10 =lang.newText(new Coordinates(30,270), "processes to the queues, then picks the non-empty queue with the highest level", "desc", null );
+
+        Text desc11 =lang.newText(new Coordinates(30,310), "The first queue in this example uses First-Come-First-Serve-Scheduling while the", "desc", null );
+        Text desc12 =lang.newText(new Coordinates(30,330), "second queue uses Round-Robin-Scheduling.", "desc", null );
 
         lang.nextStep();
 
@@ -150,8 +151,6 @@ public class MultiLevelQueueGenerator {
         desc10.hide();
         desc11.hide();
         desc12.hide();
-
-
 
 		// Create Data Array for Matrix Representation
 		String[][] procMatrix = new String[inc_procs.size() + 1][4];
@@ -203,7 +202,7 @@ public class MultiLevelQueueGenerator {
 		scProps.set(AnimationPropertiesKeys.COLOR_PROPERTY, Color.BLACK);
 
 		// now, create the source code entity
-		SourceCode sc = lang.newSourceCode(new Coordinates(10, 10), "sourceCode", null, scProps);
+		SourceCode sc = lang.newSourceCode(new Coordinates(30, 70), "sourceCode", null, scProps);
 
 		sc.addCodeLine("WHILE sum(proc.work) != 0", null, 0, null);				// line 0
 		sc.addCodeLine("FOR process IN procList", null, 1, null);				// line 1
@@ -226,6 +225,8 @@ public class MultiLevelQueueGenerator {
 		sc.addCodeLine("queue.removeCurrent()", null, 2, null);					// line 18
 		sc.addCodeLine("queue.add(temp)", null, 2, null);						// line 19
 		
+		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: 0", "curr_time", null);
+		currentTime = 0;
 		
 		currentTime = 0;
 		TextProperties tp = new TextProperties();
