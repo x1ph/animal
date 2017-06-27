@@ -246,7 +246,7 @@ public class MultiLevelQueueGenerator {
 			q.procs.remove(0);
 			q.procs.add(p);
 		} else {
-			// Bei FCFS keine aktion nötig.
+			// Bei FCFS keine aktion nï¿½tig.
 		}
 	}
 
@@ -269,7 +269,7 @@ public class MultiLevelQueueGenerator {
 	}
 
 	public String getName() {
-		return "Quicksort (pivot=last)";
+		return "MultiLevelQueue";
 	}
 
 	public String getDescription() {
