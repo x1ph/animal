@@ -2,18 +2,19 @@
 title "Multi Level Queue"
 author "Andre Challier, Christian Richter"
 {
-  text "desc" "A Multi Level Queue for scheduling uses a predefined number of levels to" (30, 30) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text1" "schedule processes. Processes get assigned to a particular level at insert." (30, 50) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text2" "The processes in queues of higher level will then be executed first, lower level" (30, 70) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text3" "queues will be executed when all higher level queues are empty. Each queue is" (30, 90) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text4" "free to use its own scheduling, thus adding greater flexibility then merely" (30, 110) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text5" "having multiple levels in a queue." (30, 130) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text6" "In this scenario each process has a tima of arrival (process.time), and a number" (30, 170) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text7" "of execution timeslides (process.work). The algorithm loops until all processes" (30, 190) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text8" "are done. To schedule the processes the algorithm first adds all arriving" (30, 210) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text9" "processes to the queues, then picks the non-empty queue with the highest level" (30, 230) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text10" "The first queue in this example uses First-Come-First-Serve-Scheduling while the" (30, 270) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "Text11" "second queue uses Round-Robin-Scheduling." (30, 290) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "desc" "Animation of Multilevel Queue" (30, 30) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text1" "A Multi Level Queue for scheduling uses a predefined number of levels to" (30, 70) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text2" "schedule processes. Processes get assigned to a particular level at insert." (30, 90) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text3" "The processes in queues of higher level will then be executed first, lower level" (30, 110) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text4" "queues will be executed when all higher level queues are empty. Each queue is" (30, 130) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text5" "free to use its own scheduling, thus adding greater flexibility then merely" (30, 150) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text6" "having multiple levels in a queue." (30, 170) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text7" "In this scenario each process has a tima of arrival (process.time), and a number" (30, 210) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text8" "of execution timeslides (process.work). The algorithm loops until all processes" (30, 230) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text9" "are done. To schedule the processes the algorithm first adds all arriving" (30, 250) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text10" "processes to the queues, then picks the non-empty queue with the highest level" (30, 270) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text11" "The first queue in this example uses First-Come-First-Serve-Scheduling while the" (30, 310) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "Text12" "second queue uses Round-Robin-Scheduling." (30, 330) color (0, 0, 0) depth 1 font SansSerif size 12
 }
 {
   grid "inc_proc" (400, 10) lines 4 columns 4 style table  color (0, 0, 0) elementColor (0, 0, 0) fillColor (255, 255, 255) bordercolor (0, 0, 0) highlightTextColor (255, 0, 0) highlightFillColor (255, 255, 0) highlightBorderColor (255, 0, 0) font SansSerif size 12 align left depth 1
@@ -43,7 +44,7 @@ author "Andre Challier, Christian Richter"
   setGridValue "queue_1[0][1]" " "
   setGridValue "queue_1[0][2]" " "
   setGridValue "queue_1[0][3]" " " refresh
-  codegroup "sourceCode" at (10, 10) color (0, 0, 0) highlightColor (255, 0, 0) contextColor (0, 0, 255) font Monospaced size 12 depth 1
+  codegroup "sourceCode" at (30, 70) color (0, 0, 0) highlightColor (255, 0, 0) contextColor (0, 0, 255) font Monospaced size 12 depth 1
   addCodeLine "WHILE sum(proc.work) != 0" to "sourceCode"
   addCodeLine "FOR process IN procList" to "sourceCode" indentation 1
   addCodeLine "IF process.time == time" to "sourceCode" indentation 2
@@ -64,11 +65,7 @@ author "Andre Challier, Christian Richter"
   addCodeLine "temp = queue.current()" to "sourceCode" indentation 2
   addCodeLine "queue.removeCurrent()" to "sourceCode" indentation 2
   addCodeLine "queue.add(temp)" to "sourceCode" indentation 2
-<<<<<<< .mine
-  hide "desc" "Text1" "Text2" "Text3" "Text4" "Text5" "Text6" "Text7" "Text8" "Text9" "Text10" "Text11" 
-
-=======
   text "curr_time" "Current Time: 0" (600, 10) color (0, 0, 0) depth 1 font SansSerif size 12
   setText of "curr_time" to "Current Time: 0"   within 30 ticks
->>>>>>> .theirs
+  hide "Text1" "Text2" "Text3" "Text4" "Text5" "Text6" "Text7" "Text8" "Text9" "Text10" "Text11" "Text12" 
 }
