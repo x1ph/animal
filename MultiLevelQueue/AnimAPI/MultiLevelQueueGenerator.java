@@ -12,10 +12,13 @@ import algoanim.primitives.IntArray;
 import algoanim.primitives.SourceCode;
 import algoanim.primitives.StringArray;
 import algoanim.primitives.StringMatrix;
+import algoanim.primitives.Text;
 import algoanim.primitives.generators.AnimationType;
 import algoanim.primitives.generators.Language;
 import algoanim.properties.*;
 import algoanim.util.Coordinates;
+import algoanim.util.Node;
+import algoanim.util.Offset;
 import algoanim.util.TicksTiming;
 import algoanim.util.Timing;
 import extras.lifecycle.common.AnimationStepBean;
@@ -45,6 +48,16 @@ public class MultiLevelQueueGenerator {
 	 * The list of incoming processes that has to be scheduled.
 	 */
 	private List<Process> inc_procs;
+	
+	/**
+	 * The current timeslice of schedulting
+	 */
+	private int currentTime;
+	
+	/**
+	 * The animal primitive showing the current timeslice of scheduling
+	 */
+	private Text currentTimeText;
 
 	/**
 	 * Default constructor
@@ -123,32 +136,23 @@ public class MultiLevelQueueGenerator {
 		matrixProps.set(AnimationPropertiesKeys.CELLHIGHLIGHT_PROPERTY,
 	        Color.YELLOW);
 		matrixProps.set(AnimationPropertiesKeys.GRID_STYLE_PROPERTY, "table");
-	    
-	    for(int i  = 0; i < procMatrix.length;i++) {
-	    	for(int j = 0; j < procMatrix[i].length; j++) {
-	    		System.out.print(procMatrix[i][j] + "\t");
-	    	}
-	    	System.out.println();
-	    }
 
 	    // now, create the IntArray object, linked to the properties
 	    StringMatrix sm = lang.newStringMatrix(new Coordinates(400, 10), procMatrix, "inc_proc", null, matrixProps);
 	    
+	    
 	    StringMatrix[] arrays = new StringMatrix[queues.size()];
+	   
 	    
 	    for(int i = 0; i < queues.size(); i++) {
 	    	String[][] queueStat = new String[1][inc_procs.size() + 1];
 	    	queueStat[0][0] = new String(queues.get(i).name);
+	    	
 	    	for(int j = 1; j < inc_procs.size() + 1; j++) {
 	    		queueStat[0][j] = new String(" ");
 	    	}
-	    	arrays[i] = lang.newStringMatrix(new Coordinates(400, 200 + i*100), queueStat, "queue_" + i, null, matrixProps);
+	    	arrays[i] = lang.newStringMatrix(new Coordinates(400, 50 + inc_procs.size() * 30 + i * 50), queueStat, "queue_" + i, null, matrixProps);
 	    }
-	    
-	    lang.nextStep();
-	    
-	    // start a new step after the array was created
-
 		
 		// first, set the visual properties for the source code
 		SourceCodeProperties scProps = new SourceCodeProperties();
@@ -182,15 +186,18 @@ public class MultiLevelQueueGenerator {
 		sc.addCodeLine("queue.removeCurrent()", null, 2, null);
 		sc.addCodeLine("queue.add(temp)", null, 2, null);
 		
+		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: 0", "curr_time", null);
+		setCurrentTime(0);
+		
 		lang.nextStep();
 		
-		int time = 0;
+		
 
 		while (!inc_procs.isEmpty() && sumOfWork() != 0) {
 
 			// enqueue arriving processes
 			for (Process p : inc_procs) {
-				if (p.arrival == time) {
+				if (p.arrival == currentTime) {
 					addToQueue(p.queue, p);
 				}
 			}
@@ -215,8 +222,13 @@ public class MultiLevelQueueGenerator {
 
 				}
 			}
-			time++;
+			setCurrentTime(currentTime + 1);;
 		}
+	}
+	
+	private void setCurrentTime(int time){
+		currentTime = time;
+		currentTimeText.setText("Current Time: " + time, null, defaultDuration);
 	}
 
 	public void addToQueue(Queue q, Process p) {
