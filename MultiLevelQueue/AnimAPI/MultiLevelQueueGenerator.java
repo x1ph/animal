@@ -54,6 +54,11 @@ public class MultiLevelQueueGenerator {
 	 * The animal primitive showing the current timeslice of scheduling
 	 */
 	private Text currentTimeText;
+	
+	/**
+	 * The Matrix showing all incoming Processes
+	 */
+	StringMatrix sm;
 
 	/**
 	 * The Array of StringMatrices showing the queues.
@@ -167,13 +172,13 @@ public class MultiLevelQueueGenerator {
 		matrixProps.set(AnimationPropertiesKeys.FILL_PROPERTY, Color.WHITE);
 		matrixProps.set(AnimationPropertiesKeys.FILLED_PROPERTY, Boolean.TRUE);
 		matrixProps.set(AnimationPropertiesKeys.ELEMENTCOLOR_PROPERTY, Color.BLACK);
-		matrixProps.set(AnimationPropertiesKeys.ELEMHIGHLIGHT_PROPERTY, Color.RED);
+		matrixProps.set(AnimationPropertiesKeys.ELEMHIGHLIGHT_PROPERTY, Color.BLACK);
 		matrixProps.set(AnimationPropertiesKeys.CELLHIGHLIGHT_PROPERTY,
-	        Color.YELLOW);
+	        Color.GREEN);
 		matrixProps.set(AnimationPropertiesKeys.GRID_STYLE_PROPERTY, "table");
 
 	    // now, create the IntArray object, linked to the properties
-	    StringMatrix sm = lang.newStringMatrix(new Coordinates(400, 10), procMatrix, "inc_proc", null, matrixProps);
+	    sm = lang.newStringMatrix(new Coordinates(400, 10), procMatrix, "inc_proc", null, matrixProps);
 	    
 	    
 	    arrays = new StringMatrix[queues.size()];
@@ -200,55 +205,96 @@ public class MultiLevelQueueGenerator {
 		// now, create the source code entity
 		SourceCode sc = lang.newSourceCode(new Coordinates(10, 10), "sourceCode", null, scProps);
 
-		sc.addCodeLine("WHILE sum(proc.work) != 0", null, 0, null);
-		sc.addCodeLine("FOR process IN procList", null, 1, null);
-		sc.addCodeLine("IF process.time == time", null, 2, null);
-		sc.addCodeLine("queue = queueList[process.level]", null, 3, null);
-		sc.addCodeLine("queue.add(process)", null, 3, null);
-		sc.addCodeLine("FOR i FROM 0 TO (queueList.size - 1)", null, 0, null);
-		sc.addCodeLine("IF queueList[i].current() != null", null, 1, null);
-		sc.addCodeLine("queue = queueList[i]", null, 2, null);
-		sc.addCodeLine("BREAK", null, 2, null);
-		sc.addCodeLine("IF queue == null", null, 0, null);
-		sc.addCodeLine("time++", null, 1, null);
-		sc.addCodeLine("CONTINUE", null, 1, null);
-		sc.addCodeLine("run(queue.current())", null, 0, null);
-		sc.addCodeLine("IF queue.current().work == 0", null, 0, null);
-		sc.addCodeLine("queue.removeCurrent();", null, 1, null);
-		sc.addCodeLine("ELSE", null, 0, null);
-		sc.addCodeLine("if(queue.useRoundRobin)", null, 1, null);
-		sc.addCodeLine("temp = queue.current()", null, 2, null);
-		sc.addCodeLine("queue.removeCurrent()", null, 2, null);
-		sc.addCodeLine("queue.add(temp)", null, 2, null);
+		sc.addCodeLine("WHILE sum(proc.work) != 0", null, 0, null);				// line 0
+		sc.addCodeLine("FOR process IN procList", null, 1, null);				// line 1
+		sc.addCodeLine("IF process.time == time", null, 2, null);				// line 2
+		sc.addCodeLine("queue = queueList[process.level]", null, 3, null);		// line 3
+		sc.addCodeLine("queue.add(process)", null, 3, null);					// line 4
+		sc.addCodeLine("FOR i FROM 0 TO (queueList.size - 1)", null, 0, null);	// line 5
+		sc.addCodeLine("IF queueList[i].current() != null", null, 1, null);		// line 6
+		sc.addCodeLine("queue = queueList[i]", null, 2, null);					// line 7
+		sc.addCodeLine("BREAK", null, 2, null);									// line 8
+		sc.addCodeLine("IF queue == null", null, 0, null);						// line 9
+		sc.addCodeLine("time++", null, 1, null);								// line 10
+		sc.addCodeLine("CONTINUE", null, 1, null);								// line 11
+		sc.addCodeLine("run(queue.current())", null, 0, null);					// line 12
+		sc.addCodeLine("IF queue.current().work == 0", null, 0, null);			// line 13
+		sc.addCodeLine("queue.removeCurrent();", null, 1, null);				// line 14
+		sc.addCodeLine("ELSE", null, 0, null);									// line 15
+		sc.addCodeLine("if(queue.useRoundRobin)", null, 1, null);				// line 16
+		sc.addCodeLine("temp = queue.current()", null, 2, null);				// line 17
+		sc.addCodeLine("queue.removeCurrent()", null, 2, null);					// line 18
+		sc.addCodeLine("queue.add(temp)", null, 2, null);						// line 19
 		
 		
 		currentTime = 0;
-		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: " + currentTime, "curr_time", null);
+		TextProperties tp = new TextProperties();
+		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: " + currentTime, "curr_time", null, tp);
 		
 		lang.nextStep();
-		
-		
-
-		while (!inc_procs.isEmpty() && sumOfWork() != 0) {
-
+		sc.highlight(0);
+		lang.nextStep();
+		while ((!inc_procs.isEmpty()) && (sumOfWork() != 0)) {
+			highlightProcessCol(2);
+			lang.nextStep();
+			
+			unhighlightProcessCol(2);
+			sc.highlight(1);
+			highlightProcessCol(0);
+			lang.nextStep();
 			// enqueue arriving processes
 			for (Process p : inc_procs) {
+				sm.highlightCell(inc_procs.indexOf(p) + 1, 3, null, null);
+				sc.highlight(2);
+				lang.nextStep();
 				if (p.arrival == currentTime) {
+					sc.highlight(3);
+					sc.highlight(4);
 					addToQueue(p.queue, p);
+					sc.unhighlight(3);
+					sc.unhighlight(4);
 				}
+				sc.unhighlight(2);
+				sm.unhighlightCell(inc_procs.indexOf(p) + 1, 3, null, null);
 			}
+			sc.unhighlight(1);
+			unhighlightProcessCol(0);
 
 			// schedule Process of queue with highest priority
 			Queue currentQueue = null;
+			sc.highlight(5);
+			lang.nextStep();
 			for (int i = 0; i < queues.size(); i++) {
 				currentQueue = queues.get(i);
+				highlightQueue(currentQueue);
+				sc.highlight(6);
+				highlightQueueHead(currentQueue);
+				lang.nextStep();
 				if (currentQueue.procs.size() > 0) {
+					sc.highlight(7);
+					sc.highlight(8);
+					lang.nextStep();
 					break;
 				}
+				unhighlightQueueHead(currentQueue);
+				unhighlightQueue(currentQueue);
 				currentQueue = null;
 			}
+			sc.unhighlight(5);
+			sc.unhighlight(6);
+			sc.unhighlight(7);
+			sc.unhighlight(8);
+			sc.highlight(9);
+			lang.nextStep();
 			if (currentQueue == null) {
 				// Zur zeit keine Arbeit in den Queues
+				incCurrentTime();
+				sc.highlight(10);
+				lang.nextStep();
+				sc.unhighlight(10);
+				sc.highlight(11);
+				lang.nextStep();
+				sc.unhighlight(11);
 			} else {
 				Process currentProc = currentQueue.procs.get(0);
 				currentProc.computingTime--;
@@ -257,8 +303,41 @@ public class MultiLevelQueueGenerator {
 				} else {
 
 				}
+				unhighlightQueue(currentQueue);
 			}
-			incCurrentTime();;
+			sc.unhighlight(9);
+		}
+		sc.highlight(0);
+		highlightProcessCol(2);
+	}
+	
+	private void highlightProcessCol(int col) {
+		for(int i = 0; i < sm.getNrRows(); i++) {
+			sm.highlightCell(i, col, null, null);
+		}
+	}
+	
+	private void highlightQueue(Queue q) {
+		arrays[queues.indexOf(q)].highlightCell(0, 0, null, null);
+	}
+	
+	private void unhighlightQueue(Queue q) {
+		arrays[queues.indexOf(q)].unhighlightCell(0, 0, null, null);
+	}
+	
+	private void highlightQueueHead(Queue q) {
+		StringMatrix current = arrays[queues.indexOf(q)];
+		current.highlightCell(0, current.getNrCols() -1, null, null);
+	}
+	
+	private void unhighlightQueueHead(Queue q) {
+		StringMatrix current = arrays[queues.indexOf(q)];
+		current.unhighlightCell(0, current.getNrCols() -1, null, null);
+	}
+	
+	private void unhighlightProcessCol(int col) {
+		for(int i = 0; i < sm.getNrRows(); i++) {
+			sm.unhighlightCell(i, col, null, null);
 		}
 	}
 	
@@ -275,19 +354,26 @@ public class MultiLevelQueueGenerator {
 				p.name,
 				null,
 				null);
+		currentQueue.highlightCell(0, (currentQueue.getNrCols() - 1) - q.procs.indexOf(p), null, null);
+		lang.nextStep();
+		currentQueue.unhighlightCell(0, (currentQueue.getNrCols() - 1) - q.procs.indexOf(p), null, null);
 		
 	}
 
 	public void removeFromQueue(Process p) {
 		p.queue.procs.remove(0);
+		StringMatrix currentQueue = arrays[queues.indexOf(p.queue)];
+		for(int i = currentQueue.getNrCols() - 1; i > 1; i--) {
+			currentQueue.put(0, i, currentQueue.getElement(0, i-1), null, null);
+		}
 
 	}
 
 	public void reschedule(Process p) {
 		Queue q = p.queue;
 		if (q.useRoundRobin) {
-			q.procs.remove(0);
-			q.procs.add(p);
+			removeFromQueue(p);
+			addToQueue(q, p);
 		} else {
 			// Bei FCFS keine aktion n�tig.
 		}
@@ -295,10 +381,8 @@ public class MultiLevelQueueGenerator {
 
 	public int sumOfWork() {
 		int sum = 0;
-		for (Queue q : queues) {
-			for (Process p : q.procs) {
-				sum += p.computingTime;
-			}
+		for (Process p : inc_procs) {
+			sum += p.computingTime;
 		}
 		return sum;
 	}
