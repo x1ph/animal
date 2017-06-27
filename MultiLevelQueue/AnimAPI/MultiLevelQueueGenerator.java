@@ -60,6 +60,11 @@ public class MultiLevelQueueGenerator {
 	private Text currentTimeText;
 
 	/**
+	 * The Array of StringMatrices showing the queues.
+	 */
+	StringMatrix[] arrays;
+	
+	/**
 	 * Default constructor
 	 *
 	 * @param l
@@ -141,7 +146,7 @@ public class MultiLevelQueueGenerator {
 	    StringMatrix sm = lang.newStringMatrix(new Coordinates(400, 10), procMatrix, "inc_proc", null, matrixProps);
 	    
 	    
-	    StringMatrix[] arrays = new StringMatrix[queues.size()];
+	    arrays = new StringMatrix[queues.size()];
 	   
 	    
 	    for(int i = 0; i < queues.size(); i++) {
@@ -186,8 +191,9 @@ public class MultiLevelQueueGenerator {
 		sc.addCodeLine("queue.removeCurrent()", null, 2, null);
 		sc.addCodeLine("queue.add(temp)", null, 2, null);
 		
-		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: 0", "curr_time", null);
-		setCurrentTime(0);
+		
+		currentTime = 0;
+		currentTimeText = lang.newText(new Coordinates(600, 10), "Current Time: " + currentTime, "curr_time", null);
 		
 		lang.nextStep();
 		
@@ -222,17 +228,24 @@ public class MultiLevelQueueGenerator {
 
 				}
 			}
-			setCurrentTime(currentTime + 1);;
+			incCurrentTime();;
 		}
 	}
 	
-	private void setCurrentTime(int time){
-		currentTime = time;
-		currentTimeText.setText("Current Time: " + time, null, defaultDuration);
+	private void incCurrentTime(){
+		currentTime++;
+		currentTimeText.setText("Current Time: " + currentTime, null, defaultDuration);
 	}
 
 	public void addToQueue(Queue q, Process p) {
 		q.procs.add(p);
+		StringMatrix currentQueue = arrays[queues.indexOf(q)];
+		currentQueue.put(0, 
+				(currentQueue.getNrCols() - 1) - q.procs.indexOf(p), 
+				p.name,
+				null,
+				null);
+		
 	}
 
 	public void removeFromQueue(Process p) {
