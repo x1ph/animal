@@ -184,7 +184,6 @@ public class MultiLevelQueueGenerator {
 	    // now, create the IntArray object, linked to the properties
 	    sm = lang.newStringMatrix(new Coordinates(400, 100), procMatrix, "inc_proc", null, matrixProps);
 	    
-	    
 	    arrays = new StringMatrix[queues.size()];
 	    queueNames = new Text[queues.size()];
 	    TextProperties queueNameTextProp = new TextProperties();
@@ -309,6 +308,7 @@ public class MultiLevelQueueGenerator {
 			sc.unhighlight(9);
 			
 			sc.highlight(12);
+			sm.setGridHighlightFillColor(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, Color.YELLOW, null, null);
 			sm.highlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
 			highlightQueueHead(queue);
 			queue.procs.getFirst().computingTime--;
@@ -319,10 +319,12 @@ public class MultiLevelQueueGenerator {
 					null,
 					null);
 			lang.nextStep();
+			
 			sc.unhighlight(12);
 			
 			sc.highlight(13);
 			lang.nextStep();
+			sm.setGridHighlightFillColor(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, Color.GREEN, null, null);
 			sm.unhighlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
 			if(queue.procs.getFirst().computingTime == 0) {
 				sc.highlight(14);
@@ -459,20 +461,16 @@ public class MultiLevelQueueGenerator {
 
 		LinkedList<Process> inc_procs = new LinkedList<Process>();
 		LinkedList<Queue> queues = new LinkedList<Queue>();
-
-		Queue level0 = new Queue("Level 0", false);
-		Queue level1 = new Queue("Level 1", true);
-
-		queues.add(level0);
-		queues.add(level1);
-
-		Process proc1 = new Process("A", level0, 5, 1);
-		Process proc2 = new Process("B", level1, 5, 2);
-		Process proc3 = new Process("C", level1, 5, 5);
-
-		inc_procs.add(proc1);
-		inc_procs.add(proc2);
-		inc_procs.add(proc3);
+		
+		for(int i = 0; i < 12; i++) {
+			Queue q = new Queue("Level " + i, Math.random() < 0.5);
+			queues.add(q);
+		}
+		
+		for(int i = 0; i < 20; i++) {
+			Process proc = new Process("" + (char)(65 + 1), queues.get((int)(Math.random() * (queues.size() - 1))), (int)(Math.random() * 5), (int)(Math.random() * 10));
+			inc_procs.add(proc);
+		}
 
 		MultiLevelQueueGenerator mlqg = new MultiLevelQueueGenerator(queues, inc_procs, l);
 		mlqg.schedule();
