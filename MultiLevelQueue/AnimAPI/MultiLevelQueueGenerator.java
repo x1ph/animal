@@ -6,21 +6,14 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import algoanim.exceptions.LineNotExistsException;
 import algoanim.primitives.*;
 import algoanim.primitives.Text;
 import algoanim.primitives.generators.AnimationType;
 import algoanim.primitives.generators.Language;
 import algoanim.properties.*;
 import algoanim.util.Coordinates;
-import algoanim.util.Node;
-import algoanim.util.Offset;
 import algoanim.util.TicksTiming;
 import algoanim.util.Timing;
-import extras.lifecycle.common.AnimationStepBean;
-import generators.graphics.antialias.Grid;
-import generators.maths.grid.GridProperty;
-
 /**
  * @author Andre Challier <andre.challier@stud.tu-darmstadt.de>, Christian
  *         Richter <chrisrichter145@gmail.com>
@@ -126,7 +119,9 @@ public class MultiLevelQueueGenerator {
 	 * (see main())
 	 */
 	public void schedule() {
-		Text title = lang.newText(new Coordinates(30,30), "Animation of Multilevel Queue", "desc", null);
+		TextProperties titleProps = new TextProperties();
+		titleProps.set(AnimationPropertiesKeys.FONT_PROPERTY, new Font(Font.SANS_SERIF, Font.PLAIN, 20));
+		Text title = lang.newText(new Coordinates(30,30), "Animation of Multilevel Queue", "desc", null, titleProps);
 
 
 		Text desc1 =lang.newText(new Coordinates(30,70), "A Multi Level Queue for scheduling uses a predefined number of levels to", "desc", null );
@@ -467,25 +462,17 @@ public class MultiLevelQueueGenerator {
 
 		Queue level0 = new Queue("Level 0", false);
 		Queue level1 = new Queue("Level 1", true);
-		Queue level2 = new Queue("Level 2", true);
 
 		queues.add(level0);
 		queues.add(level1);
-		queues.add(level2);
 
-		Process proc1 = new Process("A", level0, 5, 0);
-		Process proc2 = new Process("B", level1, 5, 0);
-		Process proc3 = new Process("C", level2, 5, 0);
-		Process proc4 = new Process("D", level0, 5, 0);
-		Process proc5 = new Process("E", level1, 5, 0);
-		Process proc6 = new Process("F", level2, 5, 0);
+		Process proc1 = new Process("A", level0, 5, 1);
+		Process proc2 = new Process("B", level1, 5, 2);
+		Process proc3 = new Process("C", level1, 5, 10);
 
 		inc_procs.add(proc1);
 		inc_procs.add(proc2);
 		inc_procs.add(proc3);
-		inc_procs.add(proc4);
-		inc_procs.add(proc5);
-		inc_procs.add(proc6);
 
 		MultiLevelQueueGenerator mlqg = new MultiLevelQueueGenerator(queues, inc_procs, l);
 		mlqg.schedule();
