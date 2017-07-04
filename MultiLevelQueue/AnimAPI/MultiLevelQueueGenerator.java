@@ -93,12 +93,22 @@ public class MultiLevelQueueGenerator {
 		computingSteps = 0;
 	}
 	
+	/**
+	 * Set the list of queues this MultiLevelQueue uses.
+	 * 
+	 * @param	queues	Queues to schedule processes.
+	 */
 	public void setQueues(List<Queue> queues) {
 		this.queues = queues;
 	}
 	
-	public void setProcesses(List<Process> inc_procs){
-		this.inc_procs = inc_procs;
+	/**
+	 * Set the processes that this MLQ will schedule.
+	 * 
+	 * @param	procs	Processes to schedule.
+	 */
+	public void setProcesses(List<Process> procs){
+		this.inc_procs = procs;
 	}
 
 	private static final String DESCRIPTION = "A Multi Level Queue for scheduling uses a predefined number of levels to"
@@ -193,7 +203,7 @@ public class MultiLevelQueueGenerator {
 		for (int i = 0; i < inc_procs.size(); i++) {
 			procMatrix[i + 1][0] = inc_procs.get(i).name;
 			procMatrix[i + 1][1] = inc_procs.get(i).queue.name;
-			procMatrix[i + 1][2] = Integer.toString(inc_procs.get(i).computingTime);
+			procMatrix[i + 1][2] = Integer.toString(inc_procs.get(i).work);
 			procMatrix[i + 1][3] = Integer.toString(inc_procs.get(i).arrival);
 		}
 
@@ -282,7 +292,7 @@ public class MultiLevelQueueGenerator {
 				sc.highlight(2);
 				sm.highlightCell(inc_procs.indexOf(p)+1, 3, null, null);
 				lang.nextStep();
-				if(p.arrival == currentTime && p.computingTime > 0) {
+				if(p.arrival == currentTime && p.work > 0) {
 					sc.highlight(3);
 					sc.highlight(4);
 					addToQueue(p.queue, p);
@@ -341,13 +351,13 @@ public class MultiLevelQueueGenerator {
 			sm.setGridHighlightFillColor(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, Color.YELLOW, null, null);
 			sm.highlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
 			highlightQueueHead(queue);
-			queue.procs.getFirst().computingTime--;
+			queue.procs.getFirst().work--;
 			computingSteps++;
 			schedulingOrder += queue.procs.getFirst().name;
 			sm.put(inc_procs.indexOf(
 					queue.procs.getFirst()) +1,
 					2,
-					Integer.toString(queue.procs.getFirst().computingTime),
+					Integer.toString(queue.procs.getFirst().work),
 					null,
 					null);
 			lang.nextStep();
@@ -358,7 +368,7 @@ public class MultiLevelQueueGenerator {
 			lang.nextStep();
 			sm.setGridHighlightFillColor(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, Color.GREEN, null, null);
 			sm.unhighlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
-			if(queue.procs.getFirst().computingTime == 0) {
+			if(queue.procs.getFirst().work == 0) {
 				sc.highlight(14);
 				lang.nextStep();
 				removeFromQueue(queue.procs.getFirst());
@@ -486,7 +496,7 @@ public class MultiLevelQueueGenerator {
 	public int sumOfWork() {
 		int sum = 0;
 		for (Process p : inc_procs) {
-			sum += p.computingTime;
+			sum += p.work;
 		}
 		return sum;
 	}
@@ -566,30 +576,62 @@ public class MultiLevelQueueGenerator {
 //		}
 	}
 	
+	/**
+	 * A Process is an object that arrives at a given time in a predefined queue
+	 * to schedule the given amount of work. 
+	 */
 	public class Process {
+		/** The name of this process. */
 		public String name;
+		/** Predefined queue of this process. */
 		public Queue queue;
-		public int computingTime;
+		/** The number of time-slices this process needs */
+		public int work;
+		/** The number of steps after which this process arrives */
 		public int arrival;
-		
-		public Process(String name, Queue queue, int computingTime, int arrival) {
+		/**
+		 * Constructs a new Process.
+		 * 
+		 * @param	name		Name of the process.
+		 * @param	queue		Predefined queue of this process
+		 * @param	work		The number of time slices, this process needs
+		 * 						to be scheduled
+		 * @param	arrival		The number of time slices after which the
+		 * 						process arrives.
+		 */
+		public Process(String name, Queue queue, int work, int arrival) {
 			super();
 			this.name = name;
 			this.queue = queue;
-			this.computingTime = computingTime;
+			this.work = work;
 			this.arrival = arrival;
 		}
 	}
 	
+	/**
+	 * A Queue has a name and a list of enqueued processes. A Queue can be
+	 * scheduled in FIFO-Mode (useRoundRobin: false) or in RoundRobin-Mode
+	 * (useRoundRobin: true).
+	 */
 	public class Queue {
 		
+		/** This Queues Name */
 		public String name;
+		/** The list of processes in this queue */
 		public LinkedList<Process> procs;
+		/** true if this queue uses RoundRobin-Scheduling */
 		public boolean useRoundRobin;
 		
-		public Queue(String name, boolean useRoundRobin) {
+		/**
+		 * Constructs a new Queue.
+		 * 
+		 * @param	name	The name of the Queue.
+		 * @param	useRR	Specifies if this queue schedules in
+		 * 					RoundRobin-mode.
+		 */
+		public Queue(String name, boolean useRR) {
 			this.name = name;
-			this.useRoundRobin = useRoundRobin;
+			this.useRoundRobin = useRR;
 			procs = new LinkedList<Process>();
 		}
 	}
