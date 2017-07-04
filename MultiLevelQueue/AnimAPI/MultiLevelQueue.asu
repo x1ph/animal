@@ -35,7 +35,7 @@ author "Andre Challier, Christian Richter"
   setGridValue "inc_proc[3][0]" "C"
   setGridValue "inc_proc[3][1]" "Level 1"
   setGridValue "inc_proc[3][2]" "5"
-  setGridValue "inc_proc[3][3]" "10" refresh
+  setGridValue "inc_proc[3][3]" "5" refresh
   text "queuetext_0" "Level 0 (FIFO)" (400, 220) color (0, 0, 0) depth 1 font SansSerif size 12
   grid "queue_0" (400, 240) lines 1 columns 3 style table  color (0, 0, 0) elementColor (0, 0, 0) fillColor (255, 255, 255) bordercolor (0, 0, 0) highlightTextColor (0, 0, 0) highlightFillColor (0, 255, 0) highlightBorderColor (0, 0, 0) font SansSerif size 12 align left depth 1
   setGridValue "queue_0[0][0]" " "
@@ -499,6 +499,15 @@ author "Andre Challier, Christian Richter"
   highlightGridCell "inc_proc[3][3]"   
 }
 {
+  highlightCode on "sourceCode" line 3 row 0  
+  highlightCode on "sourceCode" line 4 row 0  
+  setGridValue "queue_1[0][1]" "C" refresh   
+  highlightGridCell "queue_1[0][1]"   
+}
+{
+  unhighlightGridCell "queue_1[0][1]"   
+  unhighlightCode on "sourceCode" line 3 row 0  
+  unhighlightCode on "sourceCode" line 4 row 0  
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[3][3]"   
   unhighlightCode on "sourceCode" line 1 row 0  
@@ -634,16 +643,16 @@ author "Andre Challier, Christian Richter"
   highlightCode on "sourceCode" line 19 row 0  
 }
 {
-  setGridValue "queue_1[0][2]" " " refresh   
+  setGridValue "queue_1[0][2]" "C" refresh   
   setGridValue "queue_1[0][1]" " " refresh   
   unhighlightGridCell "queue_1[0][2]"   
 }
 {
-  setGridValue "queue_1[0][2]" "B" refresh   
-  highlightGridCell "queue_1[0][2]"   
+  setGridValue "queue_1[0][1]" "B" refresh   
+  highlightGridCell "queue_1[0][1]"   
 }
 {
-  unhighlightGridCell "queue_1[0][2]"   
+  unhighlightGridCell "queue_1[0][1]"   
   setFont of "queuetext_1" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 17 row 0  
   unhighlightCode on "sourceCode" line 18 row 0  
@@ -651,412 +660,6 @@ author "Andre Challier, Christian Richter"
   unhighlightCode on "sourceCode" line 15 row 0  
   unhighlightCode on "sourceCode" line 16 row 0  
   setText of "curr_time" to "Current Time: 7"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][2]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  unhighlightGridCell "queue_0[0][2]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 6 row 0  
-  setFont of "queuetext_1" to font SansSerif size 12 bold  
-  highlightGridCell "queue_1[0][2]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_1[0][2]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "queue_1[0][2]"   
-  setGridValue "inc_proc[2][2]" "3" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  unhighlightGridCell "inc_proc[2][2]"   
-  highlightCode on "sourceCode" line 15 row 0  
-  highlightCode on "sourceCode" line 16 row 0  
-}
-{
-  highlightCode on "sourceCode" line 17 row 0  
-  highlightCode on "sourceCode" line 18 row 0  
-  highlightCode on "sourceCode" line 19 row 0  
-}
-{
-  setGridValue "queue_1[0][2]" " " refresh   
-  setGridValue "queue_1[0][1]" " " refresh   
-  unhighlightGridCell "queue_1[0][2]"   
-}
-{
-  setGridValue "queue_1[0][2]" "B" refresh   
-  highlightGridCell "queue_1[0][2]"   
-}
-{
-  unhighlightGridCell "queue_1[0][2]"   
-  setFont of "queuetext_1" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 17 row 0  
-  unhighlightCode on "sourceCode" line 18 row 0  
-  unhighlightCode on "sourceCode" line 19 row 0  
-  unhighlightCode on "sourceCode" line 15 row 0  
-  unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Current Time: 8"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][2]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  unhighlightGridCell "queue_0[0][2]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 6 row 0  
-  setFont of "queuetext_1" to font SansSerif size 12 bold  
-  highlightGridCell "queue_1[0][2]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_1[0][2]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "queue_1[0][2]"   
-  setGridValue "inc_proc[2][2]" "2" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  unhighlightGridCell "inc_proc[2][2]"   
-  highlightCode on "sourceCode" line 15 row 0  
-  highlightCode on "sourceCode" line 16 row 0  
-}
-{
-  highlightCode on "sourceCode" line 17 row 0  
-  highlightCode on "sourceCode" line 18 row 0  
-  highlightCode on "sourceCode" line 19 row 0  
-}
-{
-  setGridValue "queue_1[0][2]" " " refresh   
-  setGridValue "queue_1[0][1]" " " refresh   
-  unhighlightGridCell "queue_1[0][2]"   
-}
-{
-  setGridValue "queue_1[0][2]" "B" refresh   
-  highlightGridCell "queue_1[0][2]"   
-}
-{
-  unhighlightGridCell "queue_1[0][2]"   
-  setFont of "queuetext_1" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 17 row 0  
-  unhighlightCode on "sourceCode" line 18 row 0  
-  unhighlightCode on "sourceCode" line 19 row 0  
-  unhighlightCode on "sourceCode" line 15 row 0  
-  unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Current Time: 9"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][2]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  unhighlightGridCell "queue_0[0][2]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 6 row 0  
-  setFont of "queuetext_1" to font SansSerif size 12 bold  
-  highlightGridCell "queue_1[0][2]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_1[0][2]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "queue_1[0][2]"   
-  setGridValue "inc_proc[2][2]" "1" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  unhighlightGridCell "inc_proc[2][2]"   
-  highlightCode on "sourceCode" line 15 row 0  
-  highlightCode on "sourceCode" line 16 row 0  
-}
-{
-  highlightCode on "sourceCode" line 17 row 0  
-  highlightCode on "sourceCode" line 18 row 0  
-  highlightCode on "sourceCode" line 19 row 0  
-}
-{
-  setGridValue "queue_1[0][2]" " " refresh   
-  setGridValue "queue_1[0][1]" " " refresh   
-  unhighlightGridCell "queue_1[0][2]"   
-}
-{
-  setGridValue "queue_1[0][2]" "B" refresh   
-  highlightGridCell "queue_1[0][2]"   
-}
-{
-  unhighlightGridCell "queue_1[0][2]"   
-  setFont of "queuetext_1" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 17 row 0  
-  unhighlightCode on "sourceCode" line 18 row 0  
-  unhighlightCode on "sourceCode" line 19 row 0  
-  unhighlightCode on "sourceCode" line 15 row 0  
-  unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Current Time: 10"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  highlightCode on "sourceCode" line 3 row 0  
-  highlightCode on "sourceCode" line 4 row 0  
-  setGridValue "queue_1[0][1]" "C" refresh   
-  highlightGridCell "queue_1[0][1]"   
-}
-{
-  unhighlightGridCell "queue_1[0][1]"   
-  unhighlightCode on "sourceCode" line 3 row 0  
-  unhighlightCode on "sourceCode" line 4 row 0  
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][2]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  unhighlightGridCell "queue_0[0][2]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 6 row 0  
-  setFont of "queuetext_1" to font SansSerif size 12 bold  
-  highlightGridCell "queue_1[0][2]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_1[0][2]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "queue_1[0][2]"   
-  setGridValue "inc_proc[2][2]" "0" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  unhighlightGridCell "inc_proc[2][2]"   
-  highlightCode on "sourceCode" line 14 row 0  
-}
-{
-  setGridValue "queue_1[0][2]" "C" refresh   
-  setGridValue "queue_1[0][1]" " " refresh   
-  unhighlightGridCell "queue_1[0][2]"   
-}
-{
-  setFont of "queuetext_1" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 14 row 0  
-  setText of "curr_time" to "Current Time: 11"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   highlightGridCell "inc_proc[1][2]"   
   highlightGridCell "inc_proc[2][2]"   
@@ -1143,23 +746,126 @@ author "Andre Challier, Christian Richter"
   highlightCode on "sourceCode" line 19 row 0  
 }
 {
-  setGridValue "queue_1[0][2]" " " refresh   
+  setGridValue "queue_1[0][2]" "B" refresh   
   setGridValue "queue_1[0][1]" " " refresh   
   unhighlightGridCell "queue_1[0][2]"   
 }
 {
-  setGridValue "queue_1[0][2]" "C" refresh   
-  highlightGridCell "queue_1[0][2]"   
+  setGridValue "queue_1[0][1]" "C" refresh   
+  highlightGridCell "queue_1[0][1]"   
 }
 {
-  unhighlightGridCell "queue_1[0][2]"   
+  unhighlightGridCell "queue_1[0][1]"   
   setFont of "queuetext_1" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 17 row 0  
   unhighlightCode on "sourceCode" line 18 row 0  
   unhighlightCode on "sourceCode" line 19 row 0  
   unhighlightCode on "sourceCode" line 15 row 0  
   unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Current Time: 12"   within 30 ticks
+  setText of "curr_time" to "Current Time: 8"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+}
+{
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][2]"   
+  highlightCode on "sourceCode" line 6 row 0  
+}
+{
+  unhighlightGridCell "queue_0[0][2]"   
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 6 row 0  
+  setFont of "queuetext_1" to font SansSerif size 12 bold  
+  highlightGridCell "queue_1[0][2]"   
+  highlightCode on "sourceCode" line 6 row 0  
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_1[0][2]"   
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "queue_1[0][2]"   
+  setGridValue "inc_proc[2][2]" "3" refresh   
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+}
+{
+  unhighlightGridCell "inc_proc[2][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+}
+{
+  highlightCode on "sourceCode" line 17 row 0  
+  highlightCode on "sourceCode" line 18 row 0  
+  highlightCode on "sourceCode" line 19 row 0  
+}
+{
+  setGridValue "queue_1[0][2]" "C" refresh   
+  setGridValue "queue_1[0][1]" " " refresh   
+  unhighlightGridCell "queue_1[0][2]"   
+}
+{
+  setGridValue "queue_1[0][1]" "B" refresh   
+  highlightGridCell "queue_1[0][1]"   
+}
+{
+  unhighlightGridCell "queue_1[0][1]"   
+  setFont of "queuetext_1" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 17 row 0  
+  unhighlightCode on "sourceCode" line 18 row 0  
+  unhighlightCode on "sourceCode" line 19 row 0  
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time: 9"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   highlightGridCell "inc_proc[1][2]"   
   highlightGridCell "inc_proc[2][2]"   
@@ -1246,23 +952,126 @@ author "Andre Challier, Christian Richter"
   highlightCode on "sourceCode" line 19 row 0  
 }
 {
-  setGridValue "queue_1[0][2]" " " refresh   
+  setGridValue "queue_1[0][2]" "B" refresh   
   setGridValue "queue_1[0][1]" " " refresh   
   unhighlightGridCell "queue_1[0][2]"   
 }
 {
-  setGridValue "queue_1[0][2]" "C" refresh   
-  highlightGridCell "queue_1[0][2]"   
+  setGridValue "queue_1[0][1]" "C" refresh   
+  highlightGridCell "queue_1[0][1]"   
 }
 {
-  unhighlightGridCell "queue_1[0][2]"   
+  unhighlightGridCell "queue_1[0][1]"   
   setFont of "queuetext_1" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 17 row 0  
   unhighlightCode on "sourceCode" line 18 row 0  
   unhighlightCode on "sourceCode" line 19 row 0  
   unhighlightCode on "sourceCode" line 15 row 0  
   unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Current Time: 13"   within 30 ticks
+  setText of "curr_time" to "Current Time: 10"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+}
+{
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][2]"   
+  highlightCode on "sourceCode" line 6 row 0  
+}
+{
+  unhighlightGridCell "queue_0[0][2]"   
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 6 row 0  
+  setFont of "queuetext_1" to font SansSerif size 12 bold  
+  highlightGridCell "queue_1[0][2]"   
+  highlightCode on "sourceCode" line 6 row 0  
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_1[0][2]"   
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "queue_1[0][2]"   
+  setGridValue "inc_proc[2][2]" "2" refresh   
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+}
+{
+  unhighlightGridCell "inc_proc[2][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+}
+{
+  highlightCode on "sourceCode" line 17 row 0  
+  highlightCode on "sourceCode" line 18 row 0  
+  highlightCode on "sourceCode" line 19 row 0  
+}
+{
+  setGridValue "queue_1[0][2]" "C" refresh   
+  setGridValue "queue_1[0][1]" " " refresh   
+  unhighlightGridCell "queue_1[0][2]"   
+}
+{
+  setGridValue "queue_1[0][1]" "B" refresh   
+  highlightGridCell "queue_1[0][1]"   
+}
+{
+  unhighlightGridCell "queue_1[0][1]"   
+  setFont of "queuetext_1" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 17 row 0  
+  unhighlightCode on "sourceCode" line 18 row 0  
+  unhighlightCode on "sourceCode" line 19 row 0  
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time: 11"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   highlightGridCell "inc_proc[1][2]"   
   highlightGridCell "inc_proc[2][2]"   
@@ -1349,23 +1158,126 @@ author "Andre Challier, Christian Richter"
   highlightCode on "sourceCode" line 19 row 0  
 }
 {
-  setGridValue "queue_1[0][2]" " " refresh   
+  setGridValue "queue_1[0][2]" "B" refresh   
   setGridValue "queue_1[0][1]" " " refresh   
   unhighlightGridCell "queue_1[0][2]"   
 }
 {
-  setGridValue "queue_1[0][2]" "C" refresh   
-  highlightGridCell "queue_1[0][2]"   
+  setGridValue "queue_1[0][1]" "C" refresh   
+  highlightGridCell "queue_1[0][1]"   
 }
 {
-  unhighlightGridCell "queue_1[0][2]"   
+  unhighlightGridCell "queue_1[0][1]"   
   setFont of "queuetext_1" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 17 row 0  
   unhighlightCode on "sourceCode" line 18 row 0  
   unhighlightCode on "sourceCode" line 19 row 0  
   unhighlightCode on "sourceCode" line 15 row 0  
   unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Current Time: 14"   within 30 ticks
+  setText of "curr_time" to "Current Time: 12"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+}
+{
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][2]"   
+  highlightCode on "sourceCode" line 6 row 0  
+}
+{
+  unhighlightGridCell "queue_0[0][2]"   
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 6 row 0  
+  setFont of "queuetext_1" to font SansSerif size 12 bold  
+  highlightGridCell "queue_1[0][2]"   
+  highlightCode on "sourceCode" line 6 row 0  
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_1[0][2]"   
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "queue_1[0][2]"   
+  setGridValue "inc_proc[2][2]" "1" refresh   
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+}
+{
+  unhighlightGridCell "inc_proc[2][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+}
+{
+  highlightCode on "sourceCode" line 17 row 0  
+  highlightCode on "sourceCode" line 18 row 0  
+  highlightCode on "sourceCode" line 19 row 0  
+}
+{
+  setGridValue "queue_1[0][2]" "C" refresh   
+  setGridValue "queue_1[0][1]" " " refresh   
+  unhighlightGridCell "queue_1[0][2]"   
+}
+{
+  setGridValue "queue_1[0][1]" "B" refresh   
+  highlightGridCell "queue_1[0][1]"   
+}
+{
+  unhighlightGridCell "queue_1[0][1]"   
+  setFont of "queuetext_1" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 17 row 0  
+  unhighlightCode on "sourceCode" line 18 row 0  
+  unhighlightCode on "sourceCode" line 19 row 0  
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time: 13"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   highlightGridCell "inc_proc[1][2]"   
   highlightGridCell "inc_proc[2][2]"   
@@ -1452,22 +1364,110 @@ author "Andre Challier, Christian Richter"
   highlightCode on "sourceCode" line 19 row 0  
 }
 {
-  setGridValue "queue_1[0][2]" " " refresh   
+  setGridValue "queue_1[0][2]" "B" refresh   
   setGridValue "queue_1[0][1]" " " refresh   
   unhighlightGridCell "queue_1[0][2]"   
 }
 {
-  setGridValue "queue_1[0][2]" "C" refresh   
-  highlightGridCell "queue_1[0][2]"   
+  setGridValue "queue_1[0][1]" "C" refresh   
+  highlightGridCell "queue_1[0][1]"   
 }
 {
-  unhighlightGridCell "queue_1[0][2]"   
+  unhighlightGridCell "queue_1[0][1]"   
   setFont of "queuetext_1" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 17 row 0  
   unhighlightCode on "sourceCode" line 18 row 0  
   unhighlightCode on "sourceCode" line 19 row 0  
   unhighlightCode on "sourceCode" line 15 row 0  
   unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time: 14"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+}
+{
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][2]"   
+  highlightCode on "sourceCode" line 6 row 0  
+}
+{
+  unhighlightGridCell "queue_0[0][2]"   
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 6 row 0  
+  setFont of "queuetext_1" to font SansSerif size 12 bold  
+  highlightGridCell "queue_1[0][2]"   
+  highlightCode on "sourceCode" line 6 row 0  
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_1[0][2]"   
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "queue_1[0][2]"   
+  setGridValue "inc_proc[2][2]" "0" refresh   
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+}
+{
+  unhighlightGridCell "inc_proc[2][2]"   
+  highlightCode on "sourceCode" line 14 row 0  
+}
+{
+  setGridValue "queue_1[0][2]" "C" refresh   
+  setGridValue "queue_1[0][1]" " " refresh   
+  unhighlightGridCell "queue_1[0][2]"   
+}
+{
+  setFont of "queuetext_1" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 14 row 0  
   setText of "curr_time" to "Current Time: 15"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   highlightGridCell "inc_proc[1][2]"   

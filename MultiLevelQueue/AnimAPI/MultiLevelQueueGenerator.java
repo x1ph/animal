@@ -468,7 +468,7 @@ public class MultiLevelQueueGenerator {
 
 		Process proc1 = new Process("A", level0, 5, 1);
 		Process proc2 = new Process("B", level1, 5, 2);
-		Process proc3 = new Process("C", level1, 5, 10);
+		Process proc3 = new Process("C", level1, 5, 5);
 
 		inc_procs.add(proc1);
 		inc_procs.add(proc2);
