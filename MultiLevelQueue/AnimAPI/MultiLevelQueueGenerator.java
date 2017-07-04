@@ -39,6 +39,11 @@ public class MultiLevelQueueGenerator {
 	private List<Process> inc_procs;
 	
 	/**
+	 * Title showing on every page
+	 */
+	private Text title;
+	
+	/**
 	 * The current timeslice of schedulting
 	 */
 	private int currentTime;
@@ -63,6 +68,13 @@ public class MultiLevelQueueGenerator {
 	 */
 	StringMatrix sm;
 	
+	/*
+	 * Fields for Summary
+	 */
+	String schedulingOrder;
+	int computingSteps;
+	int idlingSteps;
+	
 	private static Font defaultFont =new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 	private static Font highlightFont =new Font(Font.SANS_SERIF, Font.BOLD, 12);
 
@@ -82,6 +94,9 @@ public class MultiLevelQueueGenerator {
 		// This initializes the step mode. Each pair of subsequent steps has to
 		// be divdided by a call of lang.nextStep();
 		lang.setStepMode(true);
+		schedulingOrder = new String();
+		idlingSteps = 0;
+		computingSteps = 0;
 	}
 
 	private static final String DESCRIPTION = "A Multi Level Queue for scheduling uses a predefined number of levels to"
@@ -121,7 +136,7 @@ public class MultiLevelQueueGenerator {
 	public void schedule() {
 		TextProperties titleProps = new TextProperties();
 		titleProps.set(AnimationPropertiesKeys.FONT_PROPERTY, new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-		Text title = lang.newText(new Coordinates(30,30), "Animation of Multilevel Queue", "desc", null, titleProps);
+		title = lang.newText(new Coordinates(30,30), "Animation of Multilevel Queue", "desc", null, titleProps);
 
 
 		Text desc1 =lang.newText(new Coordinates(30,70), "A Multi Level Queue for scheduling uses a predefined number of levels to", "desc", null );
@@ -254,7 +269,7 @@ public class MultiLevelQueueGenerator {
 				sc.highlight(2);
 				sm.highlightCell(inc_procs.indexOf(p)+1, 3, null, null);
 				lang.nextStep();
-				if(p.arrival == currentTime) {
+				if(p.arrival == currentTime && p.computingTime > 0) {
 					sc.highlight(3);
 					sc.highlight(4);
 					addToQueue(p.queue, p);
@@ -298,6 +313,8 @@ public class MultiLevelQueueGenerator {
 			if(queue == null) {
 				sc.highlight(10);
 				sc.highlight(11);
+				idlingSteps++;
+				schedulingOrder += "-";
 				incCurrentTime();
 				lang.nextStep();
 				sc.unhighlight(9);
@@ -312,6 +329,8 @@ public class MultiLevelQueueGenerator {
 			sm.highlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
 			highlightQueueHead(queue);
 			queue.procs.getFirst().computingTime--;
+			computingSteps++;
+			schedulingOrder += queue.procs.getFirst().name;
 			sm.put(inc_procs.indexOf(
 					queue.procs.getFirst()) +1,
 					2,
@@ -358,6 +377,32 @@ public class MultiLevelQueueGenerator {
 		}
 		sc.unhighlight(0);
 		lang.nextStep();
+	}
+	
+	private void summarize() {
+		lang.hideAllPrimitivesExcept(title);
+		lang.newText(new Coordinates(30,  70),
+				"This MultiLevelQueue scheduled " + (idlingSteps + computingSteps) + " time slots",
+				"summ_1", 
+				null);
+		lang.newText(new Coordinates(30,  90),
+				"of computing time for " + inc_procs.size() + " processes in " + queues.size() + " queues.",
+				"summ_2", 
+				null);
+		lang.newText(new Coordinates(30,  130),
+				"Work Time: " + computingSteps,
+				"summ_3", 
+				null);
+		lang.newText(new Coordinates(30,  150),
+				"Idle Time: " + idlingSteps,
+				"summ_4", 
+				null);
+		lang.newText(new Coordinates(30,  170),
+				"Scheduling Order: " + schedulingOrder,
+				"summ_5", 
+				null);
+		lang.nextStep();
+		
 	}
 	
 	private void highlightQueue(Queue q) {
@@ -462,18 +507,19 @@ public class MultiLevelQueueGenerator {
 		LinkedList<Process> inc_procs = new LinkedList<Process>();
 		LinkedList<Queue> queues = new LinkedList<Queue>();
 		
-		for(int i = 0; i < 12; i++) {
+		for(int i = 0; i < 3; i++) {
 			Queue q = new Queue("Level " + i, Math.random() < 0.5);
 			queues.add(q);
 		}
 		
-		for(int i = 0; i < 20; i++) {
-			Process proc = new Process("" + (char)(65 + 1), queues.get((int)(Math.random() * (queues.size() - 1))), (int)(Math.random() * 5), (int)(Math.random() * 10));
+		for(int i = 0; i < 5; i++) {
+			Process proc = new Process("" + (char)(65 + i), queues.get((int)(Math.random() * (queues.size() - 1))), 1 + (int)(Math.random() * 5), (int)(Math.random() * 10));
 			inc_procs.add(proc);
 		}
 
 		MultiLevelQueueGenerator mlqg = new MultiLevelQueueGenerator(queues, inc_procs, l);
 		mlqg.schedule();
+		mlqg.summarize();
 		String out = l.toString();
 		System.out.println(out);
 		try {
