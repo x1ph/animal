@@ -1,8 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,6 +36,11 @@ public class MultiLevelQueueGenerator {
 	private List<Process> inc_procs;
 	
 	/**
+	 * Title showing on every page
+	 */
+	private Text title;
+	
+	/**
 	 * The current timeslice of schedulting
 	 */
 	private int currentTime;
@@ -63,6 +65,13 @@ public class MultiLevelQueueGenerator {
 	 */
 	StringMatrix sm;
 	
+	/*
+	 * Fields for Summary
+	 */
+	String schedulingOrder;
+	int computingSteps;
+	int idlingSteps;
+	
 	private static Font defaultFont =new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 	private static Font highlightFont =new Font(Font.SANS_SERIF, Font.BOLD, 12);
 
@@ -72,16 +81,24 @@ public class MultiLevelQueueGenerator {
 	 * @param l
 	 *            the conrete language object used for creating output
 	 */
-	public MultiLevelQueueGenerator(List<Queue> queues, List<Process> inc_procs, Language l) {
-
-		this.queues = queues;
-		this.inc_procs = inc_procs;
+	public MultiLevelQueueGenerator(Language l) {
 
 		// Store the language object
 		lang = l;
 		// This initializes the step mode. Each pair of subsequent steps has to
 		// be divdided by a call of lang.nextStep();
 		lang.setStepMode(true);
+		schedulingOrder = new String();
+		idlingSteps = 0;
+		computingSteps = 0;
+	}
+	
+	public void setQueues(List<Queue> queues) {
+		this.queues = queues;
+	}
+	
+	public void setProcesses(List<Process> inc_procs){
+		this.inc_procs = inc_procs;
 	}
 
 	private static final String DESCRIPTION = "A Multi Level Queue for scheduling uses a predefined number of levels to"
@@ -100,13 +117,24 @@ public class MultiLevelQueueGenerator {
 			+ "\n\nThe first queue in this example uses First-Come-First-Serve-Scheduling while the"
 			+ "second queue uses Round-Robin-Scheduling.";
 
-	private static final String SOURCE_CODE = "WHILE sum(proc.work) != 0" + "\n   FOR process IN procList"
-			+ "\n     IF process.time == step" + "\n       queue = queueList[process.level]"
-			+ "\n       queue.add(process)" + "\n   FOR i FROM 0 TO (queueList.size - 1)"
-			+ "\n     IF queueList[i].current() != null" + "\n       queue = queueList[i]" + "\n       BREAK"
-			+ "\n   IF queue == null" + "\n     CONTINUE" + "\n   run(queue.current())"
-			+ "\n   IF queue.current().work == 0" + "\n     queue.removeCurrent();" + "\n   ELSE"
-			+ "\n     if(queue.useRoundRobin)" + "\n       temp = queue.current()" + "\n       queue.removeCurrent()"
+	private static final String SOURCE_CODE = "WHILE sum(proc.work) != 0" 
+			+ "\n   FOR process IN procList"
+			+ "\n     IF process.time == time" 
+			+ "\n       queue = queueList[process.level]"
+			+ "\n       queue.add(process)" 
+			+ "\n   FOR i FROM 0 TO (queueList.size - 1)"
+			+ "\n     IF queueList[i].current() != null" 
+			+ "\n       queue = queueList[i]" 
+			+ "\n       BREAK"
+			+ "\n   IF queue == null" 
+			+ "\n     CONTINUE" 
+			+ "\n   run(queue.current())"
+			+ "\n   IF queue.current().work == 0" 
+			+ "\n     queue.removeCurrent()" 
+			+ "\n   ELSE"
+			+ "\n     if(queue.useRoundRobin)" 
+			+ "\n       temp = queue.current()" 
+			+ "\n       queue.removeCurrent()"
 			+ "\n       queue.add(temp)";
 
 	/**
@@ -121,7 +149,7 @@ public class MultiLevelQueueGenerator {
 	public void schedule() {
 		TextProperties titleProps = new TextProperties();
 		titleProps.set(AnimationPropertiesKeys.FONT_PROPERTY, new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-		Text title = lang.newText(new Coordinates(30,30), "Animation of Multilevel Queue", "desc", null, titleProps);
+		title = lang.newText(new Coordinates(30,30), "Animation of Multilevel Queue", "desc", null, titleProps);
 
 
 		Text desc1 =lang.newText(new Coordinates(30,70), "A Multi Level Queue for scheduling uses a predefined number of levels to", "desc", null );
@@ -229,7 +257,7 @@ public class MultiLevelQueueGenerator {
 		sc.addCodeLine("CONTINUE", null, 2, null);								// line 11
 		sc.addCodeLine("run(queue.current())", null, 1, null);					// line 12
 		sc.addCodeLine("IF queue.current().work == 0", null, 1, null);			// line 13
-		sc.addCodeLine("queue.removeCurrent();", null, 2, null);				// line 14
+		sc.addCodeLine("queue.removeCurrent()", null, 2, null);				// line 14
 		sc.addCodeLine("ELSE", null, 1, null);									// line 15
 		sc.addCodeLine("if(queue.useRoundRobin)", null, 2, null);				// line 16
 		sc.addCodeLine("temp = queue.current()", null, 3, null);				// line 17
@@ -254,7 +282,7 @@ public class MultiLevelQueueGenerator {
 				sc.highlight(2);
 				sm.highlightCell(inc_procs.indexOf(p)+1, 3, null, null);
 				lang.nextStep();
-				if(p.arrival == currentTime) {
+				if(p.arrival == currentTime && p.computingTime > 0) {
 					sc.highlight(3);
 					sc.highlight(4);
 					addToQueue(p.queue, p);
@@ -298,6 +326,8 @@ public class MultiLevelQueueGenerator {
 			if(queue == null) {
 				sc.highlight(10);
 				sc.highlight(11);
+				idlingSteps++;
+				schedulingOrder += "-";
 				incCurrentTime();
 				lang.nextStep();
 				sc.unhighlight(9);
@@ -312,6 +342,8 @@ public class MultiLevelQueueGenerator {
 			sm.highlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
 			highlightQueueHead(queue);
 			queue.procs.getFirst().computingTime--;
+			computingSteps++;
+			schedulingOrder += queue.procs.getFirst().name;
 			sm.put(inc_procs.indexOf(
 					queue.procs.getFirst()) +1,
 					2,
@@ -358,6 +390,32 @@ public class MultiLevelQueueGenerator {
 		}
 		sc.unhighlight(0);
 		lang.nextStep();
+	}
+	
+	private void summarize() {
+		lang.hideAllPrimitivesExcept(title);
+		lang.newText(new Coordinates(30,  70),
+				"This MultiLevelQueue scheduled " + (idlingSteps + computingSteps) + " time slots",
+				"summ_1", 
+				null);
+		lang.newText(new Coordinates(30,  90),
+				"of computing time for " + inc_procs.size() + " processes in " + queues.size() + " queues.",
+				"summ_2", 
+				null);
+		lang.newText(new Coordinates(30,  130),
+				"Work Time: " + computingSteps,
+				"summ_3", 
+				null);
+		lang.newText(new Coordinates(30,  150),
+				"Idle Time: " + idlingSteps,
+				"summ_4", 
+				null);
+		lang.newText(new Coordinates(30,  170),
+				"Scheduling Order: " + schedulingOrder,
+				"summ_5", 
+				null);
+		lang.nextStep();
+		
 	}
 	
 	private void highlightQueue(Queue q) {
@@ -462,28 +520,77 @@ public class MultiLevelQueueGenerator {
 		LinkedList<Process> inc_procs = new LinkedList<Process>();
 		LinkedList<Queue> queues = new LinkedList<Queue>();
 		
-		for(int i = 0; i < 12; i++) {
-			Queue q = new Queue("Level " + i, Math.random() < 0.5);
+		/*
+		 * ERSTELLEN DER OBJEKTE FÜR DIE VISUALISIERUNG
+		 * 
+		 * Die Visualisierung verwendet die Prozesse in inc_processes und die Queues aus queues
+		 * für die Darstellung. Hier wird eine bestimmte Anzahl an Queues und Prozessen erstellt,
+		 * die zufällige Werte für die computation Time und arrival Time (bei Prozessen) sowie die
+		 * verwendete scheduling Strategie (bei Queues) gewählt werden.
+		 * 
+		 * Die Queues und Prozesse können natürlich auch manuell erstellt werden.
+		 */
+		int numberOfQueues = 3;
+		int numberOfProcesses = 5;
+		
+		MultiLevelQueueGenerator mlqg = new MultiLevelQueueGenerator(l);
+		
+		for(int i = 0; i < numberOfQueues; i++) {
+			Queue q = mlqg.new Queue("Level " + i, Math.random() < 0.5);
 			queues.add(q);
 		}
 		
-		for(int i = 0; i < 20; i++) {
-			Process proc = new Process("" + (char)(65 + 1), queues.get((int)(Math.random() * (queues.size() - 1))), (int)(Math.random() * 5), (int)(Math.random() * 10));
+		for(int i = 0; i < numberOfProcesses; i++) {
+			Process proc = mlqg.new Process("" + (char)(65 + i), queues.get((int)(Math.random() * (queues.size() - 1))), 1 + (int)(Math.random() * 5), (int)(Math.random() * 10));
 			inc_procs.add(proc);
 		}
 
-		MultiLevelQueueGenerator mlqg = new MultiLevelQueueGenerator(queues, inc_procs, l);
+		mlqg.setQueues(queues);
+		mlqg.setProcesses(inc_procs);
+		
+		/* start scheduling */
 		mlqg.schedule();
+		/* summarize */
+		mlqg.summarize();
+		/* print animalscript */
 		String out = l.toString();
 		System.out.println(out);
-		try {
-			FileWriter fw = new FileWriter(new File("MultiLevelQueue.asu"), false);
-			fw.write(out);
-			fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		/* write animalscript to file */
+//		try {
+//			FileWriter fw = new FileWriter(new File("MultiLevelQueue.asu"), false);
+//			fw.write(out);
+//			fw.flush();
+//			fw.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+	}
+	
+	public class Process {
+		public String name;
+		public Queue queue;
+		public int computingTime;
+		public int arrival;
+		
+		public Process(String name, Queue queue, int computingTime, int arrival) {
+			super();
+			this.name = name;
+			this.queue = queue;
+			this.computingTime = computingTime;
+			this.arrival = arrival;
+		}
+	}
+	
+	public class Queue {
+		
+		public String name;
+		public LinkedList<Process> procs;
+		public boolean useRoundRobin;
+		
+		public Queue(String name, boolean useRoundRobin) {
+			this.name = name;
+			this.useRoundRobin = useRoundRobin;
+			procs = new LinkedList<Process>();
 		}
 	}
 }
