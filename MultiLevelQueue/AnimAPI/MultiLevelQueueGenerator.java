@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import algoanim.primitives.*;
 import algoanim.primitives.Text;
@@ -11,6 +12,7 @@ import algoanim.properties.*;
 import algoanim.util.Coordinates;
 import algoanim.util.TicksTiming;
 import algoanim.util.Timing;
+import translator.Translator;
 /**
  * @author Andre Challier <andre.challier@stud.tu-darmstadt.de>, Christian
  *         Richter <chrisrichter145@gmail.com>
@@ -22,6 +24,15 @@ public class MultiLevelQueueGenerator {
 	 * The concrete language object used for creating output
 	 */
 	private Language lang;
+	
+	/**
+	 * The Translator Object for internationalization
+	 */
+	private Translator trans;
+	
+	private String DESCRIPTION;
+	
+	private String SOURCE_CODE;
 
 	/**
 	 * The List of queues to schedule.
@@ -85,6 +96,11 @@ public class MultiLevelQueueGenerator {
 
 		// Store the language object
 		lang = l;
+		// init Translator Object
+		trans = new Translator("locale/mlq", Locale.US);
+		DESCRIPTION = trans.translateMessage("DESCRIPTION");
+		SOURCE_CODE = trans.translateMessage("SOURCE_CODE");
+		
 		// This initializes the step mode. Each pair of subsequent steps has to
 		// be divdided by a call of lang.nextStep();
 		lang.setStepMode(true);
@@ -111,42 +127,6 @@ public class MultiLevelQueueGenerator {
 		this.inc_procs = procs;
 	}
 
-	private static final String DESCRIPTION = "A Multi Level Queue for scheduling uses a predefined number of levels to"
-			+ "schedule processes. Processes get assigned to a particular level at insert."
-			+ "The processes in queues of higher level will then be executed first, lower level"
-			+ "queues will be executed when all higher level queues are empty. Each queue is"
-			+ "free to use its own scheduling, thus adding greater flexibility then merely"
-			+ "having multiple levels in a queue."
-
-			+ "\n\nIn this scenario each process has a tima of arrival (process.time), and a number"
-			+ "of execution timeslides (process.work). The algorithm loops until all processes"
-			+ "are done. To schedule the processes the algorithm first adds all arriving"
-			+ "processes to the queues, then picks the non-empty queue with the highest level"
-			+ "and executes the upcoming process."
-
-			+ "\n\nThe first queue in this example uses First-Come-First-Serve-Scheduling while the"
-			+ "second queue uses Round-Robin-Scheduling.";
-
-	private static final String SOURCE_CODE = "WHILE sum(proc.work) != 0" 
-			+ "\n   FOR process IN procList"
-			+ "\n     IF process.time == time" 
-			+ "\n       queue = queueList[process.level]"
-			+ "\n       queue.add(process)" 
-			+ "\n   FOR i FROM 0 TO (queueList.size - 1)"
-			+ "\n     IF queueList[i].current() != null" 
-			+ "\n       queue = queueList[i]" 
-			+ "\n       BREAK"
-			+ "\n   IF queue == null" 
-			+ "\n     CONTINUE" 
-			+ "\n   run(queue.current())"
-			+ "\n   IF queue.current().work == 0" 
-			+ "\n     queue.removeCurrent()" 
-			+ "\n   ELSE"
-			+ "\n     if(queue.useRoundRobin)" 
-			+ "\n       temp = queue.current()" 
-			+ "\n       queue.removeCurrent()"
-			+ "\n       queue.add(temp)";
-
 	/**
 	 * default duration for swap processes
 	 */
@@ -159,23 +139,23 @@ public class MultiLevelQueueGenerator {
 	public void schedule() {
 		TextProperties titleProps = new TextProperties();
 		titleProps.set(AnimationPropertiesKeys.FONT_PROPERTY, new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-		title = lang.newText(new Coordinates(30,30), "Animation of Multilevel Queue", "desc", null, titleProps);
+		title = lang.newText(new Coordinates(30,30), trans.translateMessage("DESC_TITLE"), "desc", null, titleProps);
 
 
-		Text desc1 =lang.newText(new Coordinates(30,70), "A Multi Level Queue for scheduling uses a predefined number of levels to", "desc", null );
-        Text desc2 =lang.newText(new Coordinates(30,90), "schedule processes. Processes get assigned to a particular level at insert.", "desc", null );
-        Text desc3 =lang.newText(new Coordinates(30,110), "The processes in queues of higher level will then be executed first, lower level", "desc", null );
-        Text desc4 =lang.newText(new Coordinates(30,130), "queues will be executed when all higher level queues are empty. Each queue is", "desc", null );
-        Text desc5 =lang.newText(new Coordinates(30,150), "free to use its own scheduling, thus adding greater flexibility then merely", "desc", null );
-        Text desc6 =lang.newText(new Coordinates(30,170), "having multiple levels in a queue.", "desc", null );
+		Text desc1 =lang.newText(new Coordinates(30,70), trans.translateMessage("DESC_1"), "desc", null );
+        Text desc2 =lang.newText(new Coordinates(30,90), trans.translateMessage("DESC_2"), "desc", null );
+        Text desc3 =lang.newText(new Coordinates(30,110), trans.translateMessage("DESC_3"), "desc", null );
+        Text desc4 =lang.newText(new Coordinates(30,130),trans.translateMessage("DESC_4"), "desc", null );
+        Text desc5 =lang.newText(new Coordinates(30,150), trans.translateMessage("DESC_5"), "desc", null );
+        Text desc6 =lang.newText(new Coordinates(30,170), trans.translateMessage("DESC_6"), "desc", null );
 
-        Text desc7 =lang.newText(new Coordinates(30,210), "In this scenario each process has a tima of arrival (process.time), and a number", "desc", null );
-        Text desc8 =lang.newText(new Coordinates(30,230), "of execution timeslides (process.work). The algorithm loops until all processes", "desc", null );
-        Text desc9 =lang.newText(new Coordinates(30,250), "are done. To schedule the processes the algorithm first adds all arriving", "desc", null );
-        Text desc10 =lang.newText(new Coordinates(30,270), "processes to the queues, then picks the non-empty queue with the highest level", "desc", null );
+        Text desc7 =lang.newText(new Coordinates(30,210), trans.translateMessage("DESC_7"), "desc", null );
+        Text desc8 =lang.newText(new Coordinates(30,230), trans.translateMessage("DESC_8"), "desc", null );
+        Text desc9 =lang.newText(new Coordinates(30,250), trans.translateMessage("DESC_9"), "desc", null );
+        Text desc10 =lang.newText(new Coordinates(30,270), trans.translateMessage("DESC_10"), "desc", null );
 
-        Text desc11 =lang.newText(new Coordinates(30,310), "The first queue in this example uses First-Come-First-Serve-Scheduling while the", "desc", null );
-        Text desc12 =lang.newText(new Coordinates(30,330), "second queue uses Round-Robin-Scheduling.", "desc", null );
+        Text desc11 =lang.newText(new Coordinates(30,310), trans.translateMessage("DESC_11"), "desc", null );
+        Text desc12 =lang.newText(new Coordinates(30,330), trans.translateMessage("DESC_12"), "desc", null );
 
         lang.nextStep();
         lang.nextStep();
@@ -196,10 +176,10 @@ public class MultiLevelQueueGenerator {
 
 		// Create Data Array for Matrix Representation
 		String[][] procMatrix = new String[inc_procs.size() + 1][4];
-		procMatrix[0][0] = "ID";
-		procMatrix[0][1] = "QUEUE";
-		procMatrix[0][2] = "WORK";
-		procMatrix[0][3] = "TIME";
+		procMatrix[0][0] = trans.translateMessage("ID");
+		procMatrix[0][1] = trans.translateMessage("QUEUE");
+		procMatrix[0][2] = trans.translateMessage("WORK");
+		procMatrix[0][3] = trans.translateMessage("TIME");
 		for (int i = 0; i < inc_procs.size(); i++) {
 			procMatrix[i + 1][0] = inc_procs.get(i).name;
 			procMatrix[i + 1][1] = inc_procs.get(i).queue.name;
@@ -253,30 +233,30 @@ public class MultiLevelQueueGenerator {
 		// now, create the source code entity
 		SourceCode sc = lang.newSourceCode(new Coordinates(30, 70), "sourceCode", null, scProps);
 
-		sc.addCodeLine("WHILE sum(proc.work) != 0", null, 0, null);				// line 0
-		sc.addCodeLine("FOR process IN procList", null, 1, null);				// line 1
-		sc.addCodeLine("IF process.time == time", null, 2, null);				// line 2
-		sc.addCodeLine("queue = queueList[process.level]", null, 3, null);		// line 3
-		sc.addCodeLine("queue.add(process)", null, 3, null);					// line 4
-		sc.addCodeLine("FOR i FROM 0 TO (queueList.size - 1)", null, 1, null);	// line 5
-		sc.addCodeLine("IF queueList[i].current() != null", null, 2, null);		// line 6
-		sc.addCodeLine("queue = queueList[i]", null, 3, null);					// line 7
-		sc.addCodeLine("BREAK", null, 3, null);									// line 8
-		sc.addCodeLine("IF queue == null", null, 1, null);						// line 9
-		sc.addCodeLine("time++", null, 2, null);								// line 10
-		sc.addCodeLine("CONTINUE", null, 2, null);								// line 11
-		sc.addCodeLine("run(queue.current())", null, 1, null);					// line 12
-		sc.addCodeLine("IF queue.current().work == 0", null, 1, null);			// line 13
-		sc.addCodeLine("queue.removeCurrent()", null, 2, null);				// line 14
-		sc.addCodeLine("ELSE", null, 1, null);									// line 15
-		sc.addCodeLine("if(queue.useRoundRobin)", null, 2, null);				// line 16
-		sc.addCodeLine("temp = queue.current()", null, 3, null);				// line 17
-		sc.addCodeLine("queue.removeCurrent()", null, 3, null);					// line 18
-		sc.addCodeLine("queue.add(temp)", null, 3, null);						// line 19
+		sc.addCodeLine(trans.translateMessage("SRC_0"), null, 0, null);	// line 0
+		sc.addCodeLine(trans.translateMessage("SRC_1"), null, 1, null);	// line 1
+		sc.addCodeLine(trans.translateMessage("SRC_2"), null, 2, null);	// line 2
+		sc.addCodeLine(trans.translateMessage("SRC_3"), null, 3, null);	// line 3
+		sc.addCodeLine(trans.translateMessage("SRC_4"), null, 3, null);	// line 4
+		sc.addCodeLine(trans.translateMessage("SRC_5"), null, 1, null);	// line 5
+		sc.addCodeLine(trans.translateMessage("SRC_6"), null, 2, null);	// line 6
+		sc.addCodeLine(trans.translateMessage("SRC_7"), null, 3, null);	// line 7
+		sc.addCodeLine(trans.translateMessage("SRC_8"), null, 3, null);	// line 8
+		sc.addCodeLine(trans.translateMessage("SRC_9"), null, 1, null); // line 9
+		sc.addCodeLine(trans.translateMessage("SRC_10"), null, 2, null); // line 10
+		sc.addCodeLine(trans.translateMessage("SRC_11"), null, 2, null); // line 11
+		sc.addCodeLine(trans.translateMessage("SRC_12"), null, 1, null); // line 12
+		sc.addCodeLine(trans.translateMessage("SRC_13"), null, 1, null); // line 13
+		sc.addCodeLine(trans.translateMessage("SRC_14"), null, 2, null); // line 14
+		sc.addCodeLine(trans.translateMessage("SRC_15"), null, 1, null); // line 15
+		sc.addCodeLine(trans.translateMessage("SRC_16"), null, 2, null); // line 16
+		sc.addCodeLine(trans.translateMessage("SRC_17"), null, 3, null); // line 17
+		sc.addCodeLine(trans.translateMessage("SRC_18"), null, 3, null); // line 18
+		sc.addCodeLine(trans.translateMessage("SRC_19"), null, 3, null); // line 19
 		
 		currentTime = 0;
 		TextProperties tp = new TextProperties();
-		currentTimeText = lang.newText(new Coordinates(400, 70), "Current Time: " + currentTime, "curr_time", null, tp);
+		currentTimeText = lang.newText(new Coordinates(400, 70), trans.translateMessage("CURR_TIME") + currentTime, "curr_time", null, tp);
 		
 		lang.nextStep();
 		sc.highlight(0);
@@ -405,23 +385,37 @@ public class MultiLevelQueueGenerator {
 	private void summarize() {
 		lang.hideAllPrimitivesExcept(title);
 		lang.newText(new Coordinates(30,  70),
-				"This MultiLevelQueue scheduled " + (idlingSteps + computingSteps) + " time slots",
+				trans.translateMessage(
+						"THIS_MLQ_SCHED") 
+						+ " " 
+						+ (idlingSteps + computingSteps) 
+						+ " " 
+						+ trans.translateMessage("TIME_SLOTS"),
 				"summ_1", 
 				null);
 		lang.newText(new Coordinates(30,  90),
-				"of computing time for " + inc_procs.size() + " processes in " + queues.size() + " queues.",
+				trans.translateMessage(
+						"OF_COMP_TIME_FOR") 
+						+ " " 
+						+ inc_procs.size() 
+						+ " "
+						+ trans.translateMessage("PROCESSES_IN")
+						+ " "
+						+ queues.size() 
+						+ " "
+						+ trans.translateMessage("QUEUES"),
 				"summ_2", 
 				null);
 		lang.newText(new Coordinates(30,  130),
-				"Work Time: " + computingSteps,
+				trans.translateMessage("WORK_TIME") + ": " + computingSteps,
 				"summ_3", 
 				null);
 		lang.newText(new Coordinates(30,  150),
-				"Idle Time: " + idlingSteps,
+				trans.translateMessage("IDLE_TIME") + ": " + idlingSteps,
 				"summ_4", 
 				null);
 		lang.newText(new Coordinates(30,  170),
-				"Scheduling Order: " + schedulingOrder,
+				trans.translateMessage("SCHEDULING_ORDER") + ": " + schedulingOrder,
 				"summ_5", 
 				null);
 		lang.nextStep();
@@ -460,7 +454,7 @@ public class MultiLevelQueueGenerator {
 	
 	private void incCurrentTime(){
 		currentTime++;
-		currentTimeText.setText("Current Time: " + currentTime, null, defaultDuration);
+		currentTimeText.setText(trans.translateMessage("CURR_TIME") + ": " + currentTime, null, defaultDuration);
 	}
 
 	public void addToQueue(Queue q, Process p) {

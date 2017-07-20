@@ -8,7 +8,7 @@
 		</Primitive>
 		<Primitive type="StringMatrix">
 			<name>stringMatrix</name>
-			<value><StringMatrix>A, 1, 2, 0; B, 2, 3, 1; C, 1, 4, 2; D, 2, 5, 3; E, 3, 4, 4; F, 4, 3, 5</StringMatrix></value>
+			<value><StringMatrix>A, 1, 2, 0; B, 2, 3, 1; C, 1, 4, 2; D, 2, 5, 3; E, 3, 4, 4; F, 0, 3, 5</StringMatrix></value>
 			<description>ProcessID, QUEUE, WORK, TIME</description>
 		</Primitive>
 		<AnimationProperties type="MatrixProperties">
