@@ -28,7 +28,6 @@ class compute {
         for (int i = 0; i < randomNum; i++) {
             points[i] = new Dot(ThreadLocalRandom.current().nextInt(0, 50 + 1), ThreadLocalRandom.current().nextInt(0, 50 + 1));
         }
-        points[0] = new Dot(424, 24242);
 
 
         int i = 0;
@@ -37,22 +36,6 @@ class compute {
             System.out.println("Ergebnis: " + t.toString() + ", LOF: " + lof[i]);
             i++;
         }
-
-        /** double[] p = distToTuple(points[0], points);
-         for (double d : p) {
-         //System.out.println(d);
-         }
-
-         double[] j = allKDist(points[9], points, k);
-         for (double d : j) {
-         System.out.println(d);
-         }
-         // System.out.println(k + ": " + kDist(points[0], points, k));
-
-
-         for (Dot t : points) {
-         //System.out.println(lrd(points[0], points, k));
-         }**/
     }
 
     /**
@@ -100,16 +83,21 @@ class compute {
     private double reachdist(Dot a, Dot b, Dot[] points, int k) {
         double kdist = kDist(a, points, k);
         double realdist = distance(a, b);
-        //System.out.println(a.toString() + ";" + b.toString()+"; kdist: " + kdist + ", realdist: " + realdist);
         if (kdist > realdist)
             return kdist;
         return realdist;
     }
 
+    /**
+     * berechnet distanzen zwischen punkten aus
+     */
     private double distance(Dot a, Dot b) {
         return Math.sqrt(Math.pow(Math.abs(a.getX() - b.getX()), 2) + Math.pow(Math.abs(a.getY() - b.getY()), 2));
     }
 
+    /**
+     * gibt alle Dots im radius k zu a aus
+     */
     private Dot[] tuplesInKDist(Dot a, Dot[] points, int k) {
         Dot[] t = new Dot[k];
         int i = 0;
@@ -122,7 +110,10 @@ class compute {
         return t;
     }
 
-    private Dot[] filter(Dot a, Dot[] points) {
+    /**
+     * filtert den dot a aus allen punkten raus
+     */
+    private Dot[] filterDots(Dot a, Dot[] points) {
 
         Dot[] dots = new Dot[points.length - 1];
         int j = 0;
@@ -136,6 +127,9 @@ class compute {
         return dots;
     }
 
+    /**
+     * ??magic??
+     */
     private double lrd(Dot a, Dot[] points, int k) {
         //System.out.println("Computing lrd...");
         double sum = 0;
@@ -148,18 +142,15 @@ class compute {
     }
 
 
-    private double LOF(Dot a, Dot[] points, int k) {
-        // System.out.println("Berechne LOF für: " + a.toString());
-        Dot[] dots = filter(a, points);
-        double sum = 0;
-        for (Dot t : dots) {
-            if (distance(a, t) <= kDist(a, dots, k)) {
-                // System.out.println("Addiere " + t.toString());
-                sum += lrd(t, dots, k);
+    private double LOF(Dot currentDot, Dot[] allDots, int k) {
+        Dot[] dots = filterDots(currentDot, allDots);
+        double sumLOF = 0;
+        for (Dot dot : dots) {
+            if (distance(currentDot, dot) <= kDist(currentDot, dots, k)) {
+                sumLOF += lrd(dot, dots, k);
             }
         }
-        double erg = (sum / k) / lrd(a, dots, k);
-        return erg;
+        return (sumLOF / k) / lrd(currentDot, dots, k);
     }
 }
 
