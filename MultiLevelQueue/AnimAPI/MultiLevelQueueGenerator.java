@@ -1,8 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +45,11 @@ public class MultiLevelQueueGenerator {
 	 * The list of incoming processes that has to be scheduled.
 	 */
 	private List<Process> inc_procs;
+	
+	/**
+	 * Pseudocode SourceCode
+	 */
+	private SourceCode sc;
 
 	/**
 	 * Title showing on every page
@@ -239,7 +241,7 @@ public class MultiLevelQueueGenerator {
 		scProps.set(AnimationPropertiesKeys.HIGHLIGHTCOLOR_PROPERTY, Color.BLUE);
 
 		// now, create the source code entity
-		SourceCode sc = lang.newSourceCode(new Coordinates(30, 70), "sourceCode", null, scProps);
+		sc = lang.newSourceCode(new Coordinates(30, 70), "sourceCode", null, scProps);
 
 		sc.addCodeLine(trans.translateMessage("SRC_0"), null, 0, null);	// line 0
 		sc.addCodeLine(trans.translateMessage("SRC_1"), null, 1, null);	// line 1
@@ -383,15 +385,11 @@ public class MultiLevelQueueGenerator {
 				lang.nextStep();
 				if(queue.useRoundRobin) {
 					sc.highlight(17);
-					sc.highlight(18);
-					sc.highlight(19);
-					hint.setText(trans.translateMessage("RESCHEDULE_ROUND_ROBIN"), null, defaultDuration);
+					hint.setText(trans.translateMessage("TEMP_ROUND_ROBIN"), null, defaultDuration);
 					lang.nextStep();
+					sc.unhighlight(17);
 					reschedule(queue.procs.getFirst());
 					unhighlightQueue(queue);
-					sc.unhighlight(17);
-					sc.unhighlight(18);
-					sc.unhighlight(19);
 				}else {
 					unhighlightQueue(queue);
 					unhighlightQueueHead(queue);
@@ -510,8 +508,12 @@ public class MultiLevelQueueGenerator {
 	}
 
 	public void reschedule(Process p) {
+		sc.highlight(18);
 		removeFromQueue(p);
+		sc.unhighlight(18);
+		sc.highlight(19);
 		addToQueue(p.queue, p);
+		sc.unhighlight(19);
 	}
 
 	public int sumOfWork() {
@@ -587,14 +589,14 @@ public class MultiLevelQueueGenerator {
 		String out = l.toString();
 		System.out.println(out);
 		/* write animalscript to file */
-		try {
-			FileWriter fw = new FileWriter(new File("MultiLevelQueue.asu"), false);
-			fw.write(out);
-			fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			FileWriter fw = new FileWriter(new File("MultiLevelQueue.asu"), false);
+//			fw.write(out);
+//			fw.flush();
+//			fw.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**

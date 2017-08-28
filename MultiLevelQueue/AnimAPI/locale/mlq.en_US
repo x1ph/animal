@@ -105,7 +105,7 @@ FROM_QUEUE=from queue
 CHECK_IF_WORK_LEFT=Check if process has work left
 PROCESS_HAS_NO_WORK_LEFT_REMOVE=Process has no work left and will be removed from queue
 PROCESS_HAS_WORK_LEFT_RESCHEDULE=Process has work left and will be rescheduled
-RESCHEDULE_ROUND_ROBIN=Reschedule process with round-robin
+TEMP_ROUND_ROBIN=Save process in temporary field
 NO_PROCESS_HAS_PENDING_WORK=No process has pending work left
 
 LEVEL=Level
