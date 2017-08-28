@@ -1,5 +1,8 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -24,19 +27,19 @@ public class MultiLevelQueueGenerator {
 	 * The concrete language object used for creating output
 	 */
 	private Language lang;
-	
+
 	/**
 	 * The Translator Object for internationalization
 	 */
 	private Translator trans;
-	
+
 	private String DESCRIPTION;
-	
+
 	private String SOURCE_CODE;
 
 	/**
 	 * The List of queues to schedule.
-	 * 
+	 *
 	 * queues.get(0) is list with highest priority, queues.get(1) is the next
 	 * highest and so on.
 	 */
@@ -45,44 +48,49 @@ public class MultiLevelQueueGenerator {
 	 * The list of incoming processes that has to be scheduled.
 	 */
 	private List<Process> inc_procs;
-	
+
 	/**
 	 * Title showing on every page
 	 */
 	private Text title;
-	
+
 	/**
 	 * The current timeslice of schedulting
 	 */
 	private int currentTime;
-	
+
 	/**
 	 * The animal primitive showing the current timeslice of scheduling
 	 */
 	private Text currentTimeText;
-	
+
+	/**
+	 * The animal primitive showing the current execution hint
+	 */
+	private Text hint;
+
 	/**
 	 * The Array holding all displayed queues
 	 */
 	StringMatrix[] arrays;
-	
+
 	/**
 	 * The Array holding all displayed queueNames
 	 */
 	Text[] queueNames;
-	
+
 	/**
 	 * The Matrix showing all incoming Processes
 	 */
 	StringMatrix sm;
-	
+
 	/*
 	 * Fields for Summary
 	 */
 	String schedulingOrder;
 	int computingSteps;
 	int idlingSteps;
-	
+
 	private static Font defaultFont =new Font(Font.SANS_SERIF, Font.PLAIN, 12);
 	private static Font highlightFont =new Font(Font.SANS_SERIF, Font.BOLD, 12);
 
@@ -100,7 +108,7 @@ public class MultiLevelQueueGenerator {
 		trans = new Translator("locale/mlq", Locale.US);
 		DESCRIPTION = trans.translateMessage("DESCRIPTION");
 		SOURCE_CODE = trans.translateMessage("SOURCE_CODE");
-		
+
 		// This initializes the step mode. Each pair of subsequent steps has to
 		// be divdided by a call of lang.nextStep();
 		lang.setStepMode(true);
@@ -108,19 +116,19 @@ public class MultiLevelQueueGenerator {
 		idlingSteps = 0;
 		computingSteps = 0;
 	}
-	
+
 	/**
 	 * Set the list of queues this MultiLevelQueue uses.
-	 * 
+	 *
 	 * @param	queues	Queues to schedule processes.
 	 */
 	public void setQueues(List<Queue> queues) {
 		this.queues = queues;
 	}
-	
+
 	/**
 	 * Set the processes that this MLQ will schedule.
-	 * 
+	 *
 	 * @param	procs	Processes to schedule.
 	 */
 	public void setProcesses(List<Process> procs){
@@ -201,12 +209,12 @@ public class MultiLevelQueueGenerator {
 
 	    // now, create the IntArray object, linked to the properties
 	    sm = lang.newStringMatrix(new Coordinates(400, 100), procMatrix, "inc_proc", null, matrixProps);
-	    
+
 	    arrays = new StringMatrix[queues.size()];
 	    queueNames = new Text[queues.size()];
 	    TextProperties queueNameTextProp = new TextProperties();
 	    queueNameTextProp.set(AnimationPropertiesKeys.FONT_PROPERTY, defaultFont);
-	    
+
 	    for(int i = 0; i < queues.size(); i++) {
 	    	String[][] queueStat = new String[1][inc_procs.size()];
 	    	for(int j = 0; j < inc_procs.size(); j++) {
@@ -221,7 +229,7 @@ public class MultiLevelQueueGenerator {
 	    	queueNames[i] = lang.newText(new Coordinates(400, 130 + inc_procs.size() * 30 + i*50), queueName, "queuetext_" + i, null, queueNameTextProp);
 	    	arrays[i] = lang.newStringMatrix(new Coordinates(400, 150 + inc_procs.size() * 30 + i * 50), queueStat, "queue_" + i, null, matrixProps);
 	    }
-		
+
 		// first, set the visual properties for the source code
 		SourceCodeProperties scProps = new SourceCodeProperties();
 		scProps.set(AnimationPropertiesKeys.CONTEXTCOLOR_PROPERTY, Color.GRAY);
@@ -253,28 +261,34 @@ public class MultiLevelQueueGenerator {
 		sc.addCodeLine(trans.translateMessage("SRC_17"), null, 3, null); // line 17
 		sc.addCodeLine(trans.translateMessage("SRC_18"), null, 3, null); // line 18
 		sc.addCodeLine(trans.translateMessage("SRC_19"), null, 3, null); // line 19
-		
+
 		currentTime = 0;
 		TextProperties tp = new TextProperties();
 		currentTimeText = lang.newText(new Coordinates(400, 70), trans.translateMessage("CURR_TIME") + currentTime, "curr_time", null, tp);
-		
+
+		hint = lang.newText(new Coordinates(600, 150), "", "hint", null, tp);
+
 		lang.nextStep();
 		sc.highlight(0);
 		while (sumOfWork() != 0) {
 			highlightProcessCol(2);
+			hint.setText(trans.translateMessage("REMAINING_WORK"), null, defaultDuration);
 			lang.nextStep();
 			unhighlightProcessCol(2);
-			
+			hint.setText(trans.translateMessage("INCOMING_PROCESS"), null, defaultDuration);
+
 			sc.highlight(1);
 			highlightProcessCol(0);
 			lang.nextStep();
 			for(Process p : inc_procs) {
+				hint.setText(trans.translateMessage("PROCESS") + " " + p.name + " " + trans.translateMessage("STARTS_AT") + " " + p.arrival, null, defaultDuration);
 				sc.highlight(2);
 				sm.highlightCell(inc_procs.indexOf(p)+1, 3, null, null);
 				lang.nextStep();
 				if(p.arrival == currentTime && p.work > 0) {
 					sc.highlight(3);
 					sc.highlight(4);
+					hint.setText(trans.translateMessage("PROCESS_LEVEL_IS") + " " + p.queue.name, null, defaultDuration);
 					addToQueue(p.queue, p);
 					sc.unhighlight(3);
 					sc.unhighlight(4);
@@ -284,20 +298,23 @@ public class MultiLevelQueueGenerator {
 			}
 			sc.unhighlight(1);
 			unhighlightProcessCol(0);
-			
+
 			Queue queue = null;
-			
+
 			sc.highlight(5);
+			hint.setText(trans.translateMessage("SEARCH_FOR_QUEUE_TO_SCHEDULE"), null, defaultDuration);
 			lang.nextStep();
 			for(Queue q : queues) {
 				highlightQueue(q);
 				highlightQueueHead(q);
 				sc.highlight(6);
+				hint.setText(trans.translateMessage("CHECK_QUEUE") + " " + q.name, null, defaultDuration);
 				lang.nextStep();
 				if(!q.procs.isEmpty()) {
 					sc.highlight(7);
 					sc.highlight(8);
 					unhighlightQueueHead(q);
+					hint.setText(trans.translateMessage("QUEUE_LC") + " " + q.name + " " + trans.translateMessage("HAS_PENDING_WORK"), null, defaultDuration);
 					lang.nextStep();
 					sc.unhighlight(6);
 					sc.unhighlight(7);
@@ -310,8 +327,9 @@ public class MultiLevelQueueGenerator {
 				sc.unhighlight(6);
 			}
 			sc.unhighlight(5);
-			
+
 			sc.highlight(9);
+			hint.setText(trans.translateMessage("CHECK_FOR_QUEUE_TO_SCHEDULE"), null, defaultDuration);
 			lang.nextStep();
 			if(queue == null) {
 				sc.highlight(10);
@@ -319,6 +337,7 @@ public class MultiLevelQueueGenerator {
 				idlingSteps++;
 				schedulingOrder += "-";
 				incCurrentTime();
+				hint.setText(trans.translateMessage("NO_QUEUE_HAS_PENDING_WORK"), null, defaultDuration);
 				lang.nextStep();
 				sc.unhighlight(9);
 				sc.unhighlight(10);
@@ -326,7 +345,7 @@ public class MultiLevelQueueGenerator {
 				continue;
 			}
 			sc.unhighlight(9);
-			
+
 			sc.highlight(12);
 			sm.setGridHighlightFillColor(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, Color.YELLOW, null, null);
 			sm.highlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
@@ -340,16 +359,19 @@ public class MultiLevelQueueGenerator {
 					Integer.toString(queue.procs.getFirst().work),
 					null,
 					null);
+			hint.setText(trans.translateMessage("SCHEDULE_PROCESS") + " " + queue.procs.getFirst().name + " " + trans.translateMessage("FROM_QUEUE") + " " + queue.name, null, defaultDuration);
 			lang.nextStep();
-			
+
 			sc.unhighlight(12);
-			
+
 			sc.highlight(13);
+			hint.setText(trans.translateMessage("CHECK_IF_WORK_LEFT"), null, defaultDuration);
 			lang.nextStep();
 			sm.setGridHighlightFillColor(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, Color.GREEN, null, null);
 			sm.unhighlightCell(inc_procs.indexOf(queue.procs.getFirst()) +1, 2, null, null);
 			if(queue.procs.getFirst().work == 0) {
 				sc.highlight(14);
+				hint.setText(trans.translateMessage("PROCESS_HAS_NO_WORK_LEFT_REMOVE"), null, defaultDuration);
 				lang.nextStep();
 				removeFromQueue(queue.procs.getFirst());
 				unhighlightQueue(queue);
@@ -357,11 +379,13 @@ public class MultiLevelQueueGenerator {
 			}else {
 				sc.highlight(15);
 				sc.highlight(16);
+				hint.setText(trans.translateMessage("PROCESS_HAS_WORK_LEFT_RESCHEDULE"), null, defaultDuration);
 				lang.nextStep();
 				if(queue.useRoundRobin) {
 					sc.highlight(17);
 					sc.highlight(18);
 					sc.highlight(19);
+					hint.setText(trans.translateMessage("RESCHEDULE_ROUND_ROBIN"), null, defaultDuration);
 					lang.nextStep();
 					reschedule(queue.procs.getFirst());
 					unhighlightQueue(queue);
@@ -379,79 +403,80 @@ public class MultiLevelQueueGenerator {
 			sc.unhighlight(13);
 		}
 		sc.unhighlight(0);
+		hint.setText(trans.translateMessage("NO_PROCESS_HAS_PENDING_WORK"), null, defaultDuration);
 		lang.nextStep();
 	}
-	
+
 	private void summarize() {
 		lang.hideAllPrimitivesExcept(title);
 		lang.newText(new Coordinates(30,  70),
 				trans.translateMessage(
-						"THIS_MLQ_SCHED") 
-						+ " " 
-						+ (idlingSteps + computingSteps) 
-						+ " " 
+						"THIS_MLQ_SCHED")
+						+ " "
+						+ (idlingSteps + computingSteps)
+						+ " "
 						+ trans.translateMessage("TIME_SLOTS"),
-				"summ_1", 
+				"summ_1",
 				null);
 		lang.newText(new Coordinates(30,  90),
 				trans.translateMessage(
-						"OF_COMP_TIME_FOR") 
-						+ " " 
-						+ inc_procs.size() 
+						"OF_COMP_TIME_FOR")
+						+ " "
+						+ inc_procs.size()
 						+ " "
 						+ trans.translateMessage("PROCESSES_IN")
 						+ " "
-						+ queues.size() 
+						+ queues.size()
 						+ " "
 						+ trans.translateMessage("QUEUES"),
-				"summ_2", 
+				"summ_2",
 				null);
 		lang.newText(new Coordinates(30,  130),
 				trans.translateMessage("WORK_TIME") + ": " + computingSteps,
-				"summ_3", 
+				"summ_3",
 				null);
 		lang.newText(new Coordinates(30,  150),
 				trans.translateMessage("IDLE_TIME") + ": " + idlingSteps,
-				"summ_4", 
+				"summ_4",
 				null);
 		lang.newText(new Coordinates(30,  170),
 				trans.translateMessage("SCHEDULING_ORDER") + ": " + schedulingOrder,
-				"summ_5", 
+				"summ_5",
 				null);
 		lang.nextStep();
-		
+
 	}
-	
+
 	private void highlightQueue(Queue q) {
 		queueNames[queues.indexOf(q)].setFont(highlightFont, null, null);
 	}
-	
+
 	private void unhighlightQueue(Queue q) {
 		queueNames[queues.indexOf(q)].setFont(defaultFont, null, null);
 	}
-	
+
 	private void highlightQueueHead(Queue q) {
 		StringMatrix current = arrays[queues.indexOf(q)];
 		current.highlightCell(0, current.getNrCols() -1, null, null);
 	}
-	
+
 	private void unhighlightQueueHead(Queue q) {
 		StringMatrix current = arrays[queues.indexOf(q)];
 		current.unhighlightCell(0, current.getNrCols() -1, null, null);
 	}
-	
+
 	private void unhighlightProcessCol(int col) {
 		for(int i = 1; i < sm.getNrRows(); i++) {
 			sm.unhighlightCell(i, col, null, null);
 		}
 	}
-	
+
 	private void highlightProcessCol(int col) {
 		for(int i = 1; i < sm.getNrRows(); i++) {
 			sm.highlightCell(i, col, null, null);
 		}
 	}
-	
+
 	private void incCurrentTime(){
 		currentTime++;
 		currentTimeText.setText(trans.translateMessage("CURR_TIME") + ": " + currentTime, null, defaultDuration);
@@ -459,16 +484,17 @@ public class MultiLevelQueueGenerator {
 
 	public void addToQueue(Queue q, Process p) {
 		q.procs.add(p);
+		hint.setText(trans.translateMessage("ADD_PROCESS") + " " + p.name + " " + trans.translateMessage("TO_QUEUE") + " " + q.name, null, defaultDuration);
 		StringMatrix currentQueue = arrays[queues.indexOf(q)];
-		currentQueue.put(0, 
-				(currentQueue.getNrCols() - 1) - q.procs.indexOf(p), 
+		currentQueue.put(0,
+				(currentQueue.getNrCols() - 1) - q.procs.indexOf(p),
 				p.name,
 				null,
 				null);
 		currentQueue.highlightCell(0, (currentQueue.getNrCols() - 1) - q.procs.indexOf(p), null, null);
 		lang.nextStep();
 		currentQueue.unhighlightCell(0, (currentQueue.getNrCols() - 1) - q.procs.indexOf(p), null, null);
-		
+
 	}
 
 	public void removeFromQueue(Process p) {
@@ -478,6 +504,7 @@ public class MultiLevelQueueGenerator {
 			currentQueue.put(0, i, currentQueue.getElement(0, i-1), null, null);
 		}
 		unhighlightQueueHead(p.queue);
+		hint.setText(trans.translateMessage("REMOVE_PROCESS") + " " + p.name + " " + trans.translateMessage("FROM_QUEUE") + " " + p.queue.name, null, defaultDuration);
 		lang.nextStep();
 
 	}
@@ -523,27 +550,27 @@ public class MultiLevelQueueGenerator {
 
 		LinkedList<Process> inc_procs = new LinkedList<Process>();
 		LinkedList<Queue> queues = new LinkedList<Queue>();
-		
+
 		/*
-		 * ERSTELLEN DER OBJEKTE FÜR DIE VISUALISIERUNG
-		 * 
+		 * ERSTELLEN DER OBJEKTE Fï¿½R DIE VISUALISIERUNG
+		 *
 		 * Die Visualisierung verwendet die Prozesse in inc_processes und die Queues aus queues
-		 * für die Darstellung. Hier wird eine bestimmte Anzahl an Queues und Prozessen erstellt,
-		 * die zufällige Werte für die computation Time und arrival Time (bei Prozessen) sowie die
-		 * verwendete scheduling Strategie (bei Queues) gewählt werden.
-		 * 
-		 * Die Queues und Prozesse können natürlich auch manuell erstellt werden.
+		 * fï¿½r die Darstellung. Hier wird eine bestimmte Anzahl an Queues und Prozessen erstellt,
+		 * die zufï¿½llige Werte fï¿½r die computation Time und arrival Time (bei Prozessen) sowie die
+		 * verwendete scheduling Strategie (bei Queues) gewï¿½hlt werden.
+		 *
+		 * Die Queues und Prozesse kï¿½nnen natï¿½rlich auch manuell erstellt werden.
 		 */
 		int numberOfQueues = 3;
 		int numberOfProcesses = 5;
-		
+
 		MultiLevelQueueGenerator mlqg = new MultiLevelQueueGenerator(l);
-		
+
 		for(int i = 0; i < numberOfQueues; i++) {
 			Queue q = mlqg.new Queue("Level " + i, Math.random() < 0.5);
 			queues.add(q);
 		}
-		
+
 		for(int i = 0; i < numberOfProcesses; i++) {
 			Process proc = mlqg.new Process("" + (char)(65 + i), queues.get((int)(Math.random() * (queues.size() - 1))), 1 + (int)(Math.random() * 5), (int)(Math.random() * 10));
 			inc_procs.add(proc);
@@ -551,7 +578,7 @@ public class MultiLevelQueueGenerator {
 
 		mlqg.setQueues(queues);
 		mlqg.setProcesses(inc_procs);
-		
+
 		/* start scheduling */
 		mlqg.schedule();
 		/* summarize */
@@ -560,19 +587,19 @@ public class MultiLevelQueueGenerator {
 		String out = l.toString();
 		System.out.println(out);
 		/* write animalscript to file */
-//		try {
-//			FileWriter fw = new FileWriter(new File("MultiLevelQueue.asu"), false);
-//			fw.write(out);
-//			fw.flush();
-//			fw.close();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			FileWriter fw = new FileWriter(new File("MultiLevelQueue.asu"), false);
+			fw.write(out);
+			fw.flush();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	
+
 	/**
 	 * A Process is an object that arrives at a given time in a predefined queue
-	 * to schedule the given amount of work. 
+	 * to schedule the given amount of work.
 	 */
 	public class Process {
 		/** The name of this process. */
@@ -585,7 +612,7 @@ public class MultiLevelQueueGenerator {
 		public int arrival;
 		/**
 		 * Constructs a new Process.
-		 * 
+		 *
 		 * @param	name		Name of the process.
 		 * @param	queue		Predefined queue of this process
 		 * @param	work		The number of time slices, this process needs
@@ -601,24 +628,24 @@ public class MultiLevelQueueGenerator {
 			this.arrival = arrival;
 		}
 	}
-	
+
 	/**
 	 * A Queue has a name and a list of enqueued processes. A Queue can be
 	 * scheduled in FIFO-Mode (useRoundRobin: false) or in RoundRobin-Mode
 	 * (useRoundRobin: true).
 	 */
 	public class Queue {
-		
+
 		/** This Queues Name */
 		public String name;
 		/** The list of processes in this queue */
 		public LinkedList<Process> procs;
 		/** true if this queue uses RoundRobin-Scheduling */
 		public boolean useRoundRobin;
-		
+
 		/**
 		 * Constructs a new Queue.
-		 * 
+		 *
 		 * @param	name	The name of the Queue.
 		 * @param	useRR	Specifies if this queue schedules in
 		 * 					RoundRobin-mode.

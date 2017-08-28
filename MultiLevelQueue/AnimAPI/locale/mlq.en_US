@@ -24,10 +24,10 @@ SOURCE_CODE=WHILE sum(proc.work) != 0\
 \n     IF queueList[i].current() != null\
 \n       queue = queueList[i]\
 \n       BREAK\
-\n   IF queue == null\ 
+\n   IF queue == null\
 \n     CONTINUE\
 \n   run(queue.current())\
-\n   IF queue.current().work == 0\ 
+\n   IF queue.current().work == 0\
 \n     queue.removeCurrent()\
 \n   ELSE\
 \n     if(queue.useRoundRobin)\
@@ -84,6 +84,28 @@ WORK_TIME=Work Time
 IDLE_TIME=Idle Time
 SCHEDULING_ORDER=Scheduling Order
 
+STATEMENT=Statement
+
+REMAINING_WORK=Search for remaining Work
+INCOMING_PROCESS=Search for incoming processes
+PROCESS=Process
+STARTS_AT=starts at
+PROCESS_LEVEL_IS=Process level is
+ADD_PROCESS=Add process
+REMOVE_PROCESS=Remove process
+TO_QUEUE=to queue
+SEARCH_FOR_QUEUE_TO_SCHEDULE=Search for a queue to schedule
+CHECK_QUEUE=Check queue
+QUEUE_LC=Queue
+HAS_PENDING_WORK=has pending work
+CHECK_FOR_QUEUE_TO_SCHEDULE=Check for a queue to schedule
+NO_QUEUE_HAS_PENDING_WORK=No queue has pending work
+SCHEDULE_PROCESS=Schedule process
+FROM_QUEUE=from queue 
+CHECK_IF_WORK_LEFT=Check if process has work left
+PROCESS_HAS_NO_WORK_LEFT_REMOVE=Process has no work left and will be removed from queue
+PROCESS_HAS_WORK_LEFT_RESCHEDULE=Process has work left and will be rescheduled
+RESCHEDULE_ROUND_ROBIN=Reschedule process with round-robin
+NO_PROCESS_HAS_PENDING_WORK=No process has pending work left
+
 LEVEL=Level
-
-

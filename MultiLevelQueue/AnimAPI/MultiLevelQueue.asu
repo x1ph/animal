@@ -25,26 +25,26 @@ author "Andre Challier, Christian Richter"
   setGridValue "inc_proc[0][2]" "WORK"
   setGridValue "inc_proc[0][3]" "TIME"
   setGridValue "inc_proc[1][0]" "A"
-  setGridValue "inc_proc[1][1]" "Level 0"
-  setGridValue "inc_proc[1][2]" "2"
-  setGridValue "inc_proc[1][3]" "0"
+  setGridValue "inc_proc[1][1]" "Level 1"
+  setGridValue "inc_proc[1][2]" "1"
+  setGridValue "inc_proc[1][3]" "8"
   setGridValue "inc_proc[2][0]" "B"
   setGridValue "inc_proc[2][1]" "Level 0"
-  setGridValue "inc_proc[2][2]" "2"
-  setGridValue "inc_proc[2][3]" "2"
+  setGridValue "inc_proc[2][2]" "1"
+  setGridValue "inc_proc[2][3]" "0"
   setGridValue "inc_proc[3][0]" "C"
-  setGridValue "inc_proc[3][1]" "Level 0"
+  setGridValue "inc_proc[3][1]" "Level 1"
   setGridValue "inc_proc[3][2]" "2"
-  setGridValue "inc_proc[3][3]" "5"
+  setGridValue "inc_proc[3][3]" "7"
   setGridValue "inc_proc[4][0]" "D"
-  setGridValue "inc_proc[4][1]" "Level 1"
-  setGridValue "inc_proc[4][2]" "1"
-  setGridValue "inc_proc[4][3]" "1"
+  setGridValue "inc_proc[4][1]" "Level 0"
+  setGridValue "inc_proc[4][2]" "4"
+  setGridValue "inc_proc[4][3]" "4"
   setGridValue "inc_proc[5][0]" "E"
-  setGridValue "inc_proc[5][1]" "Level 1"
-  setGridValue "inc_proc[5][2]" "3"
-  setGridValue "inc_proc[5][3]" "6" refresh
-  text "queuetext_0" "Level 0 (RoundRobin)" (400, 280) color (0, 0, 0) depth 1 font SansSerif size 12
+  setGridValue "inc_proc[5][1]" "Level 0"
+  setGridValue "inc_proc[5][2]" "5"
+  setGridValue "inc_proc[5][3]" "0" refresh
+  text "queuetext_0" "Level 0 (FIFO)" (400, 280) color (0, 0, 0) depth 1 font SansSerif size 12
   grid "queue_0" (400, 300) lines 1 columns 5 style table  color (0, 0, 0) elementColor (0, 0, 0) fillColor (255, 255, 255) bordercolor (0, 0, 0) highlightTextColor (0, 0, 0) highlightFillColor (0, 255, 0) highlightBorderColor (0, 0, 0) font SansSerif size 12 align left depth 1
   setGridValue "queue_0[0][0]" " "
   setGridValue "queue_0[0][1]" " "
@@ -58,7 +58,7 @@ author "Andre Challier, Christian Richter"
   setGridValue "queue_1[0][2]" " "
   setGridValue "queue_1[0][3]" " "
   setGridValue "queue_1[0][4]" " " refresh
-  text "queuetext_2" "Level 2 (FIFO)" (400, 380) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "queuetext_2" "Level 2 (RoundRobin)" (400, 380) color (0, 0, 0) depth 1 font SansSerif size 12
   grid "queue_2" (400, 400) lines 1 columns 5 style table  color (0, 0, 0) elementColor (0, 0, 0) fillColor (255, 255, 255) bordercolor (0, 0, 0) highlightTextColor (0, 0, 0) highlightFillColor (0, 255, 0) highlightBorderColor (0, 0, 0) font SansSerif size 12 align left depth 1
   setGridValue "queue_2[0][0]" " "
   setGridValue "queue_2[0][1]" " "
@@ -86,7 +86,8 @@ author "Andre Challier, Christian Richter"
   addCodeLine "temp = queue.current()" to "sourceCode" indentation 3
   addCodeLine "queue.removeCurrent()" to "sourceCode" indentation 3
   addCodeLine "queue.add(temp)" to "sourceCode" indentation 3
-  text "curr_time" "Currrent Time:0" (400, 70) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "curr_time" "Current Time:0" (400, 70) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "hint" "" (600, 150) color (0, 0, 0) depth 1 font SansSerif size 12
   hide "Text1" "Text2" "Text3" "Text4" "Text5" "Text6" "Text7" "Text8" "Text9" "Text10" "Text11" "Text12" 
 }
 {
@@ -96,6 +97,7 @@ author "Andre Challier, Christian Richter"
   highlightGridCell "inc_proc[3][2]"   
   highlightGridCell "inc_proc[4][2]"   
   highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
 }
 {
   unhighlightGridCell "inc_proc[1][2]"   
@@ -103,6 +105,7 @@ author "Andre Challier, Christian Richter"
   unhighlightGridCell "inc_proc[3][2]"   
   unhighlightGridCell "inc_proc[4][2]"   
   unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
   highlightCode on "sourceCode" line 1 row 0  
   highlightGridCell "inc_proc[1][0]"   
   highlightGridCell "inc_proc[2][0]"   
@@ -111,259 +114,22 @@ author "Andre Challier, Christian Richter"
   highlightGridCell "inc_proc[5][0]"   
 }
 {
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  highlightCode on "sourceCode" line 3 row 0  
-  highlightCode on "sourceCode" line 4 row 0  
-  setGridValue "queue_0[0][4]" "A" refresh   
-  highlightGridCell "queue_0[0][4]"   
-}
-{
-  unhighlightGridCell "queue_0[0][4]"   
-  unhighlightCode on "sourceCode" line 3 row 0  
-  unhighlightCode on "sourceCode" line 4 row 0  
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[4][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[4][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[5][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[5][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  unhighlightGridCell "inc_proc[4][0]"   
-  unhighlightGridCell "inc_proc[5][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_0[0][4]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  setGridColor "inc_proc[1][2]" highlightFillColor (255,255,0)  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "queue_0[0][4]"   
-  setGridValue "inc_proc[1][2]" "1" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  setGridColor "inc_proc[1][2]" highlightFillColor (0,255,0)  
-  unhighlightGridCell "inc_proc[1][2]"   
-  highlightCode on "sourceCode" line 15 row 0  
-  highlightCode on "sourceCode" line 16 row 0  
-}
-{
-  highlightCode on "sourceCode" line 17 row 0  
-  highlightCode on "sourceCode" line 18 row 0  
-  highlightCode on "sourceCode" line 19 row 0  
-}
-{
-  setGridValue "queue_0[0][4]" " " refresh   
-  setGridValue "queue_0[0][3]" " " refresh   
-  setGridValue "queue_0[0][2]" " " refresh   
-  setGridValue "queue_0[0][1]" " " refresh   
-  unhighlightGridCell "queue_0[0][4]"   
-}
-{
-  setGridValue "queue_0[0][4]" "A" refresh   
-  highlightGridCell "queue_0[0][4]"   
-}
-{
-  unhighlightGridCell "queue_0[0][4]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 17 row 0  
-  unhighlightCode on "sourceCode" line 18 row 0  
-  unhighlightCode on "sourceCode" line 19 row 0  
-  unhighlightCode on "sourceCode" line 15 row 0  
-  unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Currrent Time:: 1"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-  highlightGridCell "inc_proc[4][2]"   
-  highlightGridCell "inc_proc[5][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  unhighlightGridCell "inc_proc[4][2]"   
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-  highlightGridCell "inc_proc[4][0]"   
-  highlightGridCell "inc_proc[5][0]"   
-}
-{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[1][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[4][3]"   
-}
-{
-  highlightCode on "sourceCode" line 3 row 0  
-  highlightCode on "sourceCode" line 4 row 0  
-  setGridValue "queue_1[0][4]" "D" refresh   
-  highlightGridCell "queue_1[0][4]"   
-}
-{
-  unhighlightGridCell "queue_1[0][4]"   
-  unhighlightCode on "sourceCode" line 3 row 0  
-  unhighlightCode on "sourceCode" line 4 row 0  
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[4][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[5][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[5][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  unhighlightGridCell "inc_proc[4][0]"   
-  unhighlightGridCell "inc_proc[5][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_0[0][4]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  setGridColor "inc_proc[1][2]" highlightFillColor (255,255,0)  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "queue_0[0][4]"   
-  setGridValue "inc_proc[1][2]" "0" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  setGridColor "inc_proc[1][2]" highlightFillColor (0,255,0)  
-  unhighlightGridCell "inc_proc[1][2]"   
-  highlightCode on "sourceCode" line 14 row 0  
-}
-{
-  setGridValue "queue_0[0][4]" " " refresh   
-  setGridValue "queue_0[0][3]" " " refresh   
-  setGridValue "queue_0[0][2]" " " refresh   
-  setGridValue "queue_0[0][1]" " " refresh   
-  unhighlightGridCell "queue_0[0][4]"   
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 14 row 0  
-  setText of "curr_time" to "Currrent Time:: 2"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-  highlightGridCell "inc_proc[4][2]"   
-  highlightGridCell "inc_proc[5][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  unhighlightGridCell "inc_proc[4][2]"   
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-  highlightGridCell "inc_proc[4][0]"   
-  highlightGridCell "inc_proc[5][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[2][3]"   
 }
 {
   highlightCode on "sourceCode" line 3 row 0  
   highlightCode on "sourceCode" line 4 row 0  
+  setText of "hint" to "Process level is Level 0"   within 30 ticks
+  setText of "hint" to "Add process B to queue Level 0"   within 30 ticks
   setGridValue "queue_0[0][4]" "B" refresh   
   highlightGridCell "queue_0[0][4]"   
 }
@@ -373,22 +139,36 @@ author "Andre Challier, Christian Richter"
   unhighlightCode on "sourceCode" line 4 row 0  
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[3][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[4][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[5][3]"   
 }
 {
+  highlightCode on "sourceCode" line 3 row 0  
+  highlightCode on "sourceCode" line 4 row 0  
+  setText of "hint" to "Process level is Level 0"   within 30 ticks
+  setText of "hint" to "Add process E to queue Level 0"   within 30 ticks
+  setGridValue "queue_0[0][3]" "E" refresh   
+  highlightGridCell "queue_0[0][3]"   
+}
+{
+  unhighlightGridCell "queue_0[0][3]"   
+  unhighlightCode on "sourceCode" line 3 row 0  
+  unhighlightCode on "sourceCode" line 4 row 0  
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[5][3]"   
   unhighlightCode on "sourceCode" line 1 row 0  
@@ -398,16 +178,19 @@ author "Andre Challier, Christian Richter"
   unhighlightGridCell "inc_proc[4][0]"   
   unhighlightGridCell "inc_proc[5][0]"   
   highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
 }
 {
   setFont of "queuetext_0" to font SansSerif size 12 bold  
   highlightGridCell "queue_0[0][4]"   
   highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
 }
 {
   highlightCode on "sourceCode" line 7 row 0  
   highlightCode on "sourceCode" line 8 row 0  
   unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 6 row 0  
@@ -415,125 +198,7 @@ author "Andre Challier, Christian Richter"
   unhighlightCode on "sourceCode" line 8 row 0  
   unhighlightCode on "sourceCode" line 5 row 0  
   highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  setGridColor "inc_proc[2][2]" highlightFillColor (255,255,0)  
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "queue_0[0][4]"   
-  setGridValue "inc_proc[2][2]" "1" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  setGridColor "inc_proc[2][2]" highlightFillColor (0,255,0)  
-  unhighlightGridCell "inc_proc[2][2]"   
-  highlightCode on "sourceCode" line 15 row 0  
-  highlightCode on "sourceCode" line 16 row 0  
-}
-{
-  highlightCode on "sourceCode" line 17 row 0  
-  highlightCode on "sourceCode" line 18 row 0  
-  highlightCode on "sourceCode" line 19 row 0  
-}
-{
-  setGridValue "queue_0[0][4]" " " refresh   
-  setGridValue "queue_0[0][3]" " " refresh   
-  setGridValue "queue_0[0][2]" " " refresh   
-  setGridValue "queue_0[0][1]" " " refresh   
-  unhighlightGridCell "queue_0[0][4]"   
-}
-{
-  setGridValue "queue_0[0][4]" "B" refresh   
-  highlightGridCell "queue_0[0][4]"   
-}
-{
-  unhighlightGridCell "queue_0[0][4]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 17 row 0  
-  unhighlightCode on "sourceCode" line 18 row 0  
-  unhighlightCode on "sourceCode" line 19 row 0  
-  unhighlightCode on "sourceCode" line 15 row 0  
-  unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Currrent Time:: 3"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-  highlightGridCell "inc_proc[4][2]"   
-  highlightGridCell "inc_proc[5][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  unhighlightGridCell "inc_proc[4][2]"   
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-  highlightGridCell "inc_proc[4][0]"   
-  highlightGridCell "inc_proc[5][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[4][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[4][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[5][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[5][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  unhighlightGridCell "inc_proc[4][0]"   
-  unhighlightGridCell "inc_proc[5][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_0[0][4]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 9 row 0  
@@ -542,33 +207,38 @@ author "Andre Challier, Christian Richter"
   highlightGridCell "inc_proc[2][2]"   
   highlightGridCell "queue_0[0][4]"   
   setGridValue "inc_proc[2][2]" "0" refresh   
+  setText of "hint" to "Schedule process B from queue  Level 0"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 12 row 0  
   highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
 }
 {
   setGridColor "inc_proc[2][2]" highlightFillColor (0,255,0)  
   unhighlightGridCell "inc_proc[2][2]"   
   highlightCode on "sourceCode" line 14 row 0  
+  setText of "hint" to "Process has no work left and will be removed from queue"   within 30 ticks
 }
 {
-  setGridValue "queue_0[0][4]" " " refresh   
+  setGridValue "queue_0[0][4]" "E" refresh   
   setGridValue "queue_0[0][3]" " " refresh   
   setGridValue "queue_0[0][2]" " " refresh   
   setGridValue "queue_0[0][1]" " " refresh   
   unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Remove process B from queue  Level 0"   within 30 ticks
 }
 {
   setFont of "queuetext_0" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 14 row 0  
-  setText of "curr_time" to "Currrent Time:: 4"   within 30 ticks
+  setText of "curr_time" to "Current Time:: 1"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   highlightGridCell "inc_proc[1][2]"   
   highlightGridCell "inc_proc[2][2]"   
   highlightGridCell "inc_proc[3][2]"   
   highlightGridCell "inc_proc[4][2]"   
   highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
 }
 {
   unhighlightGridCell "inc_proc[1][2]"   
@@ -576,6 +246,7 @@ author "Andre Challier, Christian Richter"
   unhighlightGridCell "inc_proc[3][2]"   
   unhighlightGridCell "inc_proc[4][2]"   
   unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
   highlightCode on "sourceCode" line 1 row 0  
   highlightGridCell "inc_proc[1][0]"   
   highlightGridCell "inc_proc[2][0]"   
@@ -584,30 +255,35 @@ author "Andre Challier, Christian Richter"
   highlightGridCell "inc_proc[5][0]"   
 }
 {
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[1][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[2][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[3][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[4][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[5][3]"   
 }
@@ -621,24 +297,19 @@ author "Andre Challier, Christian Richter"
   unhighlightGridCell "inc_proc[4][0]"   
   unhighlightGridCell "inc_proc[5][0]"   
   highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
 }
 {
   setFont of "queuetext_0" to font SansSerif size 12 bold  
   highlightGridCell "queue_0[0][4]"   
   highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  unhighlightGridCell "queue_0[0][4]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 6 row 0  
-  setFont of "queuetext_1" to font SansSerif size 12 bold  
-  highlightGridCell "queue_1[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
 }
 {
   highlightCode on "sourceCode" line 7 row 0  
   highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_1[0][4]"   
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 6 row 0  
@@ -646,41 +317,997 @@ author "Andre Challier, Christian Richter"
   unhighlightCode on "sourceCode" line 8 row 0  
   unhighlightCode on "sourceCode" line 5 row 0  
   highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[5][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[5][2]"   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[5][2]" "4" refresh   
+  setText of "hint" to "Schedule process E from queue  Level 0"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[5][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[5][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+  setText of "hint" to "Process has work left and will be rescheduled"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time:: 2"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[5][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[5][2]"   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[5][2]" "3" refresh   
+  setText of "hint" to "Schedule process E from queue  Level 0"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[5][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[5][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+  setText of "hint" to "Process has work left and will be rescheduled"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time:: 3"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[5][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[5][2]"   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[5][2]" "2" refresh   
+  setText of "hint" to "Schedule process E from queue  Level 0"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[5][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[5][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+  setText of "hint" to "Process has work left and will be rescheduled"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time:: 4"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  highlightCode on "sourceCode" line 3 row 0  
+  highlightCode on "sourceCode" line 4 row 0  
+  setText of "hint" to "Process level is Level 0"   within 30 ticks
+  setText of "hint" to "Add process D to queue Level 0"   within 30 ticks
+  setGridValue "queue_0[0][3]" "D" refresh   
+  highlightGridCell "queue_0[0][3]"   
+}
+{
+  unhighlightGridCell "queue_0[0][3]"   
+  unhighlightCode on "sourceCode" line 3 row 0  
+  unhighlightCode on "sourceCode" line 4 row 0  
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[5][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[5][2]"   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[5][2]" "1" refresh   
+  setText of "hint" to "Schedule process E from queue  Level 0"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[5][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[5][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+  setText of "hint" to "Process has work left and will be rescheduled"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time:: 5"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[5][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[5][2]"   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[5][2]" "0" refresh   
+  setText of "hint" to "Schedule process E from queue  Level 0"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[5][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[5][2]"   
+  highlightCode on "sourceCode" line 14 row 0  
+  setText of "hint" to "Process has no work left and will be removed from queue"   within 30 ticks
+}
+{
+  setGridValue "queue_0[0][4]" "D" refresh   
+  setGridValue "queue_0[0][3]" " " refresh   
+  setGridValue "queue_0[0][2]" " " refresh   
+  setGridValue "queue_0[0][1]" " " refresh   
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Remove process E from queue  Level 0"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 14 row 0  
+  setText of "curr_time" to "Current Time:: 6"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 9 row 0  
   highlightCode on "sourceCode" line 12 row 0  
   setGridColor "inc_proc[4][2]" highlightFillColor (255,255,0)  
   highlightGridCell "inc_proc[4][2]"   
-  highlightGridCell "queue_1[0][4]"   
-  setGridValue "inc_proc[4][2]" "0" refresh   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[4][2]" "3" refresh   
+  setText of "hint" to "Schedule process D from queue  Level 0"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 12 row 0  
   highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[4][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[4][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+  setText of "hint" to "Process has work left and will be rescheduled"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time:: 7"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  highlightCode on "sourceCode" line 3 row 0  
+  highlightCode on "sourceCode" line 4 row 0  
+  setText of "hint" to "Process level is Level 1"   within 30 ticks
+  setText of "hint" to "Add process C to queue Level 1"   within 30 ticks
+  setGridValue "queue_1[0][4]" "C" refresh   
+  highlightGridCell "queue_1[0][4]"   
+}
+{
+  unhighlightGridCell "queue_1[0][4]"   
+  unhighlightCode on "sourceCode" line 3 row 0  
+  unhighlightCode on "sourceCode" line 4 row 0  
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[4][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[4][2]" "2" refresh   
+  setText of "hint" to "Schedule process D from queue  Level 0"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[4][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[4][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+  setText of "hint" to "Process has work left and will be rescheduled"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time:: 8"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  highlightCode on "sourceCode" line 3 row 0  
+  highlightCode on "sourceCode" line 4 row 0  
+  setText of "hint" to "Process level is Level 1"   within 30 ticks
+  setText of "hint" to "Add process A to queue Level 1"   within 30 ticks
+  setGridValue "queue_1[0][3]" "A" refresh   
+  highlightGridCell "queue_1[0][3]"   
+}
+{
+  unhighlightGridCell "queue_1[0][3]"   
+  unhighlightCode on "sourceCode" line 3 row 0  
+  unhighlightCode on "sourceCode" line 4 row 0  
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[4][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[4][2]" "1" refresh   
+  setText of "hint" to "Schedule process D from queue  Level 0"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[4][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[4][2]"   
+  highlightCode on "sourceCode" line 15 row 0  
+  highlightCode on "sourceCode" line 16 row 0  
+  setText of "hint" to "Process has work left and will be rescheduled"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightCode on "sourceCode" line 15 row 0  
+  unhighlightCode on "sourceCode" line 16 row 0  
+  setText of "curr_time" to "Current Time:: 9"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Queue Level 0 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[4][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "queue_0[0][4]"   
+  setGridValue "inc_proc[4][2]" "0" refresh   
+  setText of "hint" to "Schedule process D from queue  Level 0"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
 }
 {
   setGridColor "inc_proc[4][2]" highlightFillColor (0,255,0)  
   unhighlightGridCell "inc_proc[4][2]"   
   highlightCode on "sourceCode" line 14 row 0  
+  setText of "hint" to "Process has no work left and will be removed from queue"   within 30 ticks
 }
 {
-  setGridValue "queue_1[0][4]" " " refresh   
-  setGridValue "queue_1[0][3]" " " refresh   
-  setGridValue "queue_1[0][2]" " " refresh   
-  setGridValue "queue_1[0][1]" " " refresh   
-  unhighlightGridCell "queue_1[0][4]"   
+  setGridValue "queue_0[0][4]" " " refresh   
+  setGridValue "queue_0[0][3]" " " refresh   
+  setGridValue "queue_0[0][2]" " " refresh   
+  setGridValue "queue_0[0][1]" " " refresh   
+  unhighlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Remove process D from queue  Level 0"   within 30 ticks
 }
 {
-  setFont of "queuetext_1" to font SansSerif size 12  
+  setFont of "queuetext_0" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 14 row 0  
-  setText of "curr_time" to "Currrent Time:: 5"   within 30 ticks
+  setText of "curr_time" to "Current Time:: 10"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   highlightGridCell "inc_proc[1][2]"   
   highlightGridCell "inc_proc[2][2]"   
   highlightGridCell "inc_proc[3][2]"   
   highlightGridCell "inc_proc[4][2]"   
   highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
 }
 {
   unhighlightGridCell "inc_proc[1][2]"   
@@ -688,6 +1315,7 @@ author "Andre Challier, Christian Richter"
   unhighlightGridCell "inc_proc[3][2]"   
   unhighlightGridCell "inc_proc[4][2]"   
   unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
   highlightCode on "sourceCode" line 1 row 0  
   highlightGridCell "inc_proc[1][0]"   
   highlightGridCell "inc_proc[2][0]"   
@@ -696,39 +1324,35 @@ author "Andre Challier, Christian Richter"
   highlightGridCell "inc_proc[5][0]"   
 }
 {
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[1][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[2][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[3][3]"   
 }
 {
-  highlightCode on "sourceCode" line 3 row 0  
-  highlightCode on "sourceCode" line 4 row 0  
-  setGridValue "queue_0[0][4]" "C" refresh   
-  highlightGridCell "queue_0[0][4]"   
-}
-{
-  unhighlightGridCell "queue_0[0][4]"   
-  unhighlightCode on "sourceCode" line 3 row 0  
-  unhighlightCode on "sourceCode" line 4 row 0  
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[4][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[5][3]"   
 }
@@ -742,16 +1366,28 @@ author "Andre Challier, Christian Richter"
   unhighlightGridCell "inc_proc[4][0]"   
   unhighlightGridCell "inc_proc[5][0]"   
   highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
 }
 {
   setFont of "queuetext_0" to font SansSerif size 12 bold  
   highlightGridCell "queue_0[0][4]"   
   highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  unhighlightGridCell "queue_0[0][4]"   
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 6 row 0  
+  setFont of "queuetext_1" to font SansSerif size 12 bold  
+  highlightGridCell "queue_1[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 1"   within 30 ticks
 }
 {
   highlightCode on "sourceCode" line 7 row 0  
   highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightGridCell "queue_1[0][4]"   
+  setText of "hint" to "Queue Level 1 has pending work"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 6 row 0  
@@ -759,56 +1395,64 @@ author "Andre Challier, Christian Richter"
   unhighlightCode on "sourceCode" line 8 row 0  
   unhighlightCode on "sourceCode" line 5 row 0  
   highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 9 row 0  
   highlightCode on "sourceCode" line 12 row 0  
   setGridColor "inc_proc[3][2]" highlightFillColor (255,255,0)  
   highlightGridCell "inc_proc[3][2]"   
-  highlightGridCell "queue_0[0][4]"   
+  highlightGridCell "queue_1[0][4]"   
   setGridValue "inc_proc[3][2]" "1" refresh   
+  setText of "hint" to "Schedule process C from queue  Level 1"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 12 row 0  
   highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
 }
 {
   setGridColor "inc_proc[3][2]" highlightFillColor (0,255,0)  
   unhighlightGridCell "inc_proc[3][2]"   
   highlightCode on "sourceCode" line 15 row 0  
   highlightCode on "sourceCode" line 16 row 0  
+  setText of "hint" to "Process has work left and will be rescheduled"   within 30 ticks
 }
 {
   highlightCode on "sourceCode" line 17 row 0  
   highlightCode on "sourceCode" line 18 row 0  
   highlightCode on "sourceCode" line 19 row 0  
+  setText of "hint" to "Reschedule process with round-robin"   within 30 ticks
 }
 {
-  setGridValue "queue_0[0][4]" " " refresh   
-  setGridValue "queue_0[0][3]" " " refresh   
-  setGridValue "queue_0[0][2]" " " refresh   
-  setGridValue "queue_0[0][1]" " " refresh   
-  unhighlightGridCell "queue_0[0][4]"   
+  setGridValue "queue_1[0][4]" "A" refresh   
+  setGridValue "queue_1[0][3]" " " refresh   
+  setGridValue "queue_1[0][2]" " " refresh   
+  setGridValue "queue_1[0][1]" " " refresh   
+  unhighlightGridCell "queue_1[0][4]"   
+  setText of "hint" to "Remove process C from queue  Level 1"   within 30 ticks
 }
 {
-  setGridValue "queue_0[0][4]" "C" refresh   
-  highlightGridCell "queue_0[0][4]"   
+  setText of "hint" to "Add process C to queue Level 1"   within 30 ticks
+  setGridValue "queue_1[0][3]" "C" refresh   
+  highlightGridCell "queue_1[0][3]"   
 }
 {
-  unhighlightGridCell "queue_0[0][4]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightGridCell "queue_1[0][3]"   
+  setFont of "queuetext_1" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 17 row 0  
   unhighlightCode on "sourceCode" line 18 row 0  
   unhighlightCode on "sourceCode" line 19 row 0  
   unhighlightCode on "sourceCode" line 15 row 0  
   unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Currrent Time:: 6"   within 30 ticks
+  setText of "curr_time" to "Current Time:: 11"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   highlightGridCell "inc_proc[1][2]"   
   highlightGridCell "inc_proc[2][2]"   
   highlightGridCell "inc_proc[3][2]"   
   highlightGridCell "inc_proc[4][2]"   
   highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
 }
 {
   unhighlightGridCell "inc_proc[1][2]"   
@@ -816,6 +1460,7 @@ author "Andre Challier, Christian Richter"
   unhighlightGridCell "inc_proc[3][2]"   
   unhighlightGridCell "inc_proc[4][2]"   
   unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
   highlightCode on "sourceCode" line 1 row 0  
   highlightGridCell "inc_proc[1][0]"   
   highlightGridCell "inc_proc[2][0]"   
@@ -824,43 +1469,39 @@ author "Andre Challier, Christian Richter"
   highlightGridCell "inc_proc[5][0]"   
 }
 {
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[1][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[2][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[3][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[4][3]"   
 }
 {
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
   highlightCode on "sourceCode" line 2 row 0  
   highlightGridCell "inc_proc[5][3]"   
 }
 {
-  highlightCode on "sourceCode" line 3 row 0  
-  highlightCode on "sourceCode" line 4 row 0  
-  setGridValue "queue_1[0][4]" "E" refresh   
-  highlightGridCell "queue_1[0][4]"   
-}
-{
-  unhighlightGridCell "queue_1[0][4]"   
-  unhighlightCode on "sourceCode" line 3 row 0  
-  unhighlightCode on "sourceCode" line 4 row 0  
   unhighlightCode on "sourceCode" line 2 row 0  
   unhighlightGridCell "inc_proc[5][3]"   
   unhighlightCode on "sourceCode" line 1 row 0  
@@ -870,16 +1511,28 @@ author "Andre Challier, Christian Richter"
   unhighlightGridCell "inc_proc[4][0]"   
   unhighlightGridCell "inc_proc[5][0]"   
   highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
 }
 {
   setFont of "queuetext_0" to font SansSerif size 12 bold  
   highlightGridCell "queue_0[0][4]"   
   highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  unhighlightGridCell "queue_0[0][4]"   
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 6 row 0  
+  setFont of "queuetext_1" to font SansSerif size 12 bold  
+  highlightGridCell "queue_1[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 1"   within 30 ticks
 }
 {
   highlightCode on "sourceCode" line 7 row 0  
   highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_0[0][4]"   
+  unhighlightGridCell "queue_1[0][4]"   
+  setText of "hint" to "Queue Level 1 has pending work"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 6 row 0  
@@ -887,141 +1540,155 @@ author "Andre Challier, Christian Richter"
   unhighlightCode on "sourceCode" line 8 row 0  
   unhighlightCode on "sourceCode" line 5 row 0  
   highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 9 row 0  
+  highlightCode on "sourceCode" line 12 row 0  
+  setGridColor "inc_proc[1][2]" highlightFillColor (255,255,0)  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "queue_1[0][4]"   
+  setGridValue "inc_proc[1][2]" "0" refresh   
+  setText of "hint" to "Schedule process A from queue  Level 1"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 12 row 0  
+  highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
+}
+{
+  setGridColor "inc_proc[1][2]" highlightFillColor (0,255,0)  
+  unhighlightGridCell "inc_proc[1][2]"   
+  highlightCode on "sourceCode" line 14 row 0  
+  setText of "hint" to "Process has no work left and will be removed from queue"   within 30 ticks
+}
+{
+  setGridValue "queue_1[0][4]" "C" refresh   
+  setGridValue "queue_1[0][3]" " " refresh   
+  setGridValue "queue_1[0][2]" " " refresh   
+  setGridValue "queue_1[0][1]" " " refresh   
+  unhighlightGridCell "queue_1[0][4]"   
+  setText of "hint" to "Remove process A from queue  Level 1"   within 30 ticks
+}
+{
+  setFont of "queuetext_1" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 14 row 0  
+  setText of "curr_time" to "Current Time:: 12"   within 30 ticks
+  unhighlightCode on "sourceCode" line 13 row 0  
+  highlightGridCell "inc_proc[1][2]"   
+  highlightGridCell "inc_proc[2][2]"   
+  highlightGridCell "inc_proc[3][2]"   
+  highlightGridCell "inc_proc[4][2]"   
+  highlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for remaining Work"   within 30 ticks
+}
+{
+  unhighlightGridCell "inc_proc[1][2]"   
+  unhighlightGridCell "inc_proc[2][2]"   
+  unhighlightGridCell "inc_proc[3][2]"   
+  unhighlightGridCell "inc_proc[4][2]"   
+  unhighlightGridCell "inc_proc[5][2]"   
+  setText of "hint" to "Search for incoming processes"   within 30 ticks
+  highlightCode on "sourceCode" line 1 row 0  
+  highlightGridCell "inc_proc[1][0]"   
+  highlightGridCell "inc_proc[2][0]"   
+  highlightGridCell "inc_proc[3][0]"   
+  highlightGridCell "inc_proc[4][0]"   
+  highlightGridCell "inc_proc[5][0]"   
+}
+{
+  setText of "hint" to "Process A starts at 8"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[1][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[1][3]"   
+  setText of "hint" to "Process B starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[2][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[2][3]"   
+  setText of "hint" to "Process C starts at 7"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[3][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[3][3]"   
+  setText of "hint" to "Process D starts at 4"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[4][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[4][3]"   
+  setText of "hint" to "Process E starts at 0"   within 30 ticks
+  highlightCode on "sourceCode" line 2 row 0  
+  highlightGridCell "inc_proc[5][3]"   
+}
+{
+  unhighlightCode on "sourceCode" line 2 row 0  
+  unhighlightGridCell "inc_proc[5][3]"   
+  unhighlightCode on "sourceCode" line 1 row 0  
+  unhighlightGridCell "inc_proc[1][0]"   
+  unhighlightGridCell "inc_proc[2][0]"   
+  unhighlightGridCell "inc_proc[3][0]"   
+  unhighlightGridCell "inc_proc[4][0]"   
+  unhighlightGridCell "inc_proc[5][0]"   
+  highlightCode on "sourceCode" line 5 row 0  
+  setText of "hint" to "Search for a queue to schedule"   within 30 ticks
+}
+{
+  setFont of "queuetext_0" to font SansSerif size 12 bold  
+  highlightGridCell "queue_0[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 0"   within 30 ticks
+}
+{
+  unhighlightGridCell "queue_0[0][4]"   
+  setFont of "queuetext_0" to font SansSerif size 12  
+  unhighlightCode on "sourceCode" line 6 row 0  
+  setFont of "queuetext_1" to font SansSerif size 12 bold  
+  highlightGridCell "queue_1[0][4]"   
+  highlightCode on "sourceCode" line 6 row 0  
+  setText of "hint" to "Check queue Level 1"   within 30 ticks
+}
+{
+  highlightCode on "sourceCode" line 7 row 0  
+  highlightCode on "sourceCode" line 8 row 0  
+  unhighlightGridCell "queue_1[0][4]"   
+  setText of "hint" to "Queue Level 1 has pending work"   within 30 ticks
+}
+{
+  unhighlightCode on "sourceCode" line 6 row 0  
+  unhighlightCode on "sourceCode" line 7 row 0  
+  unhighlightCode on "sourceCode" line 8 row 0  
+  unhighlightCode on "sourceCode" line 5 row 0  
+  highlightCode on "sourceCode" line 9 row 0  
+  setText of "hint" to "Check for a queue to schedule"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 9 row 0  
   highlightCode on "sourceCode" line 12 row 0  
   setGridColor "inc_proc[3][2]" highlightFillColor (255,255,0)  
   highlightGridCell "inc_proc[3][2]"   
-  highlightGridCell "queue_0[0][4]"   
+  highlightGridCell "queue_1[0][4]"   
   setGridValue "inc_proc[3][2]" "0" refresh   
+  setText of "hint" to "Schedule process C from queue  Level 1"   within 30 ticks
 }
 {
   unhighlightCode on "sourceCode" line 12 row 0  
   highlightCode on "sourceCode" line 13 row 0  
+  setText of "hint" to "Check if process has work left"   within 30 ticks
 }
 {
   setGridColor "inc_proc[3][2]" highlightFillColor (0,255,0)  
   unhighlightGridCell "inc_proc[3][2]"   
   highlightCode on "sourceCode" line 14 row 0  
-}
-{
-  setGridValue "queue_0[0][4]" " " refresh   
-  setGridValue "queue_0[0][3]" " " refresh   
-  setGridValue "queue_0[0][2]" " " refresh   
-  setGridValue "queue_0[0][1]" " " refresh   
-  unhighlightGridCell "queue_0[0][4]"   
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 14 row 0  
-  setText of "curr_time" to "Currrent Time:: 7"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-  highlightGridCell "inc_proc[4][2]"   
-  highlightGridCell "inc_proc[5][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  unhighlightGridCell "inc_proc[4][2]"   
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-  highlightGridCell "inc_proc[4][0]"   
-  highlightGridCell "inc_proc[5][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[4][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[4][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[5][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[5][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  unhighlightGridCell "inc_proc[4][0]"   
-  unhighlightGridCell "inc_proc[5][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  unhighlightGridCell "queue_0[0][4]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 6 row 0  
-  setFont of "queuetext_1" to font SansSerif size 12 bold  
-  highlightGridCell "queue_1[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_1[0][4]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  setGridColor "inc_proc[5][2]" highlightFillColor (255,255,0)  
-  highlightGridCell "inc_proc[5][2]"   
-  highlightGridCell "queue_1[0][4]"   
-  setGridValue "inc_proc[5][2]" "2" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  setGridColor "inc_proc[5][2]" highlightFillColor (0,255,0)  
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 15 row 0  
-  highlightCode on "sourceCode" line 16 row 0  
-}
-{
-  highlightCode on "sourceCode" line 17 row 0  
-  highlightCode on "sourceCode" line 18 row 0  
-  highlightCode on "sourceCode" line 19 row 0  
+  setText of "hint" to "Process has no work left and will be removed from queue"   within 30 ticks
 }
 {
   setGridValue "queue_1[0][4]" " " refresh   
@@ -1029,267 +1696,21 @@ author "Andre Challier, Christian Richter"
   setGridValue "queue_1[0][2]" " " refresh   
   setGridValue "queue_1[0][1]" " " refresh   
   unhighlightGridCell "queue_1[0][4]"   
-}
-{
-  setGridValue "queue_1[0][4]" "E" refresh   
-  highlightGridCell "queue_1[0][4]"   
-}
-{
-  unhighlightGridCell "queue_1[0][4]"   
-  setFont of "queuetext_1" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 17 row 0  
-  unhighlightCode on "sourceCode" line 18 row 0  
-  unhighlightCode on "sourceCode" line 19 row 0  
-  unhighlightCode on "sourceCode" line 15 row 0  
-  unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Currrent Time:: 8"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-  highlightGridCell "inc_proc[4][2]"   
-  highlightGridCell "inc_proc[5][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  unhighlightGridCell "inc_proc[4][2]"   
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-  highlightGridCell "inc_proc[4][0]"   
-  highlightGridCell "inc_proc[5][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[4][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[4][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[5][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[5][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  unhighlightGridCell "inc_proc[4][0]"   
-  unhighlightGridCell "inc_proc[5][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  unhighlightGridCell "queue_0[0][4]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 6 row 0  
-  setFont of "queuetext_1" to font SansSerif size 12 bold  
-  highlightGridCell "queue_1[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_1[0][4]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  setGridColor "inc_proc[5][2]" highlightFillColor (255,255,0)  
-  highlightGridCell "inc_proc[5][2]"   
-  highlightGridCell "queue_1[0][4]"   
-  setGridValue "inc_proc[5][2]" "1" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  setGridColor "inc_proc[5][2]" highlightFillColor (0,255,0)  
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 15 row 0  
-  highlightCode on "sourceCode" line 16 row 0  
-}
-{
-  highlightCode on "sourceCode" line 17 row 0  
-  highlightCode on "sourceCode" line 18 row 0  
-  highlightCode on "sourceCode" line 19 row 0  
-}
-{
-  setGridValue "queue_1[0][4]" " " refresh   
-  setGridValue "queue_1[0][3]" " " refresh   
-  setGridValue "queue_1[0][2]" " " refresh   
-  setGridValue "queue_1[0][1]" " " refresh   
-  unhighlightGridCell "queue_1[0][4]"   
-}
-{
-  setGridValue "queue_1[0][4]" "E" refresh   
-  highlightGridCell "queue_1[0][4]"   
-}
-{
-  unhighlightGridCell "queue_1[0][4]"   
-  setFont of "queuetext_1" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 17 row 0  
-  unhighlightCode on "sourceCode" line 18 row 0  
-  unhighlightCode on "sourceCode" line 19 row 0  
-  unhighlightCode on "sourceCode" line 15 row 0  
-  unhighlightCode on "sourceCode" line 16 row 0  
-  setText of "curr_time" to "Currrent Time:: 9"   within 30 ticks
-  unhighlightCode on "sourceCode" line 13 row 0  
-  highlightGridCell "inc_proc[1][2]"   
-  highlightGridCell "inc_proc[2][2]"   
-  highlightGridCell "inc_proc[3][2]"   
-  highlightGridCell "inc_proc[4][2]"   
-  highlightGridCell "inc_proc[5][2]"   
-}
-{
-  unhighlightGridCell "inc_proc[1][2]"   
-  unhighlightGridCell "inc_proc[2][2]"   
-  unhighlightGridCell "inc_proc[3][2]"   
-  unhighlightGridCell "inc_proc[4][2]"   
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 1 row 0  
-  highlightGridCell "inc_proc[1][0]"   
-  highlightGridCell "inc_proc[2][0]"   
-  highlightGridCell "inc_proc[3][0]"   
-  highlightGridCell "inc_proc[4][0]"   
-  highlightGridCell "inc_proc[5][0]"   
-}
-{
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[1][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[1][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[2][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[2][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[3][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[3][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[4][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[4][3]"   
-  highlightCode on "sourceCode" line 2 row 0  
-  highlightGridCell "inc_proc[5][3]"   
-}
-{
-  unhighlightCode on "sourceCode" line 2 row 0  
-  unhighlightGridCell "inc_proc[5][3]"   
-  unhighlightCode on "sourceCode" line 1 row 0  
-  unhighlightGridCell "inc_proc[1][0]"   
-  unhighlightGridCell "inc_proc[2][0]"   
-  unhighlightGridCell "inc_proc[3][0]"   
-  unhighlightGridCell "inc_proc[4][0]"   
-  unhighlightGridCell "inc_proc[5][0]"   
-  highlightCode on "sourceCode" line 5 row 0  
-}
-{
-  setFont of "queuetext_0" to font SansSerif size 12 bold  
-  highlightGridCell "queue_0[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  unhighlightGridCell "queue_0[0][4]"   
-  setFont of "queuetext_0" to font SansSerif size 12  
-  unhighlightCode on "sourceCode" line 6 row 0  
-  setFont of "queuetext_1" to font SansSerif size 12 bold  
-  highlightGridCell "queue_1[0][4]"   
-  highlightCode on "sourceCode" line 6 row 0  
-}
-{
-  highlightCode on "sourceCode" line 7 row 0  
-  highlightCode on "sourceCode" line 8 row 0  
-  unhighlightGridCell "queue_1[0][4]"   
-}
-{
-  unhighlightCode on "sourceCode" line 6 row 0  
-  unhighlightCode on "sourceCode" line 7 row 0  
-  unhighlightCode on "sourceCode" line 8 row 0  
-  unhighlightCode on "sourceCode" line 5 row 0  
-  highlightCode on "sourceCode" line 9 row 0  
-}
-{
-  unhighlightCode on "sourceCode" line 9 row 0  
-  highlightCode on "sourceCode" line 12 row 0  
-  setGridColor "inc_proc[5][2]" highlightFillColor (255,255,0)  
-  highlightGridCell "inc_proc[5][2]"   
-  highlightGridCell "queue_1[0][4]"   
-  setGridValue "inc_proc[5][2]" "0" refresh   
-}
-{
-  unhighlightCode on "sourceCode" line 12 row 0  
-  highlightCode on "sourceCode" line 13 row 0  
-}
-{
-  setGridColor "inc_proc[5][2]" highlightFillColor (0,255,0)  
-  unhighlightGridCell "inc_proc[5][2]"   
-  highlightCode on "sourceCode" line 14 row 0  
-}
-{
-  setGridValue "queue_1[0][4]" " " refresh   
-  setGridValue "queue_1[0][3]" " " refresh   
-  setGridValue "queue_1[0][2]" " " refresh   
-  setGridValue "queue_1[0][1]" " " refresh   
-  unhighlightGridCell "queue_1[0][4]"   
+  setText of "hint" to "Remove process C from queue  Level 1"   within 30 ticks
 }
 {
   setFont of "queuetext_1" to font SansSerif size 12  
   unhighlightCode on "sourceCode" line 14 row 0  
-  setText of "curr_time" to "Currrent Time:: 10"   within 30 ticks
+  setText of "curr_time" to "Current Time:: 13"   within 30 ticks
   unhighlightCode on "sourceCode" line 13 row 0  
   unhighlightCode on "sourceCode" line 0 row 0  
+  setText of "hint" to "No process has pending work left"   within 30 ticks
 }
 {
   hideAllBut "desc"
-  text "summ_1" "This Multi-Level-Queue scheduled 10 time slots" (30, 70) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "summ_1" "This Multi-Level-Queue scheduled 13 time slots" (30, 70) color (0, 0, 0) depth 1 font SansSerif size 12
   text "summ_2" "of computing time for 5 processes in 3 queues" (30, 90) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "summ_3" "Work Time: 10" (30, 130) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "summ_3" "Work Time: 13" (30, 130) color (0, 0, 0) depth 1 font SansSerif size 12
   text "summ_4" "Idle Time: 0" (30, 150) color (0, 0, 0) depth 1 font SansSerif size 12
-  text "summ_5" "Scheduling Order: AABBDCCEEE" (30, 170) color (0, 0, 0) depth 1 font SansSerif size 12
+  text "summ_5" "Scheduling Order: BEEEEEDDDDCAC" (30, 170) color (0, 0, 0) depth 1 font SansSerif size 12
 }
