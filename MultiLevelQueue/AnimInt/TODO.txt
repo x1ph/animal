@@ -1,0 +1,30 @@
+ Abgabe 5:
+
+ 5.1 Einbau eines visuellen Zählers
+
+  Visuelle Zähler für zugriffe auf die Queues wurden eingerichtet
+
+5.2 Aktive einbeziehung des Betrachters
+
+  Verschiedene Fragengruppen müssen erstellt werden:
+
+  -> Fragengruppen zu Queueing, Scheduling, Iterationen erstellen
+
+5.3 Optimierung
+
+  Abschnitte müssen für jede Iteration, Einleitung und Fazit erstellt werden
+
+  Elmente werden durch Offsets positioniert.
+
+  Standardwerte Überdenken
+
+  Zeiger/Highlights werden passend bewegt.
+
+  Variablenfenster muss hinzugefügt werden
+
+  Deutsche sprachdatei erstellen
+
+5.4 Abgabe
+
+  Die abgabe muss ein zip sein mit Multilevelqueue.java, Multilevelqueue.zip und Sprachdatei (name ändern: mlq.* -> MultilevelQueue.*)
+  
