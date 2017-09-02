@@ -16,10 +16,9 @@ highest level and executes the upcoming process.\
 while the second queue uses Round-Robin-Scheduling.
 
 SOURCE_CODE=WHILE sum(proc.work) != 0\
-\n   FOR process IN procList\
-\n     IF process.time == time\
-\n       queue = queueList[process.level]\
-\n       queue.add(process)\
+\n   FOR process IN procList WHERE process.time == time\
+\n     queue = queueList[process.level]\
+\n     queue.add(process)\
 \n   FOR i FROM 0 TO (queueList.size - 1)\
 \n     IF queueList[i].current() != null\
 \n       queue = queueList[i]\
@@ -50,31 +49,30 @@ DESC_11=The first queue in this example uses First-Come-First-Serve-Scheduling w
 DESC_12=second queue uses Round-Robin-Scheduling.
 
 SRC_0=WHILE sum(proc.work) != 0
-SRC_1=FOR process IN procList
-SRC_2=IF process.time == time
-SRC_3=queue = queueList[process.level]
-SRC_4=queue.add(process)
-SRC_5=FOR i FROM 0 TO (queueList.size - 1)
-SRC_6=IF queueList[i].first() != null
-SRC_7=queue = queueList[i]
-SRC_8=BREAK
-SRC_9=IF queue == null
-SRC_10=time++
-SRC_11=CONTINUE
-SRC_12=run(queue.first())
-SRC_13=IF queue.first().work == 0
-SRC_14=queue.removeFirst()
-SRC_15=ELSE
-SRC_16=if(queue.useRoundRobin && queue.size > 1)
-SRC_17=temp = queue.first()
-SRC_18=queue.removeFirst()
-SRC_19=queue.add(temp)
+SRC_1=FOR process IN procList WHERE process.time == time
+SRC_2=queue = queueList[process.level]
+SRC_3=queue.add(process)
+SRC_4=FOR i FROM 0 TO (queueList.size - 1)
+SRC_5=IF queueList[i].first() != null
+SRC_6=queue = queueList[i]
+SRC_7=BREAK
+SRC_8=IF queue == null
+SRC_9=time++
+SRC_10=CONTINUE
+SRC_11=run(queue.first())
+SRC_12=IF queue.first().work == 0
+SRC_13=queue.removeFirst()
+SRC_14=ELSE
+SRC_15=if(queue.useRoundRobin && queue.size > 1)
+SRC_16=temp = queue.first()
+SRC_17=queue.removeFirst()
+SRC_18=queue.add(temp)
 
 ID=ID
 QUEUE=QUEUE
 WORK=WORK
 TIME=TIME
-CURR_TIME=Current Time:
+CURR_TIME=Current Time
 THIS_MLQ_SCHED=This Multi-Level-Queue scheduled
 TIME_SLOTS=time slots
 OF_COMP_TIME_FOR=of computing time for
@@ -89,7 +87,7 @@ STATEMENT=Statement
 REMAINING_WORK=Search for remaining Work
 INCOMING_PROCESS=Search for incoming processes
 PROCESS=Process
-STARTS_AT=starts at
+STARTS_NOW=starts now
 PROCESS_LEVEL_IS=Process level is
 ADD_PROCESS=Add process
 REMOVE_PROCESS=Remove process
@@ -109,3 +107,20 @@ TEMP_ROUND_ROBIN=Save process in temporary field
 NO_PROCESS_HAS_PENDING_WORK=No process has pending work left
 
 LEVEL=Level
+
+SECTION_DESCRIPTION=Description
+SECTION_ITERATION=Iteration
+SECTION_CONCLUSION=Conclusion
+
+VAR_KEY_TIME=Time
+VAR_KEY_COMPUTING_STEPS=Computing steps
+VAR_KEY_IDLING_STEPS=Idling steps
+VAR_KEY_I=i
+VAR_KEY_QUEUE=queue
+VAR_KEY_PROCESS=process
+VAR_KEY_DUE=due
+VAR_VALUE_VOID=void
+VAR_ROLE_QUEUE=Queue Level 
+VAR_ROLE_I=Index of Queue-Array
+VAR_ROLE_DUE=The index of the queue that is due next
+
