@@ -49,6 +49,8 @@ import algoanim.util.Timing;
 
 public class MultilevelQueue implements ValidatingGenerator {
 	
+	private String path;
+	private Locale loc;
     private Language lang;
     private Color highlightColor;
     private ArrayProperties arg_queueProperties;
@@ -149,12 +151,184 @@ public class MultilevelQueue implements ValidatingGenerator {
 	 */
 	public final static Timing defaultDuration = new TicksTiming(30);
 	
+	/*
+	 * Constants for animation
+	 */
+	private static final int DESCRIPTION_LENGTH = 12;
+	private static final int QUEUES_MAX = 10;
+	private static final int PROCESSES_MAX = 10;
+	private static final int WORK_MAX = 100;
+	private static final int ARRIVAL_MAX = 100;
+	
+	/*
+	 * Constant Strings for initialisation
+	 */
+	private static final String INIT_TITLE = "Multi-Level Queue";
+	private static final String INIT_AUTHOR = "Andre Challier <andre.challier@stud.tu-darmstadt.de>, Christian Richter <chrisrichter145@gmail.com>";
+	private static final String EMPTY_QUEUE_FIELD = " ";
+	private static final String SCHEDULING_ORDER_IDLE = "-";
+	private static final String FILE_EXTENSION= "asu";
+	
+	/*
+	 * Constant Strings for property keys
+	 */
+	private static final String PROP_TABLE = "table";
+	
+	/*
+	 * Constant Strings for variable Types
+	 */
+	private static final String VAR_TYPE_STRING = "String";
+	private static final String VAR_TYPE_INT = "int";
+	/*
+	 * Constant Strings for argument parameters
+	 */
+	private static final String ARG_KEY_QUEUES = "Queues";
+	private static final String ARG_KEY_QUEUE_STRAT_RR = "RR";
+	private static final String ARG_KEY_QUEUE_STRAT_FIFO = "FIFO";
+	private static final String ARG_KEY_PROCESSES = "Processes";
+	private static final String ARG_KEY_HIGHLIGHTCOLOR = "HighlightColor";
+	private static final String ARG_KEY_QUEUETABLE = "QueueTable";
+	private static final String ARG_KEY_PROCESSTABLE = "ProcessTable";
+	
+	/*
+	 * Constant Strings for names of primitives
+	 */
+	private static final String NAME_TITLE = "title";
+	private static final String NAME_DESCRIPTION_LN = "description_ln_";
+	private static final String NAME_SOURCECODE = "source_code";
+	private static final String NAME_CURRENTTIME = "current_time";
+	private static final String NAME_HINT = "hint";
+	private static final String NAME_HEAD_MARKER = "head_marker";
+	private static final String NAME_TAIL_MARKER = "tail_marker";
+	private static final String NAME_QG_SCHEDULE_QUESTIONS = "schedule_questions";
+	private static final String NAME_QG_RESCHEDULE_QUESTIONS = "reschedule_questions";
+	private static final String NAME_QG_ENQUEUE_QUESTIONS = "enqueue_questions";
+	private static final String NAME_QG_NEXT_QUEUE_QUESTIONS = "nextqueue_questions";
+	private static final String NAME_SCHEDULE_QUESTION = "schedule_question";
+	private static final String NAME_RESCHEDULE_QUESTION = "reschedule_question";
+	private static final String NAME_ENQUEUE_QUESTION = "enqueue_question";
+	private static final String NAME_NEXT_QUEUE_QUESTION = "nextqueue_question";
+	private static final String NAME_SUM_LN = "summary_ln_";
+	private static final String NAME_QUEUETEXT = "queuetext_";
+	private static final String NAME_QUEUE = "queue_";
+	private static final String NAME_INCOMING_PROCESSES = "inc_procs";
+	
+	/*
+	 * Constant Strings for translation keys
+	 */
+	private static final String TRL_TITLE = "TITLE";
+	private static final String TRL_DESCRIPTION = "DESCRIPTION";
+	private static final String TRL_SOURCE_CODE = "SOURCECODE";
+	private static final String TRL_DESCRIPTION_LINE_ = "DESCRIPTION_LN_";
+	private static final String TRL_CURRENTTIME = "CURRENTTIME";
+	private static final String TRL_ID = "ID";
+	private static final String TRL_QUEUE = "QUEUE";
+	private static final String TRL_WORK = "WORK";
+	private static final String TRL_TIME = "TIME";
+	private static final String TRL_HEAD_MARKER = "HEAD_MARKER";
+	private static final String TRL_TAIL_MARKER = "TAIL_MARKER";
+	private static final String TRL_QUEUETYPE_RR = "QUEUETYPE_RR";
+	private static final String TRL_QUEUETYPE_FIFO = "QUEUETYPE_FIFO";
+	private static final String TRL_QUEUENAME = "QUEUENAME";
+	
+	// SECTIONS
+	private static final String TRL_SECTION_DESCRIPTION = "SECTION_DESCRIPTION";
+	private static final String TRL_SECTION_ITERATION = "SECTION_ITERATION";
+	private static final String TRL_SECTION_CONCLUSION = "SECTION_CONCLUSION";
+	
+	// VARIABLES
+	private static final String TRL_VAR_KEY_PROCESS = "VAR_KEY_PROCESS";
+	private static final String TRL_VAR_KEY_DUE = "VAR_KEY_DUE";
+	private static final String TRL_VAR_KEY_QUEUE = "VAR_KEY_QUEUE";
+	private static final String TRL_VAR_KEY_I = "VAR_KEY_I";
+	
+	// HINT MESSAGES
+	private static final String TRL_HINT_REMAINING_WORK = "HINT_REMAINING_WORK";
+	private static final String TRL_HINT = "HINT";
+	private static final String TRL_HINT_INCOMING_PROCESS = "HINT_INCOMING_PROCESS";
+	private static final String TRL_HINT_CHECK_QUEUE = "HINT_CHECK_QUEUE";
+	private static final String TRL_HINT_QUEUE_HAS_PENDING_WORK = "HINT_QUEUE_HAS_PENDING_WORK";
+	private static final String TRL_HINT_CHECK_FOR_QUEUE_TO_SCHEDULE = "HINT_CHECK_FOR_QUEUE_TO_SCHEDULE";
+	private static final String TRL_HINT_NO_QUEUE_HAS_PENDING_WORK = "HINT_NO_QUEUE_HAS_PENDING_WORK";
+	private static final String TRL_HINT_SCHEDULE_PROCESS_FROM_QUEUE = "HINT_SCHEDULE_PROCESS_FROM_QUEUE";
+	private static final String TRL_HINT_CHECK_IF_WORK_LEFT = "HINT_CHECK_IF_WORK_LEFT";
+	private static final String TRL_HINT_PROCESS_HAS_NO_WORK_LEFT_REMOVE = "HINT_PROCESS_HAS_NO_WORK_LEFT_REMOVE";
+	private static final String TRL_HINT_PROCESS_HAS_WORK_LEFT_RESCHEDULE = "HINT_PROCESS_HAS_WORK_LEFT_RESCHEDULE";
+	private static final String TRL_HINT_TEMP_ROUND_ROBIN = "HINT_TEMP_ROUND_ROBIN";
+	private static final String TRL_HINT_NO_PROCESS_HAS_PENDING_WORK = "HINT_NO_PROCESS_HAS_PENDING_WORK";
+	private static final String TRL_HINT_REMOVE_PROCESS_FROM_QUEUE = "HINT_REMOVE_PROCESS_FROM_QUEUE";
+	private static final String TRL_HINT_ADD_PROCESS_TO_QUEUE = "HINT_ADD_PROCESS_TO_QUEUE";
+	private static final String TRL_HINT_SEARCH_FOR_QUEUE_TO_SCHEDULE = "HINT_SEARCH_FOR_QUEUE_TO_SCHEDULE";
+	private static final String TRL_HINT_PROCESS_STARTS_NOW = "HINT_PROCESS_STARTS_NOW";
+	
+	// SUMMARY MESSAGES
+	private static final String TRL_SUM_MLQ_TIMESLOTS = "SUM_MLQ_TIMESLOTS";
+	private static final String TRL_SUM_PROC_IN_QUEUES = "SUM_PROC_IN_QUEUES";
+	private static final String TRL_SUM_WORK_TIME = "SUM_WORK_TIME";
+	private static final String TRL_SUM_IDLE_TIME = "SUM_IDLE_TIME";
+	private static final String TRL_SUM_SCHEDULING_ORDER = "SUM_SCHEDULING_ORDER";
+	
+	// VALIDATION MESSAGES
+	private static final String TRL_VAL_INV_QUEUES = "VAL_NO_QUEUES";
+	private static final String TRL_VAL_INV_PROCESSES = "VAL_NO_PROCESSES";
+	private static final String TRL_VAL_INV_FIELDS = "VAL_INV_FIELDS";
+	private static final String TRL_VAL_NO_SCHED = "VAL_NO_SCHED";
+	private static final String TRL_VAL_INV_SCHED = "VAL_INV_SCHED";
+	private static final String TRL_VAL_EMPTY_NAME = "VAL_EMPTY_NAME";
+	private static final String TRL_VAL_PROC_WO_QUEUE = "VAL_PROC_WO_QUEUE";
+	private static final String TRL_VAL_INV_QUEUE_ID = "VAL_INV_QUEUE_ID";
+	private static final String TRL_VAL_MALF_QUEUE_ID = "VAL_MALF_QUEUE_ID";
+	private static final String TRL_VAL_PROC_WO_WORK = "VAL_PROC_WO_WORK";
+	private static final String TRL_VAL_MALF_WORK = "VAL_MALF_WORK";
+	private static final String TRL_VAL_PROC_WO_ARRIVAL = "VAL_PROC_WO_ARRIVAL";
+	private static final String TRL_VAL_MALF_ARRIVAL = "VAL_MALF_ARRIVAL";
+	
+	// QUESTION MESSAGES
+	private static final String TRL_QST_SCHED = "QST_SCHED";
+	private static final String TRL_ANS_SCHED_NONE = "ANS_SCHED_NONE";
+	private static final String TRL_FB_SCHED_RIGHT = "FB_SCHED_RIGHT";
+	private static final String TRL_FB_SCHED_WRONG = "FB_SCHED_WRONG";
+
+	private static final String TRL_QST_ENQ = "QST_ENQ";
+	private static final String TRL_ANS_ENQ_NONE = "ANS_ENQ_NONE";
+	private static final String TRL_FB_ENQ_RIGHT_ARRIVAL = "FB_ENQ_RIGHT_ARRIVAL";
+	private static final String TRL_FB_ENQ_WRONG_ARRIVAL = "FB_ENQ_WRONG_ARRIVAL";
+	private static final String TRL_FB_ENQ_RIGHT_NONE = "FB_ENQ_RIGHT_NONE";
+	private static final String TRL_FB_ENQ_WRONG_NONE = "FB_ENQ_WRONG_NONE";
+	
+	private static final String TRL_QST_NQ = "QST_NQ";
+	private static final String TRL_ANS_NQ_NONE = "ANS_NQ_NONE";
+	private static final String TRL_FB_NQ_WRONG_NOT_FIRST = "FB_NQ_WRONG_NOT_FIRST";
+	private static final String TRL_FB_NQ_WRONG_EMPTY = "FB_NQ_WRONG_EMPTY";
+	private static final String TRL_FB_NQ_RIGHT_QUEUE = "FB_NQ_RIGHT_QUEUE";
+	private static final String TRL_FB_NQ_RIGHT_NONE = "FB_NQ_RIGHT_NONE";
+	private static final String TRL_FB_NQ_WRONG_NONE = "FB_NQ_WRONG_NONE";
+
+	private static final String TRL_QST_RSCHED = "QST_RSCHED";
+	private static final String TRL_ANS_RSCHED_STAY = "ANS_RSCHED_STAY";
+	private static final String TRL_ANS_RSCHED_RE = "ANS_RSCHED_RE";
+	private static final String TRL_ANS_RSCHED_REM = "ANS_RSCHED_REM";
+	private static final String TRL_FB_RSCHED_RIGHT_NO_WORK = "FB_RSCHED_RIGHT_NO_WORK";
+	private static final String TRL_FB_RSCHED_WRONG_NO_WORK = "FB_RSCHED_WRONG_NO_WORK";
+	private static final String TRL_FB_RSCHED_WRONG_WORK_LEFT = "FB_RSCHED_WRONG_WORK_LEFT";
+	private static final String TRL_FB_RSCHED_RIGHT_ONLY_ONE = "FB_RSCHED_RIGHT_ONLY_ONE";
+	private static final String TRL_FB_RSCHED_WRONG_ONLY_ONE = "FB_RSCHED_WRONG_ONLY_ONE";
+	private static final String TRL_FB_RSCHED_WRONG_RR = "FB_RSCHED_WRONG_RR";
+	private static final String TRL_FB_RSCHED_RIGHT_RR = "FB_RSCHED_RIGHT_RR";
+	private static final String TRL_FB_RSCHED_RIGHT_FIFO = "FB_RSCHED_RIGHT_FIFO";
+	private static final String TRL_FB_RSCHED_WRONG_FIFO = "FB_RSCHED_WRONG_FIFO";
+	
+	
+	
+	
 	public MultilevelQueue(String path, Locale loc) {
+		this.path = path;
+		this.loc = loc;
 		trl = new Translator(path, loc);
 	}
 
     public void init(){
-        lang = new AnimalScript("Animation of Multilevel Queue", "Andre Challier <andre.challier@stud.tu-darmstadt.de>, Christian Richter <chrisrichter145@gmail.com>", 800, 600);
+        lang = new AnimalScript(INIT_TITLE, INIT_AUTHOR, 800, 600);
         lang.setStepMode(true);
         lang.setInteractionType(Language.INTERACTION_TYPE_AVINTERACTION);
         vars = lang.newVariables();
@@ -162,18 +336,18 @@ public class MultilevelQueue implements ValidatingGenerator {
 
     public String generate(AnimationPropertiesContainer props,Hashtable<String, Object> primitives) {
         
-    	arg_queues = (String[])primitives.get("Queues");
-        arg_processes = (String[][])primitives.get("Processes");
+    	arg_queues = (String[])primitives.get(ARG_KEY_QUEUES);
+        arg_processes = (String[][])primitives.get(ARG_KEY_PROCESSES);
     	
-    	highlightColor = (Color)primitives.get("HighlightColor");
-        arg_queueProperties = (ArrayProperties)props.getPropertiesByName("QueueTable");
-        arg_processProperties = (MatrixProperties)props.getPropertiesByName("ProcessTable");
+    	highlightColor = (Color)primitives.get(ARG_KEY_HIGHLIGHTCOLOR);
+        arg_queueProperties = (ArrayProperties)props.getPropertiesByName(ARG_KEY_QUEUETABLE);
+        arg_processProperties = (MatrixProperties)props.getPropertiesByName(ARG_KEY_PROCESSTABLE);
         
-		arg_processProperties.set(AnimationPropertiesKeys.GRID_STYLE_PROPERTY, "table");
+		arg_processProperties.set(AnimationPropertiesKeys.GRID_STYLE_PROPERTY, PROP_TABLE);
 		headMarkerProperties = new ArrayMarkerProperties();
 		tailMarkerProperties = new ArrayMarkerProperties();
-		headMarkerProperties.set(AnimationPropertiesKeys.LABEL_PROPERTY, "head");
-		tailMarkerProperties.set(AnimationPropertiesKeys.LABEL_PROPERTY, "tail");
+		headMarkerProperties.set(AnimationPropertiesKeys.LABEL_PROPERTY, trl.translateMessage(TRL_HEAD_MARKER));
+		tailMarkerProperties.set(AnimationPropertiesKeys.LABEL_PROPERTY, trl.translateMessage(TRL_TAIL_MARKER));
 		tailMarkerProperties.set(AnimationPropertiesKeys.SHORT_MARKER_PROPERTY, true);
         
         queues = new LinkedList<Queue>();
@@ -190,40 +364,20 @@ public class MultilevelQueue implements ValidatingGenerator {
         
         TextProperties titleProps = new TextProperties();
 		titleProps.set(AnimationPropertiesKeys.FONT_PROPERTY, new Font(Font.SANS_SERIF, Font.PLAIN, 20));
-		title = lang.newText(new Coordinates(30,30), trl.translateMessage("DESC_TITLE"), "desc", null, titleProps);
-
-
-		Text desc1 =lang.newText(new Offset(0, 20, title, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_1"), "desc", null );
-        Text desc2 =lang.newText(new Offset(0, 20, desc1, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_2"), "desc", null );
-        Text desc3 =lang.newText(new Offset(0, 20, desc2, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_3"), "desc", null );
-        Text desc4 =lang.newText(new Offset(0, 20, desc3, AnimalScript.DIRECTION_SW),trl.translateMessage("DESC_4"), "desc", null );
-        Text desc5 =lang.newText(new Offset(0, 20, desc4, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_5"), "desc", null );
-        Text desc6 =lang.newText(new Offset(0, 20, desc5, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_6"), "desc", null );
-
-        Text desc7 =lang.newText(new Offset(0, 30, desc6, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_7"), "desc", null );
-        Text desc8 =lang.newText(new Offset(0, 20, desc7, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_8"), "desc", null );
-        Text desc9 =lang.newText(new Offset(0, 20, desc8, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_9"), "desc", null );
-        Text desc10 =lang.newText(new Offset(0, 20, desc9, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_10"), "desc", null );
-
-        Text desc11 =lang.newText(new Offset(0, 30, desc10, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_11"), "desc", null );
-        Text desc12 =lang.newText(new Offset(0, 20, desc11, AnimalScript.DIRECTION_SW), trl.translateMessage("DESC_12"), "desc", null );
-
-        lang.nextStep(trl.translateMessage("SECTION_DESCRIPTION"));
+		title = lang.newText(new Coordinates(30,30), trl.translateMessage(TRL_TITLE), NAME_TITLE, null, titleProps);
+		
+		Text[] description = new Text[DESCRIPTION_LENGTH];
+		description[0] = lang.newText(new Offset(0, 20, title, AnimalScript.DIRECTION_SW), trl.translateMessage(TRL_DESCRIPTION_LINE_ + 1), NAME_DESCRIPTION_LN + 1, null );
+		for(int i = 1; i < DESCRIPTION_LENGTH; i++) {
+			description[i] =lang.newText(new Offset(0, 5, description[i-1], AnimalScript.DIRECTION_SW), trl.translateMessage(TRL_DESCRIPTION_LINE_ + (i+1)), NAME_DESCRIPTION_LN + (i+1), null );
+		}
+        
+        lang.nextStep(trl.translateMessage(TRL_SECTION_DESCRIPTION));
         
         //hide description
-        
-		desc1.hide();
-		desc2.hide();
-		desc3.hide();
-		desc4.hide();
-		desc5.hide();
-		desc6.hide();
-		desc7.hide();
-		desc8.hide();
-		desc9.hide();
-		desc10.hide();
-		desc11.hide();
-		desc12.hide();
+        for(Text t : description) {
+        	t.hide();
+        }
 		
 		// first, set the visual properties for the source code
 		SourceCodeProperties scProps = new SourceCodeProperties();
@@ -234,7 +388,7 @@ public class MultilevelQueue implements ValidatingGenerator {
 		scProps.set(AnimationPropertiesKeys.HIGHLIGHTCOLOR_PROPERTY, highlightColor);
 		
 		// now, create the source code entity
-		sc = lang.newSourceCode(new Offset(0, 20, title, AnimalScript.DIRECTION_SW), "sourceCode", null, scProps);
+		sc = lang.newSourceCode(new Offset(0, 20, title, AnimalScript.DIRECTION_SW), NAME_SOURCECODE, null, scProps);
 		
 		sc.addCodeLine(trl.translateMessage("SRC_0"), null, 0, null);	// line 0
 		sc.addCodeLine(trl.translateMessage("SRC_1"), null, 1, null);	// line 1
@@ -245,27 +399,27 @@ public class MultilevelQueue implements ValidatingGenerator {
 		sc.addCodeLine(trl.translateMessage("SRC_6"), null, 3, null);	// line 6
 		sc.addCodeLine(trl.translateMessage("SRC_7"), null, 3, null);	// line 7
 		sc.addCodeLine(trl.translateMessage("SRC_8"), null, 1, null);	// line 8
-		sc.addCodeLine(trl.translateMessage("SRC_9"), null, 2, null); // line 9
-		sc.addCodeLine(trl.translateMessage("SRC_10"), null, 2, null); // line 10
-		sc.addCodeLine(trl.translateMessage("SRC_11"), null, 1, null); // line 11
-		sc.addCodeLine(trl.translateMessage("SRC_12"), null, 1, null); // line 12
-		sc.addCodeLine(trl.translateMessage("SRC_13"), null, 2, null); // line 13
-		sc.addCodeLine(trl.translateMessage("SRC_14"), null, 1, null); // line 14
-		sc.addCodeLine(trl.translateMessage("SRC_15"), null, 2, null); // line 15
-		sc.addCodeLine(trl.translateMessage("SRC_16"), null, 3, null); // line 16
-		sc.addCodeLine(trl.translateMessage("SRC_17"), null, 3, null); // line 17
-		sc.addCodeLine(trl.translateMessage("SRC_18"), null, 3, null); // line 18
+		sc.addCodeLine(trl.translateMessage("SRC_9"), null, 2, null); 	// line 9
+		sc.addCodeLine(trl.translateMessage("SRC_10"), null, 2, null);	// line 10
+		sc.addCodeLine(trl.translateMessage("SRC_11"), null, 1, null);	// line 11
+		sc.addCodeLine(trl.translateMessage("SRC_12"), null, 1, null);	// line 12
+		sc.addCodeLine(trl.translateMessage("SRC_13"), null, 2, null);	// line 13
+		sc.addCodeLine(trl.translateMessage("SRC_14"), null, 1, null);	// line 14
+		sc.addCodeLine(trl.translateMessage("SRC_15"), null, 2, null);	// line 15
+		sc.addCodeLine(trl.translateMessage("SRC_16"), null, 3, null);	// line 16
+		sc.addCodeLine(trl.translateMessage("SRC_17"), null, 3, null);	// line 17
+		sc.addCodeLine(trl.translateMessage("SRC_18"), null, 3, null);	// line 18
 		
 		// init time view
 		TextProperties tp = new TextProperties();
-		currentTimeText = lang.newText(new Offset(20, 0, sc, AnimalScript.DIRECTION_NE), trl.translateMessage("CURR_TIME") + currentTime, "curr_time", null, tp);
+		currentTimeText = lang.newText(new Offset(20, 0, sc, AnimalScript.DIRECTION_NE), trl.translateMessage(TRL_CURRENTTIME, Integer.toString(currentTime)), NAME_CURRENTTIME, null, tp);
 		
 		// init processes and process views
 		String[][] procMatrix = new String[arg_processes.length + 1][4];
-		procMatrix[0][0] = trl.translateMessage("ID");
-		procMatrix[0][1] = trl.translateMessage("QUEUE");
-		procMatrix[0][2] = trl.translateMessage("WORK");
-		procMatrix[0][3] = trl.translateMessage("TIME");
+		procMatrix[0][0] = trl.translateMessage(TRL_ID);
+		procMatrix[0][1] = trl.translateMessage(TRL_QUEUE);
+		procMatrix[0][2] = trl.translateMessage(TRL_WORK);
+		procMatrix[0][3] = trl.translateMessage(TRL_TIME);
 		
 		for(int i = 0; i < arg_processes.length; i++) {
 			String[] arg_process = arg_processes[i];
@@ -274,17 +428,17 @@ public class MultilevelQueue implements ValidatingGenerator {
         	int work = Integer.parseInt(arg_process[2]);
         	int arrival = Integer.parseInt(arg_process[3]);
         	inc_procs.add(new Process(name, queue, work, arrival, i+1));
-        	vars.declare("String", trl.translateMessage("VAR_KEY_PROCESS") + name, Integer.toString(work), "Work of Process " + name);
+        	vars.declare(VAR_TYPE_STRING, trl.translateMessage(TRL_VAR_KEY_PROCESS, name), Integer.toString(work));
         	procMatrix[i + 1][0] = inc_procs.get(i).name;
-			procMatrix[i + 1][1] = "Level " + inc_procs.get(i).queue;
+			procMatrix[i + 1][1] = trl.translateMessage(TRL_QUEUENAME, Integer.toString(inc_procs.get(i).queue));
 			procMatrix[i + 1][2] = Integer.toString(inc_procs.get(i).work);
 			procMatrix[i + 1][3] = Integer.toString(inc_procs.get(i).arrival);
         }
 		
-		processMatrix = lang.newStringMatrix(new Offset(0, 20, currentTimeText, AnimalScript.DIRECTION_SW), procMatrix, "inc_proc", null, arg_processProperties);
+		processMatrix = lang.newStringMatrix(new Offset(0, 20, currentTimeText, AnimalScript.DIRECTION_SW), procMatrix, NAME_INCOMING_PROCESSES, null, arg_processProperties);
 		
 		// init Hint-Text
-		hint = lang.newText(new Offset(20, -30, processMatrix, AnimalScript.DIRECTION_NE), "", "hint", null, tp);
+		hint = lang.newText(new Offset(20, -30, processMatrix, AnimalScript.DIRECTION_NE), trl.translateMessage(TRL_HINT), NAME_HINT, null, tp);
 		
 		// init Queues
 		queueViews = new StringArray[arg_queues.length];
@@ -298,15 +452,22 @@ public class MultilevelQueue implements ValidatingGenerator {
         for(int i = 0; i < arg_queues.length; i++) {
         	// get queue strategy
         	String queueStrat = arg_queues[i];
-        	boolean RR = queueStrat.equals("RR");
+        	boolean RR;
+        	if(queueStrat.equals(ARG_KEY_QUEUE_STRAT_RR)) {
+        		RR = true;
+        	}else if(queueStrat.equals(ARG_KEY_QUEUE_STRAT_FIFO)) {
+        		RR = false;
+        	}else {
+        		RR = false;
+        	}
         	
         	// build queue name
-        	String queueName = "Level " + i;
+        	String queueName = trl.translateMessage(TRL_QUEUENAME, Integer.toString(i));
         	
         	// build initial empty String Array
         	String[] queueStat = new String[inc_procs.size()];
 	    	for(int j = 0; j < inc_procs.size(); j++) {
-	    		queueStat[j] = new String(" ");
+	    		queueStat[j] = new String(EMPTY_QUEUE_FIELD);
 	    	}
         	
         	// find anchor
@@ -320,8 +481,8 @@ public class MultilevelQueue implements ValidatingGenerator {
 	    	// draw label
 	    	queueNames[i] = lang.newText(
 	    			anchor, 
-	    			RR ? queueName + " (RR)": queueName + " (FIFO)", 
-	    			"queuetext_" + i, 
+	    			RR ? trl.translateMessage(TRL_QUEUETYPE_RR, queueName) : trl.translateMessage(TRL_QUEUETYPE_FIFO, queueName),
+	    			NAME_QUEUETEXT + i, 
 	    			null, 
 	    			queueNameTextProp);
 	    	
@@ -329,7 +490,7 @@ public class MultilevelQueue implements ValidatingGenerator {
 	    	queueViews[i] = lang.newStringArray(
 	    			new Offset(20, 0, queueNames[i], AnimalScript.DIRECTION_NE), 
 	    			queueStat, 
-	    			"queue_" + i, 
+	    			NAME_QUEUE + i, 
 	    			null, 
 	    			arg_queueProperties);
 	    	
@@ -343,35 +504,33 @@ public class MultilevelQueue implements ValidatingGenerator {
 	    			AnimalScript.DIRECTION_NE), 
 	    			queueCounterProperties, true, true);
         	queues.add(
-        			new Queue("Level " + queues.size(), 
+        			new Queue(trl.translateMessage(TRL_QUEUENAME, Integer.toString(queues.size())), 
         			RR, 
         			arg_processes.length, 
         			queueViews[i],
         			queueNames[i]));
         	vars.declare(
-    				"String", 
-    				trl.translateMessage("VAR_KEY_QUEUE") + i, 
-    				queues.get(i).name + " " + queues.get(i).toString(),
-    				trl.translateMessage("VAR_ROLE_QUEUE") + " " + i);
+    				VAR_TYPE_STRING, 
+    				trl.translateMessage(TRL_VAR_KEY_QUEUE, Integer.toString(i)), 
+    				queues.get(i).toString());
         }
 		
 		lang.nextStep();
 		vars.declare(
-				"int", 
-				trl.translateMessage("VAR_KEY_DUE"), 
-				"-1",
-				trl.translateMessage("VAR_ROLE_DUE"));
+				VAR_TYPE_INT, 
+				trl.translateMessage(TRL_VAR_KEY_DUE), 
+				Integer.toString(-1));
         
-		scheduleQuestions = new QuestionGroupModel("scheduleQuestions", 3);
+		scheduleQuestions = new QuestionGroupModel(NAME_QG_SCHEDULE_QUESTIONS, 3);
         lang.addQuestionGroup(scheduleQuestions);
         
-        enqueueQuestions = new QuestionGroupModel("enqueueQuestions", 3);
+        enqueueQuestions = new QuestionGroupModel(NAME_QG_ENQUEUE_QUESTIONS, 3);
         lang.addQuestionGroup(enqueueQuestions);
         
-        nextQueueQuestions = new QuestionGroupModel("nextQueueQuestions", 3);
+        nextQueueQuestions = new QuestionGroupModel(NAME_QG_NEXT_QUEUE_QUESTIONS, 3);
         lang.addQuestionGroup(nextQueueQuestions);
         
-        rescheduleQuestions = new QuestionGroupModel("rescheduleQuestions", 3);
+        rescheduleQuestions = new QuestionGroupModel(NAME_QG_RESCHEDULE_QUESTIONS, 3);
         lang.addQuestionGroup(rescheduleQuestions);
         
 		
@@ -386,71 +545,81 @@ public class MultilevelQueue implements ValidatingGenerator {
 	@Override
 	public boolean validateInput(AnimationPropertiesContainer props, Hashtable<String, Object> primitives)
 			throws IllegalArgumentException {
-		arg_queues = (String[])primitives.get("Queues");
-        arg_processes = (String[][])primitives.get("Processes");
+		arg_queues = (String[])primitives.get(ARG_KEY_QUEUES);
+        arg_processes = (String[][])primitives.get(ARG_KEY_PROCESSES);
     	
-    	highlightColor = (Color)primitives.get("HighlightColor");
-        arg_queueProperties = (ArrayProperties)props.getPropertiesByName("QueueTable");
-        arg_processProperties = (MatrixProperties)props.getPropertiesByName("ProcessTable");
+    	highlightColor = (Color)primitives.get(ARG_KEY_HIGHLIGHTCOLOR);
+        arg_queueProperties = (ArrayProperties)props.getPropertiesByName(ARG_KEY_QUEUETABLE);
+        arg_processProperties = (MatrixProperties)props.getPropertiesByName(ARG_KEY_PROCESSTABLE);
         
-        if(arg_queues == null || arg_queues.length == 0) {
-        	throw new IllegalArgumentException("Cannot start without Queues.");
+        if(arg_queues == null) {
+        	throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_INV_QUEUES, Integer.toString(0), Integer.toString(QUEUES_MAX)));
+        }else if(arg_queues.length == 0 || arg_queues.length > QUEUES_MAX){
+        	throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_INV_QUEUES, Integer.toString(arg_queues.length), Integer.toString(QUEUES_MAX)));
         }
         
-        if(arg_processes == null || arg_processes.length == 0) {
-        	throw new IllegalArgumentException("Cannot start without Processes.");
-        }
-        
-        if(arg_processes[0].length != 4) {
-        	throw new IllegalArgumentException("Processes MUST have 4 Fields (Name, Queue-ID, Work, Arrival-Time)");
+        if(arg_processes == null) {
+        	throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_INV_PROCESSES, Integer.toString(0), Integer.toString(PROCESSES_MAX)));
+        }else if(arg_processes.length == 0 || arg_processes.length > PROCESSES_MAX){
+        	throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_INV_PROCESSES, Integer.toString(arg_processes.length), Integer.toString(PROCESSES_MAX)));
         }
         
         int queuecnt = -1;
         
-        for(String s: arg_queues) {
-        	if(s == null) {
-        		throw new IllegalArgumentException("Cannot init queue without scheduling strategy");
+        for(int i = 0; i < arg_queues.length; i++) {
+        	String queue = arg_queues[i];
+        	if(queue == null) {
+        		throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_NO_SCHED, Integer.toString(i)));
         	}
-        	if(!(s.equals("FIFO") || s.equals("RR"))) {
-        		throw new IllegalArgumentException("Cannot init queue with scheduling strategy '" + s + "'");
+        	if(!(queue.equals(ARG_KEY_QUEUE_STRAT_FIFO) || queue.equals(ARG_KEY_QUEUE_STRAT_RR))) {
+        		throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_INV_SCHED, Integer.toString(i), queue));
         	}
         	queuecnt++;
         }
         
         for(int i = 0; i < arg_processes.length; i++) {
         	String[] curr = arg_processes[i];
+        	if(arg_processes[i].length != 4) {
+            	throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_INV_FIELDS, Integer.toString(i)));
+            }
         	if(curr[0] == null) {
-        		throw new IllegalArgumentException("Cannot schedule process with empty name (process: " + i + ")");
+        		throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_EMPTY_NAME, Integer.toString(i)));
         	}
         	
         	if(curr[1] == null) {
-        		throw new IllegalArgumentException("Cannot schedule process without queue (process: " + i + ")");
+        		throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_PROC_WO_QUEUE, curr[0]));
         	}
         	try {
 				int queue = Integer.parseInt(curr[1]);
 				if(queue < 0 || queue > queuecnt) {
-					throw new IllegalArgumentException("Process has invalid queue-id: " + curr[1] + " Must be between 0 and " + queuecnt);
+					throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_INV_QUEUE_ID, curr[0], curr[1]));
 				}
 			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("Process has malformed queue-id: " + curr[1]);
+				throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_MALF_QUEUE_ID, curr[0], curr[1]));
 			}
         	
         	if(curr[2] == null) {
-        		throw new IllegalArgumentException("Cannot schedule process without workload (process: " + i + ")");
+        		throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_PROC_WO_WORK, curr[0]));
         	}
         	try {
-				Integer.parseInt(curr[2]);
+				int work = Integer.parseInt(curr[2]);
+				if(work < 1 || work > WORK_MAX) {
+					throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_MALF_WORK, curr[0], curr[2], Integer.toString(WORK_MAX)));
+				}
 			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("Process has malformed workload: " + curr[2]);
+				throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_MALF_WORK, curr[0], curr[2], Integer.toString(WORK_MAX)));
 			}
         	
         	if(curr[3] == null) {
-        		throw new IllegalArgumentException("Cannot schedule process without arrival time (process: " + i + ")");
+        		throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_PROC_WO_ARRIVAL, curr[0]));
         	}
         	try {
-				Integer.parseInt(curr[3]);
+				int arrival = Integer.parseInt(curr[3]);
+				if(arrival > ARRIVAL_MAX || arrival < 0) {
+					throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_MALF_ARRIVAL, curr[3], Integer.toString(ARRIVAL_MAX)));
+				}
 			} catch (NumberFormatException e) {
-				throw new IllegalArgumentException("Process has malformed arrival time: " + curr[2]);
+				throw new IllegalArgumentException(trl.translateMessage(TRL_VAL_MALF_ARRIVAL, curr[3], Integer.toString(ARRIVAL_MAX)));
 			}
         	
         }
@@ -461,10 +630,10 @@ public class MultilevelQueue implements ValidatingGenerator {
 		sc.highlight(0);
 		while (sumOfWork() != 0) {
 			highlightProcessCol(2);
-			hint.setText(trl.translateMessage("REMAINING_WORK"), null, defaultDuration);
-			lang.nextStep(trl.translateMessage("SECTION_ITERATION") + " " + currentTime);
+			setHint(trl.translateMessage(TRL_HINT_REMAINING_WORK));
+			lang.nextStep(trl.translateMessage(TRL_SECTION_ITERATION, Integer.toString(currentTime)));
 			unhighlightProcessCol(2);
-			hint.setText(trl.translateMessage("INCOMING_PROCESS"), null, defaultDuration);
+			setHint(trl.translateMessage(TRL_HINT_INCOMING_PROCESS));
 			
 			sc.highlight(1);
 			highlightProcessCol(0);
@@ -475,7 +644,7 @@ public class MultilevelQueue implements ValidatingGenerator {
 			
 			for(Process process : inc_procs) {
 				if(process.arrival == currentTime && process.work > 0) {
-					hint.setText(trl.translateMessage("PROCESS") + " " + process.name + " " + trl.translateMessage("STARTS_NOW"), null, defaultDuration);
+					setHint(trl.translateMessage(TRL_HINT_PROCESS_STARTS_NOW, process.name));
 					processMatrix.highlightCell(process.row, 3, null, null);
 					lang.nextStep();
 					sc.highlight(2);
@@ -490,57 +659,56 @@ public class MultilevelQueue implements ValidatingGenerator {
 			unhighlightProcessCol(0);
 			
 			int due = -1;
-			vars.set(trl.translateMessage("VAR_KEY_DUE"), Integer.toString(due));
+			vars.set(trl.translateMessage(TRL_VAR_KEY_DUE), Integer.toString(due));
 			if(Math.random() > 0.5) {
 				askScheduleQuestion();
 			}else {
 				askNextQueueQuestion();
 			}
 			sc.highlight(4);
-			hint.setText(trl.translateMessage("SEARCH_FOR_QUEUE_TO_SCHEDULE"), null, defaultDuration);
+			setHint(trl.translateMessage(TRL_HINT_SEARCH_FOR_QUEUE_TO_SCHEDULE));
 			lang.nextStep();
 			vars.declare(
-					"int", 
-					trl.translateMessage("VAR_KEY_I"), 
-					"0",
-					trl.translateMessage("VAR_ROLE_I"));
+					VAR_TYPE_INT, 
+					trl.translateMessage(TRL_VAR_KEY_I), 
+					Integer.toString(0));
 			for(int i = 0; i < queues.size(); i++) {
-				vars.set(trl.translateMessage("VAR_KEY_I"), Integer.toString(i));
+				vars.set(trl.translateMessage(TRL_VAR_KEY_I), Integer.toString(i));
 				queues.get(i).highlight();
 				queues.get(i).unhighlightTail();
 				sc.highlight(5);
-				hint.setText(trl.translateMessage("CHECK_QUEUE") + " " + queues.get(i).name, null, defaultDuration);
+				setHint(trl.translateMessage(TRL_HINT_CHECK_QUEUE, queues.get(i).name));
 				lang.nextStep();
 				if(!queues.get(i).isEmpty()) {
 					sc.highlight(6);
 					sc.highlight(7);
 					queues.get(i).unhighlightTail();
-					hint.setText(trl.translateMessage("QUEUE_LC") + " " + queues.get(i).name + " " + trl.translateMessage("HAS_PENDING_WORK"), null, defaultDuration);
+					setHint(trl.translateMessage(TRL_HINT_QUEUE_HAS_PENDING_WORK, queues.get(i).name));
 					lang.nextStep();
 					sc.unhighlight(5);
 					sc.unhighlight(6);
 					sc.unhighlight(7);
 					due = i;
-					vars.set(trl.translateMessage("VAR_KEY_DUE"), Integer.toString(due));
+					vars.set(trl.translateMessage(TRL_VAR_KEY_DUE), Integer.toString(due));
 					break;
 				}
 				queues.get(i).unhighlightTail();
 				queues.get(i).unhighlight();
 				sc.unhighlight(5);
 			}
-			vars.discard(trl.translateMessage("VAR_KEY_I"));
+			vars.discard(trl.translateMessage(TRL_VAR_KEY_I));
 			sc.unhighlight(4);
 			
 			sc.highlight(8);
-			hint.setText(trl.translateMessage("CHECK_FOR_QUEUE_TO_SCHEDULE"), null, defaultDuration);
+			setHint(trl.translateMessage(TRL_HINT_CHECK_FOR_QUEUE_TO_SCHEDULE));
 			lang.nextStep();
 			if(due == -1) {
 				sc.highlight(9);
 				sc.highlight(10);
 				idlingSteps++;
-				schedulingOrder += "-";
+				schedulingOrder += SCHEDULING_ORDER_IDLE;
 				incCurrentTime();
-				hint.setText(trl.translateMessage("NO_QUEUE_HAS_PENDING_WORK"), null, defaultDuration);
+				setHint(trl.translateMessage(TRL_HINT_NO_QUEUE_HAS_PENDING_WORK));
 				lang.nextStep();
 				sc.unhighlight(8);
 				sc.unhighlight(9);
@@ -553,19 +721,19 @@ public class MultilevelQueue implements ValidatingGenerator {
 			queues.get(due).highlightTail();
 			Process first = queues.get(due).first();
 			first.run();
-			hint.setText(trl.translateMessage("SCHEDULE_PROCESS") + " " + first.name + " " + trl.translateMessage("FROM_QUEUE") + " " + queues.get(due).name, null, defaultDuration);
+			setHint(trl.translateMessage(TRL_HINT_SCHEDULE_PROCESS_FROM_QUEUE, first.name, queues.get(due).name));
 			lang.nextStep();
 			
 			sc.unhighlight(11);
 			
 			sc.highlight(12);
-			hint.setText(trl.translateMessage("CHECK_IF_WORK_LEFT"), null, defaultDuration);
+			hint.setText(trl.translateMessage(TRL_HINT_CHECK_IF_WORK_LEFT), null, defaultDuration);
 			askRescheduleQuestion(first);
 			lang.nextStep();
 			first.unhighlightWork();
 			if(first.work == 0) {
 				sc.highlight(13);
-				hint.setText(trl.translateMessage("PROCESS_HAS_NO_WORK_LEFT_REMOVE"), null, defaultDuration);
+				hint.setText(trl.translateMessage(TRL_HINT_PROCESS_HAS_NO_WORK_LEFT_REMOVE), null, defaultDuration);
 				lang.nextStep();
 				queues.get(due).removeTail();
 				queues.get(due).unhighlight();;
@@ -573,11 +741,11 @@ public class MultilevelQueue implements ValidatingGenerator {
 			}else {
 				sc.highlight(14);
 				sc.highlight(15);
-				hint.setText(trl.translateMessage("PROCESS_HAS_WORK_LEFT_RESCHEDULE"), null, defaultDuration);
+				hint.setText(trl.translateMessage(TRL_HINT_PROCESS_HAS_WORK_LEFT_RESCHEDULE), null, defaultDuration);
 				lang.nextStep();
 				if(queues.get(due).useRoundRobin && queues.get(due).numberOfProcesses > 1) {
 					sc.highlight(16);
-					hint.setText(trl.translateMessage("TEMP_ROUND_ROBIN"), null, defaultDuration);
+					hint.setText(trl.translateMessage(TRL_HINT_TEMP_ROUND_ROBIN), null, defaultDuration);
 					Process temp = first;
 					lang.nextStep();
 					sc.unhighlight(16);
@@ -599,15 +767,15 @@ public class MultilevelQueue implements ValidatingGenerator {
 			sc.unhighlight(12);
 		}
 		sc.unhighlight(0);
-		hint.setText(trl.translateMessage("NO_PROCESS_HAS_PENDING_WORK"), null, defaultDuration);
+		hint.setText(trl.translateMessage(TRL_HINT_NO_PROCESS_HAS_PENDING_WORK), null, defaultDuration);
 		lang.nextStep();
 	}
 
 	private void askScheduleQuestion() {
 		if(askQuestion()) {
-			MultipleChoiceQuestionModel scheduleQuestion = new MultipleChoiceQuestionModel("scheduleQuestion" + currentTime);
-			scheduleQuestion.setPrompt("What Process will be scheduled next?");
-			scheduleQuestion.setGroupID("scheduleQuestions");
+			MultipleChoiceQuestionModel scheduleQuestion = new MultipleChoiceQuestionModel(NAME_SCHEDULE_QUESTION + currentTime);
+			scheduleQuestion.setPrompt(trl.translateMessage(TRL_QST_SCHED));
+			scheduleQuestion.setGroupID(NAME_QG_SCHEDULE_QUESTIONS);
 			Process next = null;
 			for(int i = 0; i < queues.size(); i++) {
 				if(queues.get(i).procs[queues.get(i).tail] != null) {
@@ -616,57 +784,70 @@ public class MultilevelQueue implements ValidatingGenerator {
 				}
 			}
 			for(Process p: inc_procs) {
-				scheduleQuestion.addAnswer(p.name, p.equals(next) ? 1 : 0,  p.equals(next) ? "Thats right" : "Thats not right");
+				if(p.equals(next)) {
+					scheduleQuestion.addAnswer(p.name, 1,  trl.translateMessage(TRL_FB_SCHED_RIGHT));
+				}else {
+					scheduleQuestion.addAnswer(p.name, 0,  trl.translateMessage(TRL_FB_SCHED_WRONG, next.name));
+				}
+				
 			}
-			scheduleQuestion.addAnswer("None", (next == null) ? 1 : 0, (next == null) ? "Thats right" : "Thats not right");
+			if(next == null) {
+				scheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_SCHED_NONE), 1, trl.translateMessage(TRL_FB_SCHED_RIGHT));
+			}else {
+				scheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_SCHED_NONE), 0, trl.translateMessage(TRL_FB_SCHED_WRONG, next.name));
+			}
 			lang.addMCQuestion(scheduleQuestion);
 		}
 	}
 
 	private void askEnqueueQuestion() {
 		if(askQuestion()) {
-			MultipleSelectionQuestionModel enqueueQuestion = new MultipleSelectionQuestionModel("enqueueQuestion" + currentTime);
-			enqueueQuestion.setPrompt("What Process will be enqueued in this Iteration?");
-			enqueueQuestion.setGroupID("enqueueQuestions");
+			MultipleSelectionQuestionModel enqueueQuestion = new MultipleSelectionQuestionModel(NAME_ENQUEUE_QUESTION + currentTime);
+			enqueueQuestion.setPrompt(trl.translateMessage(TRL_QST_ENQ));
+			enqueueQuestion.setGroupID(NAME_QG_ENQUEUE_QUESTIONS);
 			boolean any = false;
 			for(int i = 0; i < inc_procs.size(); i++) {
 				Process current = inc_procs.get(i);
 				if(current.arrival == currentTime) {
 					any = true;
-					enqueueQuestion.addAnswer(current.name, 1, "This is correct, because process " + current.name + " arrives at time " + current.arrival);
+					enqueueQuestion.addAnswer(current.name, 1, trl.translateMessage(TRL_FB_ENQ_RIGHT_ARRIVAL, current.name, Integer.toString(current.arrival)));
 				}else {
-					enqueueQuestion.addAnswer(current.name, 0, "This is not correct, current time is " + currentTime + " and process " + current.name + " arrives at" + current.arrival);
+					enqueueQuestion.addAnswer(current.name, 0, trl.translateMessage(TRL_FB_ENQ_WRONG_ARRIVAL, Integer.toString(currentTime), current.name, Integer.toString(current.arrival)));
 				}
 			}
 			if(any) {
-				enqueueQuestion.addAnswer("None.", 0, "Thats not right, there is a Process that arrives at current time");
+				enqueueQuestion.addAnswer(trl.translateMessage(TRL_ANS_ENQ_NONE), 0, trl.translateMessage(TRL_FB_ENQ_WRONG_NONE));
 			}else {
-				enqueueQuestion.addAnswer("None.", 1, "Thats right, there is no Process arriving at current time");
+				enqueueQuestion.addAnswer(trl.translateMessage(TRL_ANS_ENQ_NONE), 1, trl.translateMessage(TRL_FB_ENQ_RIGHT_NONE));
 			}
-			
 			lang.addMSQuestion(enqueueQuestion);
 		}
 	}
 	
 	private void askNextQueueQuestion() {
 		if(askQuestion()) {
-			MultipleChoiceQuestionModel nextQueueQuestion = new MultipleChoiceQuestionModel("nextQueueQuestion" + currentTime);
-			nextQueueQuestion.setPrompt("What queue will be selected for scheduling in this Iteration?");
-			nextQueueQuestion.setGroupID("nextQueueQuestions");
+			MultipleChoiceQuestionModel nextQueueQuestion = new MultipleChoiceQuestionModel(NAME_NEXT_QUEUE_QUESTION + currentTime);
+			nextQueueQuestion.setPrompt(trl.translateMessage(TRL_QST_NQ));
+			nextQueueQuestion.setGroupID(NAME_QG_NEXT_QUEUE_QUESTIONS);
 			Queue next = null;
 			for(int i = 0; i < queues.size(); i++) {
 				Queue current = queues.get(i);
 				if(next != null) {
-					nextQueueQuestion.addAnswer(current.name, 0, "Thats wrong, " + next.name + " comes first.");
+					nextQueueQuestion.addAnswer(current.name, 0, trl.translateMessage(TRL_FB_NQ_WRONG_NOT_FIRST, next.name));
 				}else {
 					if(current.isEmpty()) {
-						nextQueueQuestion.addAnswer(current.name, 0, "Thats wrong, this queue is empty.");
+						nextQueueQuestion.addAnswer(current.name, 0, trl.translateMessage(TRL_FB_NQ_WRONG_EMPTY));
 					} else {
 						next = current;
-						nextQueueQuestion.addAnswer(current.name, 1, "Thats right.");
+						nextQueueQuestion.addAnswer(current.name, 1, trl.translateMessage(TRL_FB_NQ_RIGHT_QUEUE, next.name));
 					}
 				}
 				
+			}
+			if(next == null) {
+				nextQueueQuestion.addAnswer(trl.translateMessage(TRL_ANS_NQ_NONE), 1, trl.translateMessage(TRL_FB_NQ_RIGHT_NONE));
+			}else {
+				nextQueueQuestion.addAnswer(trl.translateMessage(TRL_ANS_NQ_NONE), 0, trl.translateMessage(TRL_FB_NQ_WRONG_NONE, next.name));
 			}
 			lang.addMCQuestion(nextQueueQuestion);
 		}
@@ -674,27 +855,27 @@ public class MultilevelQueue implements ValidatingGenerator {
 	
 	private void askRescheduleQuestion(Process first) {
 		if(askQuestion()) {
-			MultipleChoiceQuestionModel rescheduleQuestion = new MultipleChoiceQuestionModel("rescheduleQuestion" + currentTime);
-			rescheduleQuestion.setPrompt("What will be done with process " + first.name + " next?");
-			rescheduleQuestion.setGroupID("rescheduleQuestions");
+			MultipleChoiceQuestionModel rescheduleQuestion = new MultipleChoiceQuestionModel(NAME_RESCHEDULE_QUESTION + currentTime);
+			rescheduleQuestion.setPrompt(trl.translateMessage(TRL_QST_RSCHED));
+			rescheduleQuestion.setGroupID(NAME_QG_RESCHEDULE_QUESTIONS);
 			Queue queue = queues.get(first.queue);
 			if(first.work == 0) {
-				rescheduleQuestion.addAnswer("Process " + first.name + " will be removed from Queue.", 1, "Thats right, because this process has no work left.");
-				rescheduleQuestion.addAnswer("Process " + first.name + " will stay at tail.", 0, "Thats wrong, because this process has no work left.");
-				rescheduleQuestion.addAnswer("Process " + first.name + " will be rescheduled to head.", 0, "Thats wrong, because this process has no work left.");
+				rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_REM, first.name), 1, trl.translateMessage(TRL_FB_RSCHED_RIGHT_NO_WORK));
+				rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_STAY, first.name), 0, trl.translateMessage(TRL_FB_RSCHED_WRONG_NO_WORK));
+				rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_RE, first.name), 0, trl.translateMessage(TRL_FB_RSCHED_WRONG_NO_WORK));
 			} else {
-				rescheduleQuestion.addAnswer("Process " + first.name + " will be removed from Queue.", 0, "Thats wrong, because this process has work left.");
+				rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_REM, first.name), 0, trl.translateMessage(TRL_FB_RSCHED_WRONG_WORK_LEFT));
 				if(queue.useRoundRobin) {
 					if(queue.numberOfProcesses == 1) {
-						rescheduleQuestion.addAnswer("Process " + first.name + " will stay at tail.", 1, "Thats right, because queue " + queue.name + " has only one Process.");
-						rescheduleQuestion.addAnswer("Process " + first.name + " will be rescheduled to head.", 0, "Thats wrong, because queue " + queue.name + " has only one Process.");
+						rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_STAY, first.name), 1, trl.translateMessage(TRL_FB_RSCHED_RIGHT_ONLY_ONE, first.name));
+						rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_RE, first.name), 0, trl.translateMessage(TRL_FB_RSCHED_WRONG_ONLY_ONE, first.name));
 					}else {
-						rescheduleQuestion.addAnswer("Process " + first.name + " will stay at tail.", 0, "Thats wrong, because queue " + queue.name + " uses round robin.");
-						rescheduleQuestion.addAnswer("Process " + first.name + " will be rescheduled to head.", 1, "Thats right, because queue " + queue.name + " uses round robin.");
+						rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_STAY, first.name), 0, trl.translateMessage(TRL_FB_RSCHED_WRONG_RR, first.name));
+						rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_RE, first.name), 1, trl.translateMessage(TRL_FB_RSCHED_RIGHT_RR, first.name));
 					}
 				}else {
-					rescheduleQuestion.addAnswer("Process " + first.name + " will stay at tail.", 1, "Thats right, because queue " + queue.name + " uses FIFO.");
-					rescheduleQuestion.addAnswer("Process " + first.name + " will be rescheduled to head.", 0, "Thats wrong, because queue " + queue.name + " uses FIFO.");
+					rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_STAY, first.name), 1, trl.translateMessage(TRL_FB_RSCHED_RIGHT_FIFO, first.name));
+					rescheduleQuestion.addAnswer(trl.translateMessage(TRL_ANS_RSCHED_RE, first.name), 0, trl.translateMessage(TRL_FB_RSCHED_WRONG_FIFO, first.name));
 				}
 			}
 			lang.addMCQuestion(rescheduleQuestion);
@@ -703,41 +884,32 @@ public class MultilevelQueue implements ValidatingGenerator {
 
 	private void summarize() {
 		lang.hideAllPrimitivesExcept(title);
-		lang.newText(new Coordinates(30,  70),
-				trl.translateMessage(
-						"THIS_MLQ_SCHED") 
-						+ " " 
-						+ (idlingSteps + computingSteps) 
-						+ " " 
-						+ trl.translateMessage("TIME_SLOTS"),
-				"summ_1", 
+		lang.newText(
+				new Coordinates(30,  70),
+				trl.translateMessage(TRL_SUM_MLQ_TIMESLOTS, Integer.toString(idlingSteps + computingSteps)),
+				NAME_SUM_LN + 1, 
 				null);
-		lang.newText(new Coordinates(30,  90),
-				trl.translateMessage(
-						"OF_COMP_TIME_FOR") 
-						+ " " 
-						+ inc_procs.size() 
-						+ " "
-						+ trl.translateMessage("PROCESSES_IN")
-						+ " "
-						+ queues.size() 
-						+ " "
-						+ trl.translateMessage("QUEUES"),
-				"summ_2", 
+		lang.newText(
+				new Coordinates(30,  90),
+				trl.translateMessage(TRL_SUM_PROC_IN_QUEUES, Integer.toString(inc_procs.size()), Integer.toString(queues.size())),
+				NAME_SUM_LN + 2, 
 				null);
-		lang.newText(new Coordinates(30,  130),
-				trl.translateMessage("WORK_TIME") + ": " + computingSteps,
-				"summ_3", 
+		lang.newText(
+				new Coordinates(30,  130),
+				trl.translateMessage(TRL_SUM_WORK_TIME, Integer.toString(computingSteps)),
+				NAME_SUM_LN + 3, 
 				null);
-		lang.newText(new Coordinates(30,  150),
-				trl.translateMessage("IDLE_TIME") + ": " + idlingSteps,
-				"summ_4", 
+		lang.newText(
+				new Coordinates(30,  150),
+				trl.translateMessage(TRL_SUM_IDLE_TIME, Integer.toString(idlingSteps)),
+				NAME_SUM_LN + 4, 
 				null);
-		lang.newText(new Coordinates(30,  170),
-				trl.translateMessage("SCHEDULING_ORDER") + ": " + schedulingOrder,
-				"summ_5", 
+		lang.newText(
+				new Coordinates(30,  170),
+				trl.translateMessage(TRL_SUM_SCHEDULING_ORDER, schedulingOrder),
+				NAME_SUM_LN + 5, 
 				null);
-		lang.nextStep(trl.translateMessage("SECTION_CONCLUSION"));
+		lang.nextStep(trl.translateMessage(TRL_SECTION_CONCLUSION));
 		
 	}
 	
@@ -755,7 +927,7 @@ public class MultilevelQueue implements ValidatingGenerator {
 	
 	private void incCurrentTime(){
 		currentTime++;
-		currentTimeText.setText(trl.translateMessage("CURR_TIME") + ": " + currentTime, null, defaultDuration);
+		currentTimeText.setText(trl.translateMessage(TRL_CURRENTTIME, Integer.toString(currentTime)), null, defaultDuration);
 	}
 
 	public int sumOfWork() {
@@ -765,97 +937,37 @@ public class MultilevelQueue implements ValidatingGenerator {
 		}
 		return sum;
 	}
+	
+	public void setHint(String s) {
+		hint.setText(trl.translateMessage(TRL_HINT, s), null, defaultDuration);
+	}
 
     public String getName() {
-        return "Multilevel Queue";
+        return INIT_TITLE;
     }
 
     public String getAlgorithmName() {
-        return "Multilevel Queue";
+        return INIT_TITLE;
     }
 
     public String getAnimationAuthor() {
-        return "Andre Challier <andre.challier@stud.tu-darmstadt.de>, Christian Richter <chrisrichter145@gmail.com>";
+        return INIT_AUTHOR;
     }
 
     public String getDescription(){
-        return "A Multi Level Queue for scheduling uses a predefined number of levels to"
- +"\n"
- +"schedule processes. Processes get assigned to a particular level at insert."
- +"\n"
- +"The processes in queues of higher level will then be executed first, lower level"
- +"\n"
- +"queues will be executed when all higher level queues are empty. Each queue is"
- +"\n"
- +"free to use its own scheduling, thus adding greater flexibility then merely"
- +"\n"
- +"having multiple levels in a queue."
- +"\n"
- +"\n"
- +"In this scenario each process has a tima of arrival (process.time), and a number"
- +"\n"
- +"of execution timeslides (process.work). The algorithm loops until all processes"
- +"\n"
- +"are done. To schedule the processes the algorithm first adds all arriving"
- +"\n"
- +"processes to the queues, then picks the non-empty queue with the highest level"
- +"\n"
- +"and executes the upcoming process."
- +"\n"
- +"\n"
- +"The first queue in this example uses First-Come-First-Serve-Scheduling while the"
- +"\n"
- +"second queue uses Round-Robin-Scheduling.";
+        return trl.translateMessage(TRL_DESCRIPTION);
     }
 
     public String getCodeExample(){
-        return "WHILE sum(proc.work) != 0"
- +"\n"
- +"	FOR process IN procList"
- +"\n"
- +"		IF process.time == time"
- +"\n"
- +"			queue = queueList[process.level]"
- +"\n"
- +"			queue.add(process)"
- +"\n"
- +"	FOR i FROM 0 TO (queueList.size - 1)"
- +"\n"
- +"		IF queueList[i].first() != null"
- +"\n"
- +"			queue = queueList[i]"
- +"\n"
- +"			BREAK"
- +"\n"
- +"		IF queue == null"
- +"\n"
- +"			time++"
- +"\n"
- +"			CONTINUE"
- +"\n"
- +"		run(queue.first())"
- +"\n"
- +"		IF queue.first().work == 0"
- +"\n"
- +"			queue.removeFirst()"
- +"\n"
- +"		ELSE"
- +"\n"
- +"			if(queue.useRoundRobin && queue.size > 1)"
- +"\n"
- +"				temp = queue.first()"
- +"\n"
- +"				queue.removeFirst()"
- +"\n"
- +"				queue.add(temp)";
+        return trl.translateMessage(TRL_SOURCE_CODE);
     }
 
     public String getFileExtension(){
-        return "asu";
+        return FILE_EXTENSION;
     }
 
     public Locale getContentLocale() {
-        return Locale.ENGLISH;
+        return loc;
     }
 
     public GeneratorType getGeneratorType() {
@@ -916,7 +1028,7 @@ public class MultilevelQueue implements ValidatingGenerator {
 		
 		public void run() {
 			work--;
-			vars.set(trl.translateMessage("VAR_KEY_PROCESS") + name, Integer.toString(work));
+			vars.set(trl.translateMessage(TRL_VAR_KEY_PROCESS, name), Integer.toString(work));
 			schedulingOrder += name;
 			computingSteps++;
 			highlightWork();
@@ -947,9 +1059,9 @@ public class MultilevelQueue implements ValidatingGenerator {
 		public StringArray view;
 		/** Label of this Queue */
 		public Text label;
-		/** headmarker */
+		/** Head marker */
 		public ArrayMarker headMarker;
-		/** tailmarker */
+		/** Tail marker */
 		public ArrayMarker tailMarker;
 		
 		/**
@@ -966,9 +1078,9 @@ public class MultilevelQueue implements ValidatingGenerator {
 			this.label = label;
 			procs = new Process[size];
 			head = 0;
-			headMarker = lang.newArrayMarker(view, head, "head", null, headMarkerProperties);
+			headMarker = lang.newArrayMarker(view, head, NAME_HEAD_MARKER, null, headMarkerProperties);
 			tail = 0;
-			tailMarker = lang.newArrayMarker(view, tail, "tail", null, tailMarkerProperties);
+			tailMarker = lang.newArrayMarker(view, tail, NAME_TAIL_MARKER, null, tailMarkerProperties);
 			numberOfProcesses = 0;
 		}
 		
@@ -981,12 +1093,12 @@ public class MultilevelQueue implements ValidatingGenerator {
 		}
 		
 		public void removeTail() {
-			hint.setText(trl.translateMessage("REMOVE_PROCESS") + "_" + procs[tail].name + " " + trl.translateMessage("FROM_QUEUE") + " " + name, null, defaultDuration);
+			hint.setText(trl.translateMessage(TRL_HINT_REMOVE_PROCESS_FROM_QUEUE, procs[tail].name, name), null, defaultDuration);
 			procs[tail] = null;
-			view.put(tail, " ", null, null);
+			view.put(tail, EMPTY_QUEUE_FIELD, null, null);
 			int oldTail = tail;
 			tail = (tail + 1) % procs.length;
-			vars.set(trl.translateMessage("VAR_KEY_QUEUE") + queues.indexOf(this), name + " " + toString());
+			vars.set(trl.translateMessage(TRL_VAR_KEY_QUEUE, Integer.toString(queues.indexOf(this))), toString());
 			tailMarker.move(tail, null, null);
 			numberOfProcesses--;
 			lang.nextStep();
@@ -1003,10 +1115,10 @@ public class MultilevelQueue implements ValidatingGenerator {
 			procs[head] = p;
 			view.highlightCell(head, null, null);
 			view.put(head, p.name, null, null);
-			hint.setText(trl.translateMessage("ADD_PROCESS") + "_" + p.name + " " + trl.translateMessage("TO_QUEUE") + " " + name, null, defaultDuration);
+			hint.setText(trl.translateMessage(TRL_HINT_ADD_PROCESS_TO_QUEUE, p.name, name), null, defaultDuration);
 			int oldHead = head;
 			head = (head + 1) % procs.length;
-			vars.set(trl.translateMessage("VAR_KEY_QUEUE") + queues.indexOf(this), name + " " + toString());
+			vars.set(trl.translateMessage(TRL_VAR_KEY_QUEUE, Integer.toString(queues.indexOf(this))), toString());
 			headMarker.move(head, null, null);
 			numberOfProcesses++;
 			lang.nextStep();
@@ -1034,7 +1146,7 @@ public class MultilevelQueue implements ValidatingGenerator {
 		}
 		
 		public String toString() {
-			String s = "[";
+			String s = name + " [";
 			for(int i = tail; i != head; i = ((i + 1) % procs.length)) {
 				s += procs[i].name;
 				if((i + 1) % procs.length != head) {

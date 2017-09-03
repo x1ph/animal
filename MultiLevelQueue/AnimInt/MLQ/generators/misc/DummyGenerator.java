@@ -134,6 +134,7 @@ public class DummyGenerator implements GeneratorBundle {
     generators.add(new WagnerWithinGenerator(Locale.US));
     
     generators.add(new MultilevelQueue("resources/mlq", Locale.US));
+    generators.add(new MultilevelQueue("resources/mlq", Locale.GERMANY));
     
     return generators;
   }

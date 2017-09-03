@@ -7,7 +7,7 @@ insert. The processes in queues of higher level will then be executed first, \
 lower level queues will be executed when all higher level queues are empty. \
 Each queue is free to use its own scheduling, thus adding greater flexibility \
 then merely having multiple levels in a queue.\
-\n\nIn this scenario each process has a tima of arrival (process.time), and a \
+\n\nIn this scenario each process has a time of arrival (process.time), and a \
 number of execution timeslides (process.work). The algorithm loops until all \
 processes are done. To schedule the processes the algorithm first adds all \
 arriving processes to the queues, then picks the non-empty queue with the \
@@ -15,7 +15,9 @@ highest level and executes the upcoming process.\
 \n\nThe first queue in this example uses First-Come-First-Serve-Scheduling \
 while the second queue uses Round-Robin-Scheduling.
 
-SOURCE_CODE=WHILE sum(proc.work) != 0\
+//test
+
+SOURCECODE=WHILE sum(proc.work) != 0\
 \n   FOR process IN procList WHERE process.time == time\
 \n     queue = queueList[process.level]\
 \n     queue.add(process)\
@@ -34,19 +36,19 @@ SOURCE_CODE=WHILE sum(proc.work) != 0\
 \n       queue.removeCurrent()\
 \n       queue.add(temp)
 
-DESC_TITLE=Animation of Multilevel Queue
-DESC_1=A Multi Level Queue for scheduling uses a predefined number of levels to
-DESC_2=schedule processes. Processes get assigned to a particular level at insert.
-DESC_3=The processes in queues of higher level will then be executed first, lower level
-DESC_4=queues will be executed when all higher level queues are empty. Each queue is
-DESC_5=free to use its own scheduling, thus adding greater flexibility then merely
-DESC_6=having multiple levels in a queue.
-DESC_7=In this scenario each process has a tima of arrival (process.time), and a number
-DESC_8=of execution timeslides (process.work). The algorithm loops until all processes
-DESC_9=are done. To schedule the processes the algorithm first adds all arriving
-DESC_10=processes to the queues, then picks the non-empty queue with the highest level
-DESC_11=The first queue in this example uses First-Come-First-Serve-Scheduling while the
-DESC_12=second queue uses Round-Robin-Scheduling.
+TITLE=Multi-Level Queue
+DESCRIPTION_LN_1=A Multi Level Queue for scheduling uses a predefined number of levels to
+DESCRIPTION_LN_2=schedule processes. Processes get assigned to a particular level at insert.
+DESCRIPTION_LN_3=The processes in queues of higher level will then be executed first, lower level
+DESCRIPTION_LN_4=queues will be executed when all higher level queues are empty. Each queue is
+DESCRIPTION_LN_5=free to use its own scheduling, thus adding greater flexibility then merely
+DESCRIPTION_LN_6=having multiple levels in a queue.
+DESCRIPTION_LN_7=In this scenario each process has a tima of arrival (process.time), and a number
+DESCRIPTION_LN_8=of execution timeslides (process.work). The algorithm loops until all processes
+DESCRIPTION_LN_9=are done. To schedule the processes the algorithm first adds all arriving
+DESCRIPTION_LN_10=processes to the queues, then picks the non-empty queue with the highest level
+DESCRIPTION_LN_11=The first queue in this example uses First-Come-First-Serve-Scheduling while the
+DESCRIPTION_LN_12=second queue uses Round-Robin-Scheduling.
 
 SRC_0=WHILE sum(proc.work) != 0
 SRC_1=FOR process IN procList WHERE process.time == time
@@ -72,55 +74,115 @@ ID=ID
 QUEUE=QUEUE
 WORK=WORK
 TIME=TIME
-CURR_TIME=Current Time
-THIS_MLQ_SCHED=This Multi-Level-Queue scheduled
-TIME_SLOTS=time slots
-OF_COMP_TIME_FOR=of computing time for
-PROCESSES_IN=processes in
-QUEUES=queues
-WORK_TIME=Work Time
-IDLE_TIME=Idle Time
-SCHEDULING_ORDER=Scheduling Order
+CURRENTTIME=Current Time: {0}
+HEAD_MARKER=head
+TAIL_MARKER=tail
+QUEUETYPE_RR={0} (RR)
+QUEUETYPE_FIFO={0} (FIFO)
+QUEUENAME=Level {0}
 
-STATEMENT=Statement
-
-REMAINING_WORK=Search for remaining Work
-INCOMING_PROCESS=Search for incoming processes
-PROCESS=Process
-STARTS_NOW=starts now
-PROCESS_LEVEL_IS=Process level is
-ADD_PROCESS=Add process
-REMOVE_PROCESS=Remove process
-TO_QUEUE=to queue
-SEARCH_FOR_QUEUE_TO_SCHEDULE=Search for a queue to schedule
-CHECK_QUEUE=Check queue
-QUEUE_LC=Queue
-HAS_PENDING_WORK=has pending work
-CHECK_FOR_QUEUE_TO_SCHEDULE=Check for a queue to schedule
-NO_QUEUE_HAS_PENDING_WORK=No queue has pending work
-SCHEDULE_PROCESS=Schedule process
-FROM_QUEUE=from queue 
-CHECK_IF_WORK_LEFT=Check if process has work left
-PROCESS_HAS_NO_WORK_LEFT_REMOVE=Process has no work left and will be removed from queue
-PROCESS_HAS_WORK_LEFT_RESCHEDULE=Process has work left and will be rescheduled
-TEMP_ROUND_ROBIN=Save process in temporary field
-NO_PROCESS_HAS_PENDING_WORK=No process has pending work left
-
-LEVEL=Level
+HINT=Hint: {0}
+HINT_REMAINING_WORK=Search for remaining Work
+HINT_INCOMING_PROCESS=Search for incoming processes
+HINT_PROCESS_STARTS_NOW=Process {0} starts now
+HINT_ADD_PROCESS_TO_QUEUE=Add process {0} to queue {1}
+HINT_REMOVE_PROCESS_FROM_QUEUE=Remove process {0} from queue {1}
+HINT_SEARCH_FOR_QUEUE_TO_SCHEDULE=Search for a queue to schedule
+HINT_CHECK_QUEUE=Check queue {0}
+HINT_QUEUE_HAS_PENDING_WORK=Queue {0} has pending work
+HINT_CHECK_FOR_QUEUE_TO_SCHEDULE=Check for a queue to schedule
+HINT_NO_QUEUE_HAS_PENDING_WORK=No queue has pending work
+HINT_SCHEDULE_PROCESS_FROM_QUEUE=Schedule process {0} from queue {1}
+HINT_CHECK_IF_WORK_LEFT=Check if process has work left
+HINT_PROCESS_HAS_NO_WORK_LEFT_REMOVE=Process has no work left and will be removed from queue
+HINT_PROCESS_HAS_WORK_LEFT_RESCHEDULE=Process has work left and will be rescheduled
+HINT_TEMP_ROUND_ROBIN=Save process in temporary field
+HINT_NO_PROCESS_HAS_PENDING_WORK=No process has pending work left
 
 SECTION_DESCRIPTION=Description
-SECTION_ITERATION=Iteration
+SECTION_ITERATION=Iteration {0}
 SECTION_CONCLUSION=Conclusion
 
 VAR_KEY_TIME=Time
 VAR_KEY_COMPUTING_STEPS=Computing steps
 VAR_KEY_IDLING_STEPS=Idling steps
 VAR_KEY_I=i
-VAR_KEY_QUEUE=queue
-VAR_KEY_PROCESS=process
+VAR_KEY_QUEUE=queue{0}
+VAR_KEY_PROCESS=process{0}
 VAR_KEY_DUE=due
 VAR_VALUE_VOID=void
-VAR_ROLE_QUEUE=Queue Level 
-VAR_ROLE_I=Index of Queue-Array
-VAR_ROLE_DUE=The index of the queue that is due next
+
+SUM_MLQ_TIMESLOTS=This Multi-Level Queue scheduled {0} time-slots.
+SUM_PROC_IN_QUEUES={0} processes were scheduled in {1} queues.
+SUM_WORK_TIME=Work Time: {0}
+SUM_IDLE_TIME=Idle Time: {0}
+SUM_SCHEDULING_ORDER=Scheduling Order: {0}
+
+VAL_INV_QUEUES=Invalid number of queues ({0}). Must be between 1 and {1}.
+VAL_INV_PROCESSES=Invalid number of processes ({0}). Must be between 1 and {1}.
+VAL_NO_SCHED=Cannot create queue {0}: scheduling strategy cannot be empty.
+VAL_INV_SCHED=Cannot create queue {0}: '{1}' is not a valid scheduling strategy.
+VAL_INV_FIELDS=Process {0} has invalid number of Fields. Must have 4 Fields (Name, Queue-ID, Work, Arrival-Time)
+VAL_EMPTY_NAME=Cannot create process {0}: Name cannot be empty.
+VAL_PROC_WO_QUEUE=Cannot create process {0}: No queue specified.
+VAL_INV_QUEUE_ID=Cannot create process {0}: Queue-id '{1}' does not exist.
+VAL_MALF_QUEUE_ID=Cannot create process {0}: '{1}' is not a valid queue-id.
+VAL_PROC_WO_WORK=Cannot create process {0}: No workload specified.
+VAL_MALF_WORK=Cannot create process {0}: '{1}' is not a valid workload. Must be int between 1 and {2}.
+VAL_PROC_WO_ARRIVAL=Cannot create process {0}: Arrival time not specified.
+VAL_MALF_ARRIVAL=Cannot create process {0}: '{1}' is not a valid arrival time. Must be int between 0 and {2}.
+
+QST_SCHED=What Process will be scheduled next?
+ANS_SCHED_NONE=None
+FB_SCHED_RIGHT=Thats correct.
+FB_SCHED_WRONG=Thats not right, {0} will be scheduled next.
+
+QST_ENQ=What Process will be enqueued in this Iteration?
+ANS_ENQ_NONE=None
+FB_ENQ_RIGHT_ARRIVAL=Correct. Process {0} arrives at time {1}.
+FB_ENQ_WRONG_ARRIVAL=This is not correct, current time is {0} and process {1} arrives at {2}.
+FB_ENQ_RIGHT_NONE=Correct. There is no Process arriving at current time.
+FB_ENQ_WRONG_NONE=Thats not right, there is a Process that arrives at current time.
+
+QST_NQ=What queue will be selected for scheduling in this Iteration?
+ANS_NQ_NONE=None
+FB_NQ_WRONG_NOT_FIRST=Thats wrong, {0} comes first.
+FB_NQ_WRONG_EMPTY=Thats wrong, this queue is empty.
+FB_NQ_RIGHT_QUEUE=Correct. {0} is the first non-empty queue.
+FB_NQ_RIGHT_NONE=Correct. Every queue is empty.
+FB_NQ_WRONG_NONE=Thats wrong, {0} is not empty and will be scheduled next.
+
+QST_RSCHED=What will be done with process {0} next?
+ANS_RSCHED_STAY=Process {0} will stay at tail.
+ANS_RSCHED_RE=Process {0} will be rescheduled to head.
+ANS_RSCHED_REM=Process {0} will be removed from Queue.
+FB_RSCHED_RIGHT_NO_WORK=Thats right, because this process has no work left.
+FB_RSCHED_WRONG_NO_WORK=Thats wrong, because this process has no work left.
+FB_RSCHED_WRONG_WORK_LEFT=Thats wrong, because this process has work left.
+FB_RSCHED_RIGHT_ONLY_ONE=Thats right, because queue {0}has only one Process.
+FB_RSCHED_WRONG_ONLY_ONE=Thats wrong, because queue {0} has only one Process.
+FB_RSCHED_WRONG_RR=Thats wrong, because queue {0} uses round robin.
+FB_RSCHED_RIGHT_RR=Thats right, because queue {0} uses round robin.
+FB_RSCHED_RIGHT_FIFO=Thats right, because queue {0} uses FIFO.
+FB_RSCHED_WRONG_FIFO=Thats wrong, because queue {0} uses FIFO.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
