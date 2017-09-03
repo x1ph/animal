@@ -6,13 +6,13 @@
 
 5.2 Aktive einbeziehung des Betrachters
 
-  Verschiedene Fragengruppen müssen erstellt werden:
+  Verschiedene Fragengruppen wurden erstellt:
 
-  -> Fragengruppen zu Queueing, Scheduling, Iterationen erstellen
+  -> Fragengruppen zu Queueing, Scheduling (von queues und prozessen) und rescheduling
 
 5.3 Optimierung
 
-  Abschnitte müssen für jede Iteration, Einleitung und Fazit erstellt werden
+  Abschnitte wurden für jede Iteration, Einleitung und Fazit erstellt
 
   Elmente werden durch Offsets positioniert.
 
@@ -20,11 +20,10 @@
 
   Zeiger/Highlights werden passend bewegt.
 
-  Variablenfenster muss hinzugefügt werden
+  Variablenfenster wurde hinzugefügt
 
-  Deutsche sprachdatei erstellen
+  Deutsche sprachdatei wurde erstellt
 
 5.4 Abgabe
 
   Die abgabe muss ein zip sein mit Multilevelqueue.java, Multilevelqueue.zip und Sprachdatei (name ändern: mlq.* -> MultilevelQueue.*)
-  
