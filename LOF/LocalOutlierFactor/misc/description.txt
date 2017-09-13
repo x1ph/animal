@@ -1,0 +1,19 @@
+The local outlier factor is an algorithm proposed by Markus M. Breunig, Hans-
+Peter Kriegel, Raymond T. Ng and Jörg Sander in 2000 for finding anomalous data
+points by measuring the local deviation of a given data point with respect to
+is neighbors.
+
+The algorithm starts with a constant k and a set of objects with a distance
+function. At first the distance to the k-th nearest neighbor will be determined
+for every object A ( k-distance(A) ), as well as a set of objects containing all
+objects within the k-distance of an object ( Nk(A) ).
+
+The next step is to calculate the local reachability density (lrd) for every
+object, wich is the inverse of the average reachability distance of an object
+from its neighbors, wich can be infinite at duplicate points.
+
+Afterwards the local reachability densities will be compared with those of the
+neighbors, which is the average local reachability density of the neighbors
+divided by the objects own local reachability density. A value near 1 indicates
+that the object comparable to its neighbors, a value below 1 indicates a denser
+region, while values significantly larger than 1 indicate outliers.

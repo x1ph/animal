@@ -1,0 +1,840 @@
+multipleChoiceQuestion "schedule_question18"
+    prompt "Welcher Prozess bekommt als nächstes Rechenzeit?"
+    questionGroup "schedule_questions"
+    numberOfTries 1
+    answer "5805167c-5832-4ee3-a9f6-71e4139b4d19"
+        text "C"
+        points 0
+        feedback "Falsch, F kommt als nächstes."
+    endAnswer
+    answer "475255ae-58d3-4712-a757-712845f29f3a"
+        text "B"
+        points 0
+        feedback "Falsch, F kommt als nächstes."
+    endAnswer
+    answer "c1dd3196-798b-403c-814e-4eabde18c483"
+        text "Keiner"
+        points 0
+        feedback "Falsch, F kommt als nächstes."
+    endAnswer
+    answer "0930372a-cdea-45a7-978f-8e602065c230"
+        text "F"
+        points 1
+        feedback "Richtig."
+    endAnswer
+    answer "e9c6d84b-57a8-4320-81e4-29ec0f6bfc9d"
+        text "D"
+        points 0
+        feedback "Falsch, F kommt als nächstes."
+    endAnswer
+    answer "e6fa028a-5f8c-4b6d-9946-2fb198c9a1d4"
+        text "A"
+        points 0
+        feedback "Falsch, F kommt als nächstes."
+    endAnswer
+    answer "5936f8f9-5ce6-4188-8643-5dc5a1244930"
+        text "E"
+        points 0
+        feedback "Falsch, F kommt als nächstes."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "schedule_question17"
+    prompt "Welcher Prozess bekommt als nächstes Rechenzeit?"
+    questionGroup "schedule_questions"
+    numberOfTries 1
+    answer "782f99b7-24d2-44a9-b78a-55c666881e3f"
+        text "D"
+        points 0
+        feedback "Falsch, E kommt als nächstes."
+    endAnswer
+    answer "463dae3d-23b4-463b-b3c5-eb3048f5753b"
+        text "B"
+        points 0
+        feedback "Falsch, E kommt als nächstes."
+    endAnswer
+    answer "2603a9e5-498d-4cf5-a2d2-49fbb332df0f"
+        text "E"
+        points 1
+        feedback "Richtig."
+    endAnswer
+    answer "dcaac2da-81d6-40cd-9095-398ac8f8ca4d"
+        text "A"
+        points 0
+        feedback "Falsch, E kommt als nächstes."
+    endAnswer
+    answer "a4e147c2-24b1-47bf-89a9-e94ad40e5d2f"
+        text "C"
+        points 0
+        feedback "Falsch, E kommt als nächstes."
+    endAnswer
+    answer "e85fe3a2-5ba6-4ce4-94c2-a81ad2ab82f8"
+        text "F"
+        points 0
+        feedback "Falsch, E kommt als nächstes."
+    endAnswer
+    answer "567a7aa8-b487-4244-b5ca-6173ab995abe"
+        text "Keiner"
+        points 0
+        feedback "Falsch, E kommt als nächstes."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "reschedule_question18"
+    prompt "Was passiert nun mit Prozess {0}?"
+    questionGroup "reschedule_questions"
+    numberOfTries 1
+    answer "24918abc-8077-4157-ad10-071f3a4b1036"
+        text "Prozess F wird erneut bei head eingereiht."
+        points 0
+        feedback "Falsch, denn Queue F hat nur einen Prozess."
+    endAnswer
+    answer "7b37ac01-3c90-461d-b308-c5f8a38f321e"
+        text "Prozess F wird von der Queue entfernt."
+        points 0
+        feedback "Falsch, dieser Prozess ist noch nicht fertig."
+    endAnswer
+    answer "24ed7941-6d3f-4c18-af57-92930f4d98eb"
+        text "Prozess F bleibt an der Position tail."
+        points 1
+        feedback "Richtig, denn die Queue F hat nur einen Prozess."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "reschedule_question16"
+    prompt "Was passiert nun mit Prozess {0}?"
+    questionGroup "reschedule_questions"
+    numberOfTries 1
+    answer "63a9897f-9b7a-44b6-b5f2-c979d067454a"
+        text "Prozess E wird erneut bei head eingereiht."
+        points 0
+        feedback "Falsch, denn Queue E verwendet das FIFO-Verfahren."
+    endAnswer
+    answer "bc4ba6a8-a93e-443e-ae8a-843b09f711e9"
+        text "Prozess E wird von der Queue entfernt."
+        points 0
+        feedback "Falsch, dieser Prozess ist noch nicht fertig."
+    endAnswer
+    answer "7bf29dd6-0f02-4e44-be13-5ca21825427e"
+        text "Prozess E bleibt an der Position tail."
+        points 1
+        feedback "Richtig, denn Queue E verwendet das FIFO-Verfahren."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "reschedule_question17"
+    prompt "Was passiert nun mit Prozess {0}?"
+    questionGroup "reschedule_questions"
+    numberOfTries 1
+    answer "338e987c-a368-42c9-b94b-5c7d42567202"
+        text "Prozess E wird erneut bei head eingereiht."
+        points 0
+        feedback "Falsch, dieser Prozess ist fertig."
+    endAnswer
+    answer "b19b3323-8533-40d7-9fc9-a6597f96f099"
+        text "Prozess E wird von der Queue entfernt."
+        points 1
+        feedback "Richtig, denn der Prozess ist fertig."
+    endAnswer
+    answer "7aaa7288-3bed-496d-9bce-d734515888f6"
+        text "Prozess E bleibt an der Position tail."
+        points 0
+        feedback "Falsch, dieser Prozess ist fertig."
+    endAnswer
+endQuestion
+
+multipleSelectionQuestion "enqueue_question7"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "c095a5d6-f03e-4786-a4bf-87a1320d69e6"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 7 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "e0f907ba-d941-4fda-b07d-ec763f88dbfb"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 7 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "65ac6b4e-dcb1-4a7a-9707-947ca7be3e3c"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 7 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "08386798-c82a-4e85-886b-3ab6ea7cc4cc"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 7 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+    answer "96ba5cc2-eaf2-405c-95f7-60724f39baad"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 7 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+    answer "3a8d8202-672b-4ca6-9a4c-0db6b8636c51"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 7 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "6b0324cb-6d2c-4007-9a55-76d2567523f5"
+        text "Keiner"
+        points 1
+        feedback "Richtig. In dieser Iteration kommt kein Prozess an."
+    endAnswer
+endQuestion
+
+multipleSelectionQuestion "enqueue_question6"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "f447d7b9-4dcc-4ce1-99aa-6fa166b2e5d8"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 6 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "42fd85eb-a6c6-4637-a88d-3eac874f55bc"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 6 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "77e08b10-d18a-4001-97b0-ea889dac65cf"
+        text "Keiner"
+        points 1
+        feedback "Richtig. In dieser Iteration kommt kein Prozess an."
+    endAnswer
+    answer "7fbc14cf-2e06-48bb-9059-b1dad8d8ea6a"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 6 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "33fdfd3f-9333-4e31-af81-4e6a0ae58fed"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 6 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+    answer "7c82f90d-1adf-4e60-8168-29c9df3775df"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 6 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "6e08076d-8cf3-43d3-b32c-fbc795166e80"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 6 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+endQuestion
+
+multipleSelectionQuestion "enqueue_question5"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "f6d9718d-3a8e-46be-ba79-51a014c0a12e"
+        text "Keiner"
+        points 0
+        feedback "Falsch. Es gibt einen prozess, der in dieser Iteration ankommt."
+    endAnswer
+    answer "ead67892-6767-48b5-a1cf-6d8103761633"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 5 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "ad0ccec4-5355-4865-b29b-acf7561ec6dc"
+        text "F"
+        points 1
+        feedback "Korrekt. Prozess F kommt zur Zeit 5 an."
+    endAnswer
+    answer "80d4a295-8cc2-4a40-a869-336170a8099c"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 5 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "624441cc-faaa-4c2c-b3ea-8e9caa69420a"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 5 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "ccdda61c-2b2f-4ea8-b55f-e0a8dc9b9996"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 5 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "bdc8f9ec-38c0-4eff-a156-61a4e8b3f78b"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 5 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+endQuestion
+
+questionGroup "reschedule_questions"
+    numberOfRepeats 3
+endQuestionGroup
+
+multipleSelectionQuestion "enqueue_question9"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "ceb2a6df-a6a9-42e8-ae24-c446d09e70c6"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 9 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "16969f79-4701-4757-bc4a-136d0414009a"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 9 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+    answer "f4c8c52e-04a3-49db-8263-ffb14c721ae2"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 9 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "5c991d43-4810-435b-935f-510d8a8a340c"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 9 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "aae2b7bd-52c9-4ffb-84a8-b6e3fa8b56a4"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 9 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+    answer "474ff518-18c8-45d0-960c-4e17aa69e9d7"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 9 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "f7caf2c6-c310-43c5-af62-bc1d73c2c308"
+        text "Keiner"
+        points 1
+        feedback "Richtig. In dieser Iteration kommt kein Prozess an."
+    endAnswer
+endQuestion
+
+questionGroup "nextqueue_questions"
+    numberOfRepeats 3
+endQuestionGroup
+
+multipleSelectionQuestion "enqueue_question4"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "dde19301-6d73-4e34-8d8b-23a8f9bb95d8"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 4 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "4efaf1c6-8389-4aa0-8932-c92840019850"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 4 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "7b2ba015-5763-4720-aa04-cbcbe6cb673c"
+        text "Keiner"
+        points 0
+        feedback "Falsch. Es gibt einen prozess, der in dieser Iteration ankommt."
+    endAnswer
+    answer "4f0b49dd-2803-44d2-bf22-73b065dd6cf5"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 4 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "8ba6e45b-d268-439f-9795-ce4fbb8e9e5b"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 4 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+    answer "3c26e0f4-cd13-4d3e-95cc-d76c8bda5cab"
+        text "E"
+        points 1
+        feedback "Korrekt. Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "7e2a19a3-0c0f-45c6-a214-28a899c090f9"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 4 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "schedule_question11"
+    prompt "Welcher Prozess bekommt als nächstes Rechenzeit?"
+    questionGroup "schedule_questions"
+    numberOfTries 1
+    answer "bd25652f-a430-41e2-841a-34e828bfae4e"
+        text "D"
+        points 1
+        feedback "Richtig."
+    endAnswer
+    answer "042c7760-4788-47c3-b458-2755aafd734b"
+        text "F"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "e44c9271-50cc-40ba-8f2e-93c999c66f90"
+        text "B"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "fa7416d8-73b1-4724-b5ff-6acacdfd13d9"
+        text "E"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "17f48092-0a5d-4d23-ba23-53328e800bd6"
+        text "A"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "0488fc90-6ea4-4f21-b994-0f701aa5947c"
+        text "C"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "48b9fa61-9f77-493b-93cd-8617cbe039bd"
+        text "Keiner"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+endQuestion
+
+multipleSelectionQuestion "enqueue_question2"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "0a85f05c-0c8b-4548-8fed-a534690f7154"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 2 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "1d5b9e62-1982-4893-b40e-33e147e376d7"
+        text "C"
+        points 1
+        feedback "Korrekt. Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "2c110ce8-106b-4baf-842e-47260f208bef"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 2 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+    answer "cffbe920-052e-4368-884e-c0bb00d52171"
+        text "Keiner"
+        points 0
+        feedback "Falsch. Es gibt einen prozess, der in dieser Iteration ankommt."
+    endAnswer
+    answer "ad776389-0131-4453-9264-471496f78f83"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 2 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "d7d2fde5-ed3b-4192-b40d-e4796c1d4dd9"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 2 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+    answer "bb6308d4-0a05-4eb7-b600-ed4c9be414e2"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 2 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "schedule_question3"
+    prompt "Welcher Prozess bekommt als nächstes Rechenzeit?"
+    questionGroup "schedule_questions"
+    numberOfTries 1
+    answer "a7fa12a1-eae5-4f13-b16b-cab5691f17e7"
+        text "E"
+        points 0
+        feedback "Falsch, C kommt als nächstes."
+    endAnswer
+    answer "eca1f7fa-77f3-4096-b754-3794ae3bfe35"
+        text "F"
+        points 0
+        feedback "Falsch, C kommt als nächstes."
+    endAnswer
+    answer "f7aaf86e-29d5-4a9b-89c6-0a6e20d64618"
+        text "B"
+        points 0
+        feedback "Falsch, C kommt als nächstes."
+    endAnswer
+    answer "1e1e0750-868a-4131-b00f-f80447b7d8d3"
+        text "A"
+        points 0
+        feedback "Falsch, C kommt als nächstes."
+    endAnswer
+    answer "db8c0628-4ce9-4f8f-8fa8-3eabdea73bdb"
+        text "D"
+        points 0
+        feedback "Falsch, C kommt als nächstes."
+    endAnswer
+    answer "0b72fb46-5142-4fe8-bb72-9117de0f1bcc"
+        text "C"
+        points 1
+        feedback "Richtig."
+    endAnswer
+    answer "0537edf7-c37c-4938-92e5-d9783e658fec"
+        text "Keiner"
+        points 0
+        feedback "Falsch, C kommt als nächstes."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "schedule_question9"
+    prompt "Welcher Prozess bekommt als nächstes Rechenzeit?"
+    questionGroup "schedule_questions"
+    numberOfTries 1
+    answer "b94d43f0-0149-4091-825d-c0d8604a1fcb"
+        text "B"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "ced3448f-01e0-4d1e-8daf-e7074e4634b5"
+        text "A"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "521a6938-9051-44db-84dd-970c9d5f4514"
+        text "F"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "97cd6784-fb62-45fc-b031-147e99b6df59"
+        text "D"
+        points 1
+        feedback "Richtig."
+    endAnswer
+    answer "4b0c206c-6275-49e9-be51-7bb7714a7a59"
+        text "E"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "cbfe8595-7195-428b-9c34-f1e854031b75"
+        text "C"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+    answer "a478e848-3147-4adb-88fa-429c5a9d33d1"
+        text "Keiner"
+        points 0
+        feedback "Falsch, D kommt als nächstes."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "reschedule_question15"
+    prompt "Was passiert nun mit Prozess {0}?"
+    questionGroup "reschedule_questions"
+    numberOfTries 1
+    answer "e731e223-2e16-4ef7-8e9b-55f3f2d2a360"
+        text "Prozess E wird erneut bei head eingereiht."
+        points 0
+        feedback "Falsch, denn Queue E verwendet das FIFO-Verfahren."
+    endAnswer
+    answer "fe611114-5c8c-4da1-813d-b423a8a70614"
+        text "Prozess E wird von der Queue entfernt."
+        points 0
+        feedback "Falsch, dieser Prozess ist noch nicht fertig."
+    endAnswer
+    answer "2a0a9658-7bec-4f80-b207-8280b3e49ce3"
+        text "Prozess E bleibt an der Position tail."
+        points 1
+        feedback "Richtig, denn Queue E verwendet das FIFO-Verfahren."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "nextqueue_question7"
+    prompt "Welche Queue wird in dieser Iteration ausgewählt?"
+    questionGroup "nextqueue_questions"
+    numberOfTries 1
+    answer "3206dd77-a671-42bd-a251-70ee3f78d9bd"
+        text "Keine"
+        points 0
+        feedback "Falsch, Ebene 1 ist nicht leer und wird als nächstes ausgewählt."
+    endAnswer
+    answer "04834ae3-7bd6-4fa1-9f96-f93c4629a73a"
+        text "Ebene 2"
+        points 0
+        feedback "Falsch, Ebene 1 kommt zuerst."
+    endAnswer
+    answer "bc8bb20a-3e43-41a4-971c-6d9cafdde767"
+        text "Ebene 3"
+        points 0
+        feedback "Falsch, Ebene 1 kommt zuerst."
+    endAnswer
+    answer "001353fc-8da3-47cb-b9a6-4347cf97eebb"
+        text "Ebene 0"
+        points 0
+        feedback "Falsch, diese Queue ist leer."
+    endAnswer
+    answer "9bf31777-0974-4768-a44a-7c39529dda7c"
+        text "Ebene 1"
+        points 1
+        feedback "Richtig. Ebene 1 ist die erste nicht-leere Queue."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "reschedule_question7"
+    prompt "Was passiert nun mit Prozess {0}?"
+    questionGroup "reschedule_questions"
+    numberOfTries 1
+    answer "f135f2b6-884a-4e23-9268-30ee4eebfa89"
+        text "Prozess B wird von der Queue entfernt."
+        points 0
+        feedback "Falsch, dieser Prozess ist noch nicht fertig."
+    endAnswer
+    answer "61c7f42a-65f9-452c-8aff-ba236e3931ee"
+        text "Prozess B wird erneut bei head eingereiht."
+        points 0
+        feedback "Falsch, denn Queue B verwendet das FIFO-Verfahren."
+    endAnswer
+    answer "91c5bc50-f9e9-4db8-8970-3fca1ef0bf48"
+        text "Prozess B bleibt an der Position tail."
+        points 1
+        feedback "Richtig, denn Queue B verwendet das FIFO-Verfahren."
+    endAnswer
+endQuestion
+
+multipleSelectionQuestion "enqueue_question15"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "63cf3962-beeb-47d5-9b7b-04c8a9372704"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 15 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "0dcd2043-2b74-4292-ba93-3cd7787b537e"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 15 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "0acba27f-3a5e-4abb-a3a2-c04b06d19c67"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 15 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "6788e4ce-ff91-4aa1-9b02-6100b118d725"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 15 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+    answer "4992be2c-2abb-421b-ace8-54d6a5942ceb"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 15 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "30b06fb7-f371-4198-9124-0e1aece72cf4"
+        text "Keiner"
+        points 1
+        feedback "Richtig. In dieser Iteration kommt kein Prozess an."
+    endAnswer
+    answer "83e85d92-8070-456c-9a34-812e373fe8ed"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 15 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "reschedule_question4"
+    prompt "Was passiert nun mit Prozess {0}?"
+    questionGroup "reschedule_questions"
+    numberOfTries 1
+    answer "9f93bb24-619f-442a-b77f-2ae29e1c488d"
+        text "Prozess C wird von der Queue entfernt."
+        points 0
+        feedback "Falsch, dieser Prozess ist noch nicht fertig."
+    endAnswer
+    answer "d533d60f-a49f-4efd-80f1-31db112a106b"
+        text "Prozess C bleibt an der Position tail."
+        points 1
+        feedback "Richtig, denn die Queue C hat nur einen Prozess."
+    endAnswer
+    answer "b3c54c08-41c5-49ca-84f7-db84c31992cd"
+        text "Prozess C wird erneut bei head eingereiht."
+        points 0
+        feedback "Falsch, denn Queue C hat nur einen Prozess."
+    endAnswer
+endQuestion
+
+multipleSelectionQuestion "enqueue_question18"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "e5ad3769-91a3-44f0-bff6-4c488cbe380e"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 18 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "8d5ba125-4f02-4b37-8756-543f78624a06"
+        text "Keiner"
+        points 1
+        feedback "Richtig. In dieser Iteration kommt kein Prozess an."
+    endAnswer
+    answer "86dca576-9ab5-43f9-8dd1-7b779f108bd0"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 18 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "8983202c-68ae-40c2-967e-cbbf4c43c879"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 18 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "3590fa4b-3a69-48ec-9cd2-93136aefa2b5"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 18 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+    answer "9a2400e2-dec2-40a6-b1f0-07fcbfaa0f81"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 18 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "e6926265-e291-4a59-9431-a64aa85bcdb4"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 18 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "reschedule_question0"
+    prompt "Was passiert nun mit Prozess {0}?"
+    questionGroup "reschedule_questions"
+    numberOfTries 1
+    answer "4542a59a-3f4c-4bd2-a220-91dd2094597f"
+        text "Prozess A wird erneut bei head eingereiht."
+        points 0
+        feedback "Falsch, denn Queue A hat nur einen Prozess."
+    endAnswer
+    answer "a556d4b9-aaea-4217-9a8a-7335ebf19e2c"
+        text "Prozess A wird von der Queue entfernt."
+        points 0
+        feedback "Falsch, dieser Prozess ist noch nicht fertig."
+    endAnswer
+    answer "87406f0a-7ecc-4d38-b54c-e0e41cf43a9a"
+        text "Prozess A bleibt an der Position tail."
+        points 1
+        feedback "Richtig, denn die Queue A hat nur einen Prozess."
+    endAnswer
+endQuestion
+
+multipleChoiceQuestion "nextqueue_question4"
+    prompt "Welche Queue wird in dieser Iteration ausgewählt?"
+    questionGroup "nextqueue_questions"
+    numberOfTries 1
+    answer "e45cec9e-31b9-4731-abdd-4e6a69ac1365"
+        text "Keine"
+        points 0
+        feedback "Falsch, Ebene 0 ist nicht leer und wird als nächstes ausgewählt."
+    endAnswer
+    answer "2e26b0fb-882c-45b1-b9c6-b060a8ae5a3c"
+        text "Ebene 1"
+        points 0
+        feedback "Falsch, Ebene 0 kommt zuerst."
+    endAnswer
+    answer "57f6b5d0-d310-4d66-9616-f18e28640412"
+        text "Ebene 0"
+        points 1
+        feedback "Richtig. Ebene 0 ist die erste nicht-leere Queue."
+    endAnswer
+    answer "1df8e215-8068-41fa-991f-1feb57bc7aad"
+        text "Ebene 2"
+        points 0
+        feedback "Falsch, Ebene 0 kommt zuerst."
+    endAnswer
+    answer "d1c41ffc-661a-4ec4-b28a-490d426fbff9"
+        text "Ebene 3"
+        points 0
+        feedback "Falsch, Ebene 0 kommt zuerst."
+    endAnswer
+endQuestion
+
+questionGroup "enqueue_questions"
+    numberOfRepeats 3
+endQuestionGroup
+
+questionGroup "schedule_questions"
+    numberOfRepeats 3
+endQuestionGroup
+
+multipleSelectionQuestion "enqueue_question11"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "1966e2d9-1022-4a7d-8886-8d319c4f5ba4"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 11 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+    answer "6199ea26-a580-4f10-a034-fb32206962ed"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 11 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "5c326757-b594-487a-8c4b-6263d57d1ca4"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 11 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "ff4f51e1-ed72-49d1-8390-c89338baa5c6"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 11 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "f17eca3f-c1ab-4069-8992-d83b6670fa6e"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 11 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "4a8ec77f-3934-4eb8-901f-0f114ab1eff0"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 11 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+    answer "de426c8f-2524-443f-a368-386e409f6d64"
+        text "Keiner"
+        points 1
+        feedback "Richtig. In dieser Iteration kommt kein Prozess an."
+    endAnswer
+endQuestion
+
+multipleSelectionQuestion "enqueue_question12"
+    prompt "Welcher Prozess wird in dieser Iteration einer Queue hinzugefügt?"
+    questionGroup "enqueue_questions"
+    numberOfTries 1
+    answer "808fc629-aa24-4f8e-b614-477820f01200"
+        text "A"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 12 und Prozess A kommt zur Zeit 0 an."
+    endAnswer
+    answer "f78c40dd-6792-4edf-9b1f-cb600bed5545"
+        text "C"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 12 und Prozess C kommt zur Zeit 2 an."
+    endAnswer
+    answer "49316f24-e1c6-4401-a579-3bb620c00fa8"
+        text "B"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 12 und Prozess B kommt zur Zeit 1 an."
+    endAnswer
+    answer "79565215-8385-4a02-9121-d9321b2f1a04"
+        text "E"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 12 und Prozess E kommt zur Zeit 4 an."
+    endAnswer
+    answer "7ccd013d-9a40-4da3-a96c-bde2e600eaf9"
+        text "F"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 12 und Prozess F kommt zur Zeit 5 an."
+    endAnswer
+    answer "4fa362f2-6a9b-4d16-8d2d-b3ec82a9b751"
+        text "D"
+        points 0
+        feedback "Falsch, die aktuelle Zeit ist 12 und Prozess D kommt zur Zeit 3 an."
+    endAnswer
+    answer "289e46fd-0967-4d18-9be9-b14108f635a1"
+        text "Keiner"
+        points 1
+        feedback "Richtig. In dieser Iteration kommt kein Prozess an."
+    endAnswer
+endQuestion
+
