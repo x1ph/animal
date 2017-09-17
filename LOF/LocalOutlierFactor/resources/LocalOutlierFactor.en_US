@@ -1,0 +1,22 @@
+noSuchKeyException=there is no ressource for the key {0}
+iconNotFound=Icon "{0}" not found
+TITLE=Local Outlier Factor
+SRC_0=for(Point p: points)
+SRC_1=p.knn = points.clone();
+SRC_2=p.knn.sort(distance);
+SRC_3=p.kDist = distance(p, p.knn.get(k));
+SRC_4=p.knn.removeIf(o -> distance(p,o) > p.kDist);
+SRC_5=for(Point p: points) 
+SRC_6=sum_rd = 0;
+SRC_7=for(Point q: p.knn) 
+SRC_8=sum_rd += reachDist(p,q);
+SRC_9=p.lrd = 1 / (sum_rd ( p.knn.size())
+SRC_10=for(Point p: points)
+SRC_11=sum_lrd = 0;
+SRC_12=for(Point q: p.knn)
+SRC_13=sum_lrd += q.lrd;
+SRC_14=p.lof = (sum_lrd / p.knn.size) / p.lrd
+
+
+
+

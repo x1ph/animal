@@ -1,12 +1,15 @@
-// calculate k-distances for all points
-FOR i FROM 0 TO pnts.size
-  k_dst[i] = calc_k_dist(pnts[i]);
-  knn[i] = get_knn(k_dst[i], pnts[i]);
-
-// calculate local reachability density for all points
-FOR i FROM 0 TO pnts.size
-  lrd[i] = 1 / ( sum_rd(pnts[i], knn[i]) / knn[i].size)
-
-// calculate local outlier factor for all points
-FOR i FROM 0 TO pnts.size
-  lof[i] = (sum_lrd(pnts[i], knn[i]) / knn[i].size) / lrd[i]
+for(Point p: points)
+    p.knn = points.clone();
+    p.knn.sort(distance);
+    p.kDist = distance(p, p.knn.get(k));
+    p.knn.removeIf(o -> distance(p,o) > p.kDist);
+for(Point p: points)
+    sum_rd = 0;
+    for(Point q: p.knn)
+        sum_rd += reachDist(p,q);
+    p.lrd = 1 / (sum_rd ( p.knn.size())
+for(Point p: points)
+    sum_lrd = 0;
+    for(Point q: p.knn)
+        sum_lrd += q.lrd;
+    p.lof = (sum_lrd / p.knn.size) / p.lrd
