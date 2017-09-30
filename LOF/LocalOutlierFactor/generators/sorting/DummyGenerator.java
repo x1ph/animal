@@ -299,6 +299,7 @@ public class DummyGenerator implements GeneratorBundle {
 //    generators.add(new Timsort());
     
     generators.add(new LocalOutlierFactor("resources/LocalOutlierFactor",Locale.US));
+    generators.add(new LocalOutlierFactor("resources/LocalOutlierFactor",Locale.GERMANY));
     
     // GR
     generators.add(new HybridsortGenerator());

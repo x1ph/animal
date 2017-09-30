@@ -8,7 +8,11 @@
 		</Primitive>
 		<Primitive type="StringMatrix">
 			<name>Points</name>
-			<value><StringMatrix>0, 100, 200, 300, 400, 500, 500, 0, 250, 0, 137, 356, 210, 310, 387; 0, 100, 200, 300, 400, 500, 0, 500, 0, 250, 235, 429, 346, 236, 195</StringMatrix></value>
+			<value>
+				<StringMatrix>
+					0, 390,	450,	420,	480,	100,	50,		170,	110,	75,		180,	250,	400;
+					0, 60,	30,		90,		60,		250,	300,	300,	400,	450,	430,	370,	240;	
+				</StringMatrix></value>
 			<description>The List of Points used by LOF. First row is X-Coordinate, second row is Y-Coordinate. Values from 0 to 500 are possible.</description>
 		</Primitive>
 		<AnimationProperties type="SourceCodeProperties">
@@ -90,7 +94,7 @@
 				<name>fillColor</name>
 				<isEditable value="true" />
 				<label>PointsColor</label>
-				<value><Color>(0, 0, 0)</Color></value>
+				<value><Color>(0, 255, 0)</Color></value>
 			</AnimationPropertyItem>
 			<AnimationPropertyItem type="IntegerPropertyItem">
 				<name>depth</name>
@@ -115,6 +119,44 @@
 				<isEditable value="true" />
 				<label></label>
 				<value><String>CurrentPoint</String></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="BooleanPropertyItem">
+				<name>filled</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><boolean value="true" /></value>
+			</AnimationPropertyItem>
+		</AnimationProperties>
+		<AnimationProperties type="CircleProperties">
+			<AnimationPropertyItem type="ColorPropertyItem">
+				<name>fillColor</name>
+				<isEditable value="true" />
+				<label>PointsColor</label>
+				<value><Color>(0, 128, 128)</Color></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="IntegerPropertyItem">
+				<name>depth</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><int>1</int></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="ColorPropertyItem">
+				<name>color</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><Color>(0, 0, 0)</Color></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="BooleanPropertyItem">
+				<name>hidden</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><boolean value="false" /></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="StringPropertyItem">
+				<name>name</name>
+				<isEditable value="true" />
+				<label></label>
+				<value><String>K-th Nearest Neighbor</String></value>
 			</AnimationPropertyItem>
 			<AnimationPropertyItem type="BooleanPropertyItem">
 				<name>filled</name>
@@ -166,7 +208,7 @@
 				<name>fillColor</name>
 				<isEditable value="true" />
 				<label>NearPointColor</label>
-				<value><Color>(0, 144, 144)</Color></value>
+				<value><Color>(0, 255, 255)</Color></value>
 			</AnimationPropertyItem>
 			<AnimationPropertyItem type="IntegerPropertyItem">
 				<name>depth</name>
@@ -278,9 +320,85 @@
 		<AnimationProperties type="CircleProperties">
 			<AnimationPropertyItem type="ColorPropertyItem">
 				<name>fillColor</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><Color>(0, 0, 0)</Color></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="IntegerPropertyItem">
+				<name>depth</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><int>1</int></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="ColorPropertyItem">
+				<name>color</name>
+				<isEditable value="true" />
+				<label>KDST-RingColor</label>
+				<value><Color>(0, 0, 0)</Color></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="BooleanPropertyItem">
+				<name>hidden</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><boolean value="false" /></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="StringPropertyItem">
+				<name>name</name>
+				<isEditable value="true" />
+				<label></label>
+				<value><String>KDST-Ring</String></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="BooleanPropertyItem">
+				<name>filled</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><boolean value="false" /></value>
+			</AnimationPropertyItem>
+		</AnimationProperties>
+		<AnimationProperties type="CircleProperties">
+			<AnimationPropertyItem type="ColorPropertyItem">
+				<name>fillColor</name>
+				<isEditable value="true" />
+				<label>Strict Inlier Color</label>
+				<value><Color>(255, 251, 0)</Color></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="IntegerPropertyItem">
+				<name>depth</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><int>1</int></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="ColorPropertyItem">
+				<name>color</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><Color>(0, 0, 0)</Color></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="BooleanPropertyItem">
+				<name>hidden</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><boolean value="false" /></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="StringPropertyItem">
+				<name>name</name>
+				<isEditable value="true" />
+				<label></label>
+				<value><String>Strict Inlier</String></value>
+			</AnimationPropertyItem>
+			<AnimationPropertyItem type="BooleanPropertyItem">
+				<name>filled</name>
+				<isEditable value="false" />
+				<label></label>
+				<value><boolean value="false" /></value>
+			</AnimationPropertyItem>
+		</AnimationProperties>
+		<AnimationProperties type="CircleProperties">
+			<AnimationPropertyItem type="ColorPropertyItem">
+				<name>fillColor</name>
 				<isEditable value="true" />
 				<label>InlierColor</label>
-				<value><Color>(0, 255, 255)</Color></value>
+				<value><Color>(0, 255, 247)</Color></value>
 			</AnimationPropertyItem>
 			<AnimationPropertyItem type="IntegerPropertyItem">
 				<name>depth</name>
@@ -318,7 +436,7 @@
 				<name>fillColor</name>
 				<isEditable value="true" />
 				<label>OutlierColor</label>
-				<value><Color>(144, 0, 144)</Color></value>
+				<value><Color>(255, 0, 132)</Color></value>
 			</AnimationPropertyItem>
 			<AnimationPropertyItem type="IntegerPropertyItem">
 				<name>depth</name>
