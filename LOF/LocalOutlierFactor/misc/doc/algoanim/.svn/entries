@@ -1,0 +1,65 @@
+10
+
+dir
+19187
+http://interaction.nu.tu-darmstadt.de/svn/AnimalRelated/AnimalJavaDoc/doc/algoanim
+http://interaction.nu.tu-darmstadt.de/svn
+
+
+
+2014-02-13T13:38:38.412591Z
+19187
+guido
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+ab7ca765-5df5-0310-9c98-ddb41af0148f
+
+
+
+
+
+
+0
+
+animalscript
+dir
+
+annotations
+dir
+
+counter
+dir
+
+examples
+dir
+
+exceptions
+dir
+
+executors
+dir
+
+primitives
+dir
+
+properties
+dir
+
+util
+dir
+
+variables
+dir
+
